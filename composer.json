@@ -19,5 +19,5 @@
   "autoload": {
     "psr-4": { "Compropago\\Test\\": "" },
     "files": [ "registration.php" ]
-    }
+    } 
 }
