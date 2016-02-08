@@ -20,7 +20,7 @@ class Payment extends \Magento\Payment\Block\Info
     /**
      * @var string
      */
-    protected $_template = 'Compropago_Payment::info/payment.phtml';
+    protected $_template = 'Compropago_Payment::info/providers.phtml';
 
     /**
      * Enter description here...

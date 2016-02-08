@@ -5,6 +5,7 @@
  */
 -->
 <div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+
     <div class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
@@ -16,6 +17,7 @@
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
+        <h1>template payment providers</h1>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
