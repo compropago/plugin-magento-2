@@ -17,13 +17,9 @@ define(
             },
 
             /** Returns send check to info */
-            getPublicKey: function() {
-                //return window.checkoutConfig.payment.compropago.publicKey;
-            	return 'placeholder';
-            },
-
-            getPayableTo : function(){
-            	return 'placeholder';
+            showProviders: function() {
+                return window.checkoutConfig.payment.compropago.compropagoProviders;
+            	
             }
            
         });

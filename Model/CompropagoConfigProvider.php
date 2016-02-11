@@ -23,7 +23,11 @@ namespace Compropago\Payments\Model;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
 use Magento\Payment\Helper\Data as PaymentHelper;
-//use Magento\Framework\App\ProductMetadataInterface;
+
+use Compropago\Controllers\Views;
+use Compropago\Client;
+use Compropago\Service;
+
 
 
 class CompropagoConfigProvider implements ConfigProviderInterface
@@ -63,28 +67,42 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         return $this->method->isAvailable() ? [
             'payment' => [
                 'compropago' => [
-                    'data' => 'scope placeholder'             
-                	//'compropagoProvider' => $this->getCompropagoConfig()
+                    'data' => 'scope placeholder',            
+                	'compropagoProviders' => $this->showProviders()
+                	
                 ],
             ],
         ] : [];
     }
 
   
-    protected function getCompropagoConfig()
+    protected function showProviders()
     {
-    	return $this->method->getCompropagoConfig();  
+    	
+    	$compropagoConfig= array(
+                //Llave pública
+                'publickey'=>'pk_test_41c56512e0f4808ea',
+                //Llave privada 
+                'privatekey'=>'sk_test_8497207d65284702d',
+                //Esta probando?, utilice  'live'=>false
+                'live'=>false 
+
+        );
+			// Instancia del Client
+	
+    	
+    	$compropagoClient  = new Client($compropagoConfig);
+    	$compropagoService = new Service($compropagoClient);
+    	
+    	$compropagoProviders = $compropagoService->getProviders();
+    	
+
+    	$compropagoData['providers']= $compropagoProviders;
+    	$compropagoData['showlogo']='yes';                           
+    	$compropagoData['description']='Realiza tu pago en OXXO, 7eleven y otras más';
+    	$compropagoData['instrucciones']='Seleccione una tienda';  
+    	return Views::loadView('providers',$compropagoData,'ob'); 
     }
 
-    /**
-     * @return string
-     */
-    protected function getPublicKey()
-    {
-        return 'placeholder';
-    }
-    protected function getPrivateKey()
-    {
-    	 return 'placeholder';
-    }
+  
 }
