@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /*
-* Copyright 2016 Compropago.
+* Copyright 2016 Compropago. 
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,15 +13,16 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*
-* @author Rolando Lucio <rolando@compropago.com>
 */
--->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Compropago_Payments" setup_version="2.0.0">
-        <sequence>
-            <module name="Magento_Store"/>
-            <module name="Magento_Catalog"/>
-        </sequence>
-    </module>
-</config>
+/**
+ * @author Rolando Lucio <rolando@compropago.com>
+ */
+
+/**
+ * @var \Compropago\Payments\Block\Checkout\Providers $block
+ */
+?>
+<div id="compropagoMagentoWrapper">
+hola mundo
+	<?php $block->showProviders(); ?>
+</div>
