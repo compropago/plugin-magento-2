@@ -42,9 +42,7 @@
                                                                         <item name="compropago" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                            
-                                                                            <referenceContainer name="compropago">
-                                                                             <block class="Compropago\Payments\Block\Checkout\Onepage\Succes\Receipt" name="onepage.checkout.compropago" template="checkout/onepage/success/receipt.phtml"/>
-                                                                             </referenceContainer>
+                                                                           
                                                                             
                                                                         </item>
                                                                         
