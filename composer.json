@@ -5,7 +5,7 @@
     "homepage": "https://github.com/compropago/plugin-magento-2",
     "require": {
         "php": "~5.5.0|~5.6.0|~7.0.0",
-        "compropago/php-sdk": "^1.0",
+        "compropago/php-sdk": "^1.1",
         "magento/module-config": "100.0.*",
         "magento/module-store": "100.0.*",
         "magento/module-sales": "100.0.*",
