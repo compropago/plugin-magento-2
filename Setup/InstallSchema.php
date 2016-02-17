@@ -32,11 +32,11 @@ class InstallSchema implements InstallSchemaInterface
 		$installer = $setup;
 		$installer->startSetup();
 
-		// Get tutorial_simplenews table
-		$tableName = $installer->getTable('tutorial_simplenews');
+		// Get compropago_orders table
+		$tableName = $installer->getTable('compropago_orders');
 		// Check if the table already exists
 		if ($installer->getConnection()->isTableExists($tableName) != true) {
-			// Create tutorial_simplenews table
+			// Create compropago_orders table
 			$table = $installer->getConnection()
 			->newTable($tableName)
 			->addColumn(
@@ -51,47 +51,148 @@ class InstallSchema implements InstallSchemaInterface
 					],
 					'ID'
 					)
-					->addColumn(
-							'title',
-							Table::TYPE_TEXT,
-							null,
-							['nullable' => false, 'default' => ''],
-							'Title'
-							)
-							->addColumn(
-									'summary',
-									Table::TYPE_TEXT,
-									null,
-									['nullable' => false, 'default' => ''],
-									'Summary'
-									)
-									->addColumn(
-											'description',
-											Table::TYPE_TEXT,
-											null,
-											['nullable' => false, 'default' => ''],
-											'Description'
-											)
-											->addColumn(
-													'created_at',
-													Table::TYPE_DATETIME,
-													null,
-													['nullable' => false],
-													'Created At'
-													)
 			->addColumn(
-					'status',
-					Table::TYPE_SMALLINT,
+					'date',
+					Table::TYPE_INTEGER,
 					null,
-					['nullable' => false, 'default' => '0'],
-					'Status'
+					['nullable' => false,'unsigned' => true],
+					'Reg date'
 					)
-					->setComment('News Table')
-					->setOption('type', 'InnoDB')
-					->setOption('charset', 'utf8');
-					$installer->getConnection()->createTable($table);
+			->addColumn(
+					'modified',
+					Table::TYPE_INTEGER,
+					null,
+					['nullable' => false,'unsigned' => true],
+					'Mod date'
+					)
+			->addColumn(
+					'compropagoId',
+					Table::TYPE_TEXT,
+					50,
+					['nullable' => false, 'default' => ''],
+					'Compropago Order Id'
+					)
+			->addColumn(
+					'compropagoStatus',
+					Table::TYPE_TEXT,
+					50,
+					['nullable' => false, 'default' => ''],
+					'Compropago status'
+					)
+			->addColumn(
+					'storeCartId',
+					Table::TYPE_TEXT,
+					255,
+					['nullable' => false, 'default' => ''],
+					'no cart id repeat order id'
+					)
+			->addColumn(
+					'storeOrderId',
+					Table::TYPE_TEXT,
+					255,
+					['nullable' => false, 'default' => ''],
+					'store order Id to save'
+					)
+			->addColumn(
+					'storeExtra',
+					Table::TYPE_TEXT,
+					255,
+					['nullable' => false, 'default' => ''],
+					'store extra or Compropago flags'
+					)
+			->addColumn(
+					'ioIn',
+					Table::TYPE_TEXT,
+					'2M',
+					['nullable' => false, 'default' => ''],
+					'store extra or Compropago flags'
+					)
+			->addColumn(
+					'ioOut',
+					Table::TYPE_TEXT,
+					'2M',
+					['nullable' => false, 'default' => ''],
+					'store extra or Compropago flags'
+					)
+			->setComment('ComproPago Orders Table')
+			//->setOption('type', 'InnoDB')
+			->setOption('charset', 'utf8');
+			$installer->getConnection()->createTable($table);
 		}
-
+		// Get compropago_transactions table
+		$tableName = $installer->getTable('compropago_transactions');
+		// Check if the table already exists
+		if ($installer->getConnection()->isTableExists($tableName) != true) {
+			// Create compropago_transactions table
+			$table = $installer->getConnection()
+			->newTable($tableName)
+			->addColumn(
+					'id',
+					Table::TYPE_INTEGER,
+					null,
+					[
+							'identity' => true,
+							'unsigned' => true,
+							'nullable' => false,
+							'primary' => true
+					],
+					'ID'
+					)
+				->addColumn(
+						'orderId',
+						Table::TYPE_INTEGER,
+						null,
+						['nullable' => false,'unsigned' => true],
+						'FK Id orders_compropago'
+						)
+				->addColumn(
+						'date',
+						Table::TYPE_INTEGER,
+						null,
+						['nullable' => false,'unsigned' => true],
+						'Reg date'
+						)
+				->addColumn(
+						'compropagoId',
+						Table::TYPE_TEXT,
+						50,
+						['nullable' => false, 'default' => ''],
+						'Compropago Order Id'
+						)
+				->addColumn(
+						'compropagoStatus',
+						Table::TYPE_TEXT,
+						50,
+						['nullable' => false, 'default' => ''],
+						'Compropago status'
+						)
+				->addColumn(
+						'compropagoStatusLast',
+						Table::TYPE_TEXT,
+						50,
+						['nullable' => false, 'default' => ''],
+						'b4 transaction'
+						)
+				->addColumn(
+						'ioIn',
+						Table::TYPE_TEXT,
+						'2M',
+						['nullable' => false, 'default' => ''],
+						'store extra or Compropago flags'
+						)
+				->addColumn(
+						'ioOut',
+						Table::TYPE_TEXT,
+						'2M',
+						['nullable' => false, 'default' => ''],
+						'store extra or Compropago flags'
+						)
+						->setComment('ComproPago Orders Table')
+						//->setOption('type', 'InnoDB')
+				->setOption('charset', 'utf8');
+				$installer->getConnection()->createTable($table);
+		}
+		// end setup
 		$installer->endSetup();
 	}
 }
