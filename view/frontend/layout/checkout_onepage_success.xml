@@ -25,7 +25,7 @@
 	</head>
     <body>
         <referenceContainer name="order.success.additional.info">
-            <block class="Compropago\Payments\Block\Checkout\Onepage\Succes\Receipt" name="onepage.success.receipt" template="checkout/onepage/success/receipt.phtml"/>
+            <block class="Compropago\Magento2\Block\Checkout\Onepage\Succes\Receipt" name="onepage.success.receipt" template="checkout/onepage/success/receipt.phtml"/>
         </referenceContainer>
     </body>
 </page>

@@ -51,12 +51,12 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @var string
      */
-    protected $_formBlockType = 'Compropago\Payments\Block\Form\Compropagoform';
+    protected $_formBlockType = 'Compropago\Magento2\Block\Form\Compropagoform';
 
     /**
      * @var string
      */
-    protected $_infoBlockType = 'Compropago\Payments\Block\Info\Compropagoinfo';
+    protected $_infoBlockType = 'Compropago\Magento2\Block\Info\Compropagoinfo';
 
     /**
      * Availability option

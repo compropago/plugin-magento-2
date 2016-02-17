@@ -21,7 +21,6 @@
 namespace Compropago\Magento2\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
-
 use Compropago\Magento2\Model\Payment;
 
 class OrderPaymentSaveB4 implements ObserverInterface
