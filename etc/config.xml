@@ -23,7 +23,7 @@
         <payment>
            <compropago>
                 <active>0</active>
-                <model>Compropago\Payments\Model\Payment</model>
+                <model>Compropago\Magento2\Model\Payment</model>
                 <order_status>pending</order_status>
                 <title>ComproPago (Paga en OXXO, 7Eleven,etc.)</title>
              	<showlogos>1</showlogos>

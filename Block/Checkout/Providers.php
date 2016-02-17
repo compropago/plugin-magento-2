@@ -18,14 +18,14 @@
  * @author Rolando Lucio <rolando@compropago.com>
  */
 
-namespace Compropago\Payments\Block\Checkout;
+namespace Compropago\Magento2\Block\Checkout;
 
-use Compropago\Controllers\Views;
+use Compropago\Sdk\Controllers\Views;
 
 //could extend our general block
 class Providers extends \Magento\Payment\Block\Form
 {
-	protected $_template = 'Compropago_Payments::checkout/providers.phtml';
+	protected $_template = 'Compropago_Magento2::checkout/providers.phtml';
 	
 	public function showProviders()
 	{

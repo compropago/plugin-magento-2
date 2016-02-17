@@ -19,14 +19,14 @@
  */
 
 
-namespace Compropago\Payments\Block\Checkout\Onepage\Succes;
+namespace Compropago\Magento2\Block\Checkout\Onepage\Succes;
 
-use Compropago\Controllers\Views;
+use Compropago\Sdk\Controllers\Views;
 
 //could extend our general block
 class Receipt extends \Magento\Payment\Block\Form
 {
-	protected $_template = 'Compropago_Payments::checkout/onepage/success/receipt.phtml';
+	protected $_template = 'Compropago_Magento2::checkout/onepage/success/receipt.phtml';
 	
 	public  function showReceipt()
 	{

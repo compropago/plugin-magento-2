@@ -18,7 +18,7 @@
  * @author Rolando Lucio <rolando@compropago.com>
  */
 
-namespace Compropago\Payments\Model;
+namespace Compropago\Magento2\Model;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;

@@ -18,14 +18,13 @@
  * @author Rolando Lucio <rolando@compropago.com>
  */
 
-namespace Compropago\Payments\Observer;
+namespace Compropago\Magento2\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
-use Magento\OfflinePayments\Model\Banktransfer;
-use Magento\OfflinePayments\Model\Cashondelivery;
-use Magento\OfflinePayments\Model\Checkmo;
 
-class BeforeOrderPaymentSaveObserverCp implements ObserverInterface
+use Compropago\Magento2\Model\Payment;
+
+class OrderPaymentSaveB4 implements ObserverInterface
 {
     /**
      * Sets current instructions for bank transfer account

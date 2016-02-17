@@ -22,8 +22,8 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="compropago_payments_instructions_config_provider" xsi:type="object">Compropago\Payments\Model\InstructionsConfigProvider</item>
-                <item name="compropago_payments_compropago_config_provider" xsi:type="object">Compropago\Payments\Model\CompropagoConfigProvider</item>
+                <item name="compropago_payments_instructions_config_provider" xsi:type="object">Compropago\Magento2\Model\InstructionsConfigProvider</item>
+                <item name="compropago_payments_compropago_config_provider" xsi:type="object">Compropago\Magento2\Model\CompropagoConfigProvider</item>
             </argument>
         </arguments>
     </type>

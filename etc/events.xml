@@ -20,6 +20,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="sales_order_payment_save_before">
-        <observer name="payment_before_save" instance="Magento\OfflinePayments\Observer\BeforeOrderPaymentSaveObserver" />
+        <observer name="payment_before_save" instance="Compropago\Magento2\Observer\OrderPaymentSaveB4" />
     </event>
 </config>

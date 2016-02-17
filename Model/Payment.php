@@ -18,10 +18,10 @@
  * @author Rolando Lucio <rolando@compropago.com>
  */
 
-namespace Compropago\Payments\Model;
+namespace Compropago\Magento2\Model;
 
-use Compropago\Client;
-use Compropago\Service;
+use Compropago\Sdk\Client;
+use Compropago\Sdk\Service;
 
 /**
  * Class Payment

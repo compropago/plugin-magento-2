@@ -71,7 +71,7 @@
                 </field>
                 <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Maximum Order Total</label>
-                    <comment>Leave empty to disable limit</comment>
+                    <comment>Leave empty to disable limit</comment> 
                 </field>
             </group>
         </section>
