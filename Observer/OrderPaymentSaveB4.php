@@ -35,24 +35,20 @@ class OrderPaymentSaveB4 implements ObserverInterface
     {
         /** @var \Magento\Sales\Model\Order\Payment $payment */
         $payment = $observer->getEvent()->getPayment();
-        $instructionMethods = [
-            Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE,
-            Cashondelivery::PAYMENT_METHOD_CASHONDELIVERY_CODE
-        ];
-        if (in_array($payment->getMethod(), $instructionMethods)) {
-            $payment->setAdditionalInformation(
+        $instructionMethod = Payment::PAYMENT_METHOD_COMPROPAGO_CODE;
+        
+        // If not validated breaks other payments
+        if ($payment->getMethod() === $instructionMethod){
+        	//throw new \Magento\Framework\Validator\Exception($_REQUEST);
+        	
+        }
+        /* if (in_array($payment->getMethod(), $instructionMethod)) {
+           $payment->setAdditionalInformation(
                 'instructions',
                 $payment->getMethodInstance()->getInstructions()
             );
-        } elseif ($payment->getMethod() === Checkmo::PAYMENT_METHOD_CHECKMO_CODE) {
-            $payment->setAdditionalInformation(
-                'payable_to',
-                $payment->getMethodInstance()->getPayableTo()
-            );
-            $payment->setAdditionalInformation(
-                'mailing_address',
-                $payment->getMethodInstance()->getMailingAddress()
-            );
-        }
+        } */
+        
+       
     }
 }
