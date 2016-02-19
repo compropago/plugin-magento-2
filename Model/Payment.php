@@ -88,6 +88,33 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     	}
     }
     
+    /**
+     * @return string
+     */
+    public function getPublicKey()
+    {
+    	return $this->getConfigData('public_key');
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPrivateKey()
+    {
+    	return $this->getConfigData('private_key');
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getLiveMode()
+    {
+    	return 	($this->getConfigData('live_mode')=='1')? true : false;
+    }
+    
+    /**
+     * @return json
+     */
     public function getProviders()
     {	
     	if(!$this->_compropagoClient){

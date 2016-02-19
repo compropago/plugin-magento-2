@@ -38,7 +38,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     protected $methodCode = Payment::PAYMENT_METHOD_COMPROPAGO_CODE;
 
     /**
-     * @var Checkmo
+     * @var compropago
      */
     protected $method;
 
@@ -75,32 +75,35 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         ] : [];
     }
 
-  
+  	/**
+  	 * Return providers buffer as string
+  	 * @return string
+  	 */
     protected function showProviders()
     {
+    	//si se puede validar objetos o cambio a API generar en Model primario con try//catch	
     	
     	$compropagoConfig= array(
-                //Llave pública
-                'publickey'=>'pk_test_41c56512e0f4808ea',
-                //Llave privada 
-                'privatekey'=>'sk_test_8497207d65284702d',
-                //Esta probando?, utilice  'live'=>false
-                'live'=>false 
-
+                'publickey'=>$this->method->getPublicKey(),
+                'privatekey'=>$this->method->getPrivateKey(),
+                'live'=>$this->method->getLiveMode() 
         );
-			// Instancia del Client
-	
+		
+		// Instancia del Client, revisar el motivo por el que  no dejo pasar objetos
+    	//$this->method->getCompropagoConfig()
     	
     	$compropagoClient  = new Client($compropagoConfig);
     	$compropagoService = new Service($compropagoClient);
     	
-    	$compropagoProviders = $compropagoService->getProviders();
-    	
-
+    	$compropagoProviders = $compropagoService->getProviders();    	
     	$compropagoData['providers']= $compropagoProviders;
+    	
+    	// Generar variables desde administrador /etc/adminhtml/system.xml
     	$compropagoData['showlogo']='yes';                           
     	$compropagoData['description']='Realiza tu pago en OXXO, 7eleven y otras más';
     	$compropagoData['instrucciones']='Seleccione una tienda';  
+    	
+    	
     	return Views::loadView('providers',$compropagoData,'ob'); 
     }
 
