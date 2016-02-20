@@ -68,7 +68,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
             'payment' => [
                 'compropago' => [
                     'data' => 'scope placeholder',            
-                	'compropagoProviders' => $this->showProviders()
+                	'compropagoProvidersDisplay' => $this->showProviders()
                 	
                 ],
             ],
@@ -87,6 +87,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
                 'publickey'=>$this->method->getPublicKey(),
                 'privatekey'=>$this->method->getPrivateKey(),
                 'live'=>$this->method->getLiveMode() 
+    			//definir contained 
         );
 		
 		// Instancia del Client, revisar el motivo por el que  no dejo pasar objetos
@@ -103,8 +104,9 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     	$compropagoData['description']='Realiza tu pago en OXXO, 7eleven y otras más';
     	$compropagoData['instrucciones']='Seleccione una tienda';  
     	
+    	$response = Views::loadView('providers',$compropagoData,'ob');
     	
-    	return Views::loadView('providers',$compropagoData,'ob'); 
+    	return str_replace('name="compropagoProvider"', 'data-bind="value: compropagoProvider" name="compropagoProvider"', $response);
     }
 
   

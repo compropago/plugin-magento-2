@@ -11,16 +11,17 @@
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
-        <div class="payment-method-billing-address">
-            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
-            <!-- ko template: getTemplate() --><!-- /ko -->
-            <!--/ko-->
-        </div>
+        <form id="compropago-form">
         
-        <div class="compropago-providers" data-bind="html: showProviders()"></div>
-       	<div>
-       	
-       	</div>
+	        <div class="payment-method-billing-address">
+	            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+	            <!-- ko template: getTemplate() --><!-- /ko -->
+	            <!--/ko-->
+	        </div>
+        
+     	   <div class="compropago-providers" data-bind="html: showProviders()"></div>
+	       <div></div>
+       	</form>
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
