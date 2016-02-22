@@ -68,36 +68,44 @@ class CompropagoConfigProvider implements ConfigProviderInterface
             'payment' => [
                 'compropago' => [
                     'data' => 'scope placeholder',            
-                	'compropagoProvidersDisplay' => $this->showProviders()
+                	'compropagoProvidersDisplay' => $this->showProviders(),
+                	'compropagoProviders'=> $this->getProviders()
                 	
                 ],
             ],
         ] : [];
     }
-
+	
+    
+  	protected function getProviders($type='json')
+    {
+    	//si se puede validar objetos o cambio a API generar en Model primario con try//catch
+    	 
+    	$compropagoConfig= array(
+    			'publickey'=>$this->method->getPublicKey(),
+    			'privatekey'=>$this->method->getPrivateKey(),
+    			'live'=>$this->method->getLiveMode()
+    			//definir contained
+    	);
+    	
+    	// Instancia del Client, revisar el motivo por el que  no dejo pasar objetos
+    	//$this->method->getCompropagoConfig()
+    	 
+    	$compropagoClient  = new Client($compropagoConfig);
+    	$compropagoService = new Service($compropagoClient);
+    	
+    	$compropagoProviders = $compropagoService->getProviders();
+    	
+    	return $compropagoProviders;
+    }
+    
   	/**
   	 * Return providers buffer as string
   	 * @return string
   	 */
     protected function showProviders()
     {
-    	//si se puede validar objetos o cambio a API generar en Model primario con try//catch	
-    	
-    	$compropagoConfig= array(
-                'publickey'=>$this->method->getPublicKey(),
-                'privatekey'=>$this->method->getPrivateKey(),
-                'live'=>$this->method->getLiveMode() 
-    			//definir contained 
-        );
-		
-		// Instancia del Client, revisar el motivo por el que  no dejo pasar objetos
-    	//$this->method->getCompropagoConfig()
-    	
-    	$compropagoClient  = new Client($compropagoConfig);
-    	$compropagoService = new Service($compropagoClient);
-    	
-    	$compropagoProviders = $compropagoService->getProviders();    	
-    	$compropagoData['providers']= $compropagoProviders;
+    	$compropagoData['providers']= $this->getProviders('json');
     	
     	// Generar variables desde administrador /etc/adminhtml/system.xml
     	$compropagoData['showlogo']='yes';                           

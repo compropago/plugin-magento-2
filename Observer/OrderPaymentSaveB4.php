@@ -22,6 +22,7 @@ namespace Compropago\Magento2\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Compropago\Magento2\Model\Payment;
+//use Compropago\Sdk\Controllers\Views;
 
 class OrderPaymentSaveB4 implements ObserverInterface
 {
@@ -39,7 +40,10 @@ class OrderPaymentSaveB4 implements ObserverInterface
         
         // If not validated breaks other payments
         if ($payment->getMethod() === $instructionMethod){
-        	//throw new \Magento\Framework\Validator\Exception($_REQUEST);
+        	/*$value=$observer->getEvent()->getData();
+        	echo "<pre>".print_r($observer)."</pre>";
+        	die('EOTEST');*/
+        	throw new \Magento\Framework\Validator\Exception('Order B4 Save');
         	
         }
         /* if (in_array($payment->getMethod(), $instructionMethod)) {

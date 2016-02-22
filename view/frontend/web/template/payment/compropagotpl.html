@@ -12,15 +12,25 @@
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
         <form id="compropago-form">
+		       
+	       <div class="payment-method-billing-address">
+	           <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+	           <!-- ko template: getTemplate() --><!-- /ko -->
+	           <!--/ko-->
+	       </div>
+	       <h3>Seleccione un tienda:</h3>
+		   <select data-bind="
+                    attr: {id: getCode() + '_providers', name: 'payment[cp-providers]',
+                    'data-validate': JSON.stringify({required:true})},
+                    options: getCompropagoProviders(),
+                    optionsValue: 'internal_name',
+                    optionsText: 'name',
+                    optionsCaption: 'options caption',
+                    value: compropagoProvider"
+                    class="select">
+            </select>
         
-	        <div class="payment-method-billing-address">
-	            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
-	            <!-- ko template: getTemplate() --><!-- /ko -->
-	            <!--/ko-->
-	        </div>
-        
-     	   <div class="compropago-providers" data-bind="html: showProviders()"></div>
-	       <div></div>
+     	   
        	</form>
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
