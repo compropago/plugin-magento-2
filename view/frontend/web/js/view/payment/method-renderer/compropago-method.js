@@ -6,7 +6,9 @@
 /*global define*/
 define(
     [
-        'Magento_Checkout/js/view/payment/default',
+	     'Magento_Checkout/js/view/payment/default',
+	     'jquery',
+	     "mage/validation"
     ],
     function (Component) {
         'use strict';
@@ -33,23 +35,18 @@ define(
             /** Returns providers json */
             getCompropagoProviders: function() {
                return window.checkoutConfig.payment.compropago.compropagoProviders;
-            },
+            } ,
             
-            getData: function() {
-
-                var additionalData = null;
-                var returnData=null;
-                additionalData = {};
-                additionalData['compropagoProvider'] = this.compropagoProvider();
-               // additionalData[this.getTransportName()] = this.selectedBillingAgreement();
-                console.log("Get Data:"+additionalData['compropagoProvider']);
-                
-               
-                return {'method': this.item.method, 'additional_data': additionalData};
-                
-                console.log(returnData);
-                
-                return returnData;
+           
+             
+             getData: function() {
+            	console.log("po_number:"+this.compropagoProvider());
+            	 return {
+                     "method": this.item.method,
+                     'po_number': this.compropagoProvider(),
+                     "additional_data": null
+                 };
+            
             },
             
             /**
@@ -57,8 +54,7 @@ define(
              */
            /* validate: function() {
                 var form = '#compropago-form';
-                console.log("Validate:"+ this.compropagoProvider());
-                return true;
+                return $(form).validation() && $(form).validation('isValid');
               
             }*/
            

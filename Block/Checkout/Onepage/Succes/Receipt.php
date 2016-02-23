@@ -30,6 +30,7 @@ class Receipt extends \Magento\Payment\Block\Form
 	
 	public  function showReceipt()
 	{
+		 
 		$compropagoData=   new \ArrayObject(array('id'=>'ch_d721a5de-e51c-4fdd-97a4-d09231a4f844'), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
 		
 		Views::loadView('iframe',$compropagoData);

@@ -214,7 +214,22 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     }
     
     
+    /**
+     * Assign data to info model instance
+     *
+     * @param \Magento\Framework\DataObject|mixed $data
+     * @return $this
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function assignData(\Magento\Framework\DataObject $data)
+    {
+    	if (!$data instanceof \Magento\Framework\DataObject) {
+    		$data = new \Magento\Framework\DataObject($data);
+    	}
     
+    	$this->getInfoInstance()->setPoNumber($data->getPoNumber());
+    	return $this;
+    }
     
     /**
      * Determine method availability based on quote amount and config data
