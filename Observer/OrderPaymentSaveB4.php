@@ -36,14 +36,15 @@ class OrderPaymentSaveB4 implements ObserverInterface
     {
         /** @var \Magento\Sales\Model\Order\Payment $payment */
         $payment = $observer->getEvent()->getPayment();
-       
+       // throw new \Magento\Framework\Validator\Exception($_COOKIE['cpProvider']);
         
-        if($payment->getMethod() === Payment::PAYMENT_METHOD_COMPROPAGO_CODE){
+       /* if($payment->getMethod() === Payment::PAYMENT_METHOD_COMPROPAGO_CODE){
         	$payment->setAdditionalInformation(
         			'compropagoOrderId',
         				'ch_f6b272e5-349a-44ba-af0e-7f324c3e1575'
         			);
-        }
+        	
+        }*/
      /*   
      // If not validated breaks other payments
         if ($payment->getMethod() === $instructionMethod){
