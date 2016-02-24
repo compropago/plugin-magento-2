@@ -19,8 +19,18 @@
 	           <!--/ko-->
 	       </div>
 	       <h4>Seleccione un tienda:</h4>
-		 
-        
+	    
+		   <select  name="payment[po_number]" data-bind="
+                    attr: {id: getCode() + '_providers',
+                    'data-validate': JSON.stringify({required:true})},
+                    options: getCompropagoProviders(),
+                    optionsValue: 'internal_name',
+                    optionsText: 'name',
+                    optionsCaption: 'options caption',
+                    value: compropagoProvider"
+                    class="select">
+            </select>
+      
      	   
        	</form>
         <div class="checkout-agreements-block">
