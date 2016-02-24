@@ -21,23 +21,23 @@
 
 namespace Compropago\Magento2\Block\Checkout\Onepage\Succes;
 
-use Compropago\Sdk\Controllers\Views;
+//use Compropago\Sdk\Controllers\Views;
 
 
 //class Receipt extends \Magento\Checkout\Block\Onepage\Success
 //class Receipt extends \Magento\Payment\Block\Info
-class Receipt extends \Magento\Payment\Block\Form
 //class Receipt extends \Magento\Framework\View\Element\Template
+class Receipt extends \Magento\Payment\Block\Form
 {
 	/**
 	 * @var \Magento\Checkout\Model\Session
 	 */
-	public $_checkoutSession;
+	protected $_checkoutSession;
 
 	/**
 	 * @var \Magento\Customer\Model\Session
 	 */
-	public $_customerSession;
+	protected $_customerSession;
 
 	/**
 	 * @var \Magento\Paypal\Model\Billing\AgreementFactory
@@ -68,34 +68,11 @@ class Receipt extends \Magento\Payment\Block\Form
 	}*/
 
 	public function getVars(){
-		//$om = \Magento\Framework\App\ObjectManager::getInstance();
-		//return $om->get('Magento\Checkout\Model\Session');
-		//return $om->get('Magento\Customer\Model\Session');
-		
-		//return array('customerSession'=>$this->_customerSession,'checkoutSession'=>$this->_checkoutSession);
-		
-		/*$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-		$customerSession = $objectManager->create('Magento\Customer\Model\Session');
-		
-		if ($customerSession->isLoggedIn()) {
-			$customerSession->getCustomerId();  // get Customer Id
-			$customerSession->getCustomerGroupId();
-			$customerSession->getCustomer();
-			$customerSession->getCustomerData();
-			echo   $customerSessionget->getCustomer()->getName();  // get Full Name
-			echo   $customerSessionget->getCustomer()->getEmail(); // get Email Name
-		}*/
+
 	}
 	
 	public  function showReceipt()
 	{
-		 
-		$compropagoData=   new \ArrayObject(array('id'=>'ch_d721a5de-e51c-4fdd-97a4-d09231a4f844'), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
-		$customerId = $this->_customerSession->getCustomerId();
 	
-		Views::loadView('iframe',$compropagoData);
-	
-		
-		//echo 'Soy el method';
 	}
 }
