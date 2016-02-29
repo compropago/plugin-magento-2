@@ -27,8 +27,7 @@ define(
 
                 this._super()
                     .observe('compropagoProvider');
-                this._super()
-                .observe('');
+               
                 
                 return this;
             },
@@ -53,10 +52,14 @@ define(
             	}
             	return false;
             },
-            compropagoSelectedProvider: function(){
-            	ko.observable("OXXO");
+            
+            compropagoSelectedProvider: function(newvalue){
+            	console.log('clicked radio');
+            	this.compropagoProvider(newvalue);
+            	console.log('checkec value:'+this.compropagoProvider());
+            	
             },
-           
+          
              getData: function() {
                  console.log('getData:'+this.compropagoProvider());
 

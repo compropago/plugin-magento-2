@@ -121,7 +121,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     	
     	//return str_replace('name="compropagoProvider"', 'data-bind="value: compropagoProvider,checked: compropagoSelectedProvider, click: compropagoSelectedProvider" name="payment[po_number]"', $response);
     	//data-bind="checked: radioSelectedOptionValue"
-    	return str_replace('name="compropagoProvider"', 'data-bind="checked: compropagoSelectedProvider" name="compropagoProvider"', $response);
+    	return str_replace('name="compropagoProvider"', 'data-bind="click: compropagoSelectedProvider" name="compropagoProvider"', $response);
     	//return $response;
     }
 

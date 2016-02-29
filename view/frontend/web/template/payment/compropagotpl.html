@@ -20,7 +20,24 @@
 	       </div>
 	       
 	    	<!-- ko if: showLogos() -->
-		   	<div data-bind="html: showProviders()"></div>
+	    	
+	 
+		<!-- ko foreach: getCompropagoProviders() -->
+ 		   <input name="payment[po_number]" type="radio" data-bind="
+ 		 			 attr: {id: 'compropago_'+internal_name,
+                    'data-validate': JSON.stringify({required:true})},
+                    checkedValue: internal_name,
+                    click: $parent.compropagoSelectedProvider(internal_name),
+                    value: internal_name">
+ 		   <label class="compropagoProviderDesc">
+ 		   		 <!-- ko text: name --><!-- /ko -->
+ 		   </label>
+		<!-- /ko -->
+	
+	
+		
+		<!-- <div data-bind="html: showProviders()"></div> -->
+
             <!-- /ko -->
             <!-- ko ifnot: showLogos() -->
             <h4>Seleccione un tienda:</h4>
