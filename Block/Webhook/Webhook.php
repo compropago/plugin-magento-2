@@ -21,13 +21,13 @@
 
 namespace Compropago\Magento2\Block\Webhook;
 
-//use Compropago\Sdk\Controllers\Views;
-use \Compropago\Sdk\Client;
-use \Compropago\Sdk\Service;
+
+//use \Compropago\Sdk\Client;
+//use \Compropago\Sdk\Service;
 
 
 //class Receipt extends \Magento\Framework\View\Element\Template
 class Webhook extends \Magento\Payment\Block\Form
 {
-	
+	protected $_template = 'Compropago_Magento2::webhook/webhook.phtml';
 }
