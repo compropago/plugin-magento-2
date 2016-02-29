@@ -27,6 +27,9 @@ define(
 
                 this._super()
                     .observe('compropagoProvider');
+                this._super()
+                .observe('');
+                
                 return this;
             },
 
@@ -44,13 +47,15 @@ define(
             },
             
             showLogos: function(){
-            	console.log('show logos:'+ window.checkoutConfig.payment.compropago.compropagoLogos);
+            	
             	if( window.checkoutConfig.payment.compropago.compropagoLogos == '1'){
             		return true;
             	}
             	return false;
             },
-      
+            compropagoSelectedProvider: function(){
+            	console.log('checked');
+            },
            
              getData: function() {
                  console.log('getData:'+this.compropagoProvider());

@@ -119,7 +119,8 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     	
     	$response = Views::loadView('providers',$compropagoData,'ob');
     	
-    	return str_replace('name="compropagoProvider"', 'data-bind="value: compropagoProvider" name="compropagoProvider"', $response);
+    	return str_replace('name="compropagoProvider"', 'data-bind="value: compropagoProvider,checked: compropagoSelectedProvider, click: compropagoSelectedProvider" name="payment[po_number]"', $response);
+    	//return str_replace('name="compropagoProvider"', 'data-bind="click: compropagoSelectedProvider" name="compropagoProviders"', $response);
     	//return $response;
     }
 
