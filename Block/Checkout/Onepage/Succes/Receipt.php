@@ -22,7 +22,8 @@
 namespace Compropago\Magento2\Block\Checkout\Onepage\Succes;
 
 //use Compropago\Sdk\Controllers\Views;
-
+use \Compropago\Sdk\Client;
+use \Compropago\Sdk\Service;
 
 //class Receipt extends \Magento\Checkout\Block\Onepage\Success
 //class Receipt extends \Magento\Payment\Block\Info
@@ -46,33 +47,60 @@ class Receipt extends \Magento\Payment\Block\Form
 	
 	protected $_template = 'Compropago_Magento2::checkout/onepage/success/receipt.phtml';
 
-	/**
-	 * @param \Magento\Framework\View\Element\Template\Context $context
-	 * @param \Magento\Checkout\Model\Session $checkoutSession
-	 * @param \Magento\Customer\Model\Session $customerSession
-	 * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
-	 * @param array $data
-	 */
-	/*public function __construct(
-			//\Magento\Framework\View\Element\Template\Context $context,
-			\Magento\Checkout\Model\Session $checkoutSession,
-			\Magento\Customer\Model\Session $customerSession
-			//\Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
-			//array $data = []
-			) {
-				parent::__construct();
-				$this->_checkoutSession = $checkoutSession;
-				$this->_customerSession = $customerSession;
-				//$this->_agreementFactory = $agreementFactory;
-				//parent::__construct( $data);
-	}*/
 
 	public function getVars(){
 
-	}
-	
-	public  function showReceipt()
-	{
-	
+		$factory = \Magento\Framework\App\ObjectManager::getInstance();
+
+		$orderSession = $factory->create('\Magento\Checkout\Model\Session');
+		$customerSession = $factory->create('Magento\Customer\Model\Session');
+        $compropagoModel = $factory->create('\Compropago\Magento2\Model\Payment');
+
+		$order = $orderSession->getLastRealOrder();
+		$customer = $customerSession->getCustomer();
+
+
+        $dataorder = array(
+            'order_id'           => $order->getRealOrderId(),             // string para identificar la orden
+            'order_price'        => $order->getData('total_due'),         // float con el monto de la operación
+            'order_name'         => $order->getRealOrderId(),             // nombre para la orden
+            'customer_name'      => $customer->getName(),                 // nombre del cliente
+            'customer_email'     => $customer->getEmail(),                // email del cliente
+            'payment_type'       => $_COOKIE['provider']
+        );
+
+        $compropagoConfig = array(
+            'publickey'         => $compropagoModel->getPublicKey(),
+            'privatekey'        => $compropagoModel->getPrivateKey(),
+            'live'              => $compropagoModel->getLiveMode()
+        );
+
+
+        if(isset($_COOKIE['payment_method']) && $_COOKIE['payment_method'] == 'compropago'){
+
+
+            try{
+                $compropagoClient = new Client($compropagoConfig);
+                $compropagoService = new Service($compropagoClient);
+
+                $response = $compropagoService->placeOrder($dataorder);
+
+                $_COOKIE['provider'] = null;
+                $_COOKIE['payment_method'] = null;
+
+                unset($_COOKIE['provider']);
+                unset($_COOKIE['payment_method']);
+
+                return base64_encode(json_encode($response));
+            }catch(\Exception $e){
+                return $e->getMessage();
+            }
+        }else{  
+            return "Entra null";
+        }
+
+
+
+
 	}
 }

@@ -20,8 +20,8 @@
 
 namespace Compropago\Magento2\Model;
 
-use Compropago\Sdk\Client;
-use Compropago\Sdk\Service;
+use \Compropago\Sdk\Client;
+use \Compropago\Sdk\Service;
 
 /**
  * Class Payment
@@ -71,22 +71,24 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     
     protected $_minAmount = null;
     protected $_maxAmount = null;
-   
-	public function initConfig()
+
+
+
+
+
+    /**
+     * Initializes injected data
+     *
+     * @param array $data
+     * @return void
+     */
+    /*protected function initializeData($data = [])
     {
-	 	
-    	$this->_minAmount = $this->getConfigData('min_order_total');
-    	$this->_maxAmount = $this->getConfigData('max_order_total');
-    	
-    	$this->_publickey= $this->getConfigData('public_key');
-    	$this->_privatekey= $this->getConfigData('private_key');
-    	$this->_modopruebas= $this->getConfigData('live_mode');
-    	
-    	if(!empty($this->_publickey) && !empty($this->_publickey)){
-    		$this->setCompropagoConfig();
-    		$this->setCompropagoClientService();
-    	}
-    }
+        if (!empty($data['formBlockType'])) {
+            $this->_formBlockType = $data['formBlockType'];
+        }
+    }*/
+
     
     /**
      * @return string
@@ -116,7 +118,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
      * @return json
      */
     public function getProviders()
-    {	
+    {
     	if(!$this->_compropagoClient){
     		$this->initConfig();
     	}
@@ -125,82 +127,14 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     }
    
     
-    /**
-     * Get ComproPago Config
-     * @return array 
-     * @since 2.0.0
-     */
-    public function getCompropagoConfig()
-    {
-    	if(!$this->_compropagoClient){
-    		$this->initConfig();
-    	}
-    	return $this->_compropagoConfig;
-    }
-    
-    /**
-     * Set ComproPago Config
-     * @since 2.0.0
-     */
-    public function setCompropagoConfig()
-    {
-    	$this->_compropagoConfig = array(
-    			'publickey'=>$this->_publickey,
-    			'privatekey'=>$this->_privatekey,
-    			'live'=>($this->_modopruebas=='1')? true:false,
-    			//\Magento\Framework\App\ProductMetadataInterface::getVersion()
-    			'contained'=>'plugin; cpmg2 '.self::VERSION.'; magento '. '2.0.0' .';'
-    	);
-    }
-    
-    /**
-     * Get Providers Config
-     * @return array
-     * @since 2.0.0
-     */
-    
-    public function setCompropagoClientService()
-    {
-    	if(!$this->_compropagoClient){
-    		$this->initConfig();
-    	}
-    	if($this->_compropagoConfig){
-	    	$this->_compropagoClient  = new Client($this->_compropagoConfig);
-	    	$this->_compropagoService = new Service($this->_compropagoClient);
-    	}else{
-    		return;
-    	}   	
-    	/*  
-    	 try{
-    		...
-    	}catch (\Exception $e){
-    		//$this->debugData(['request' => $requestData, 'exception' => $e->getMessage()]);
-    		//$this->_logger->error(__('ComproPago Instances Error at Model'));
-    		throw new \Magento\Framework\Validator\Exception(__('ComproPago Instances Error at Model'));
-    	}
-    	*/
-    	
-    }
-    
-    public function getCompropagoClient()
-    {
-    	if(!$this->_compropagoClient){
-    		$this->initConfig();
-    	}
-    	return $this->_compropagoClient;
-    }
-    
-    public function getCompropagoService()
-    {
-    	if(!$this->_compropagoClient){
-    		$this->initConfig();
-    	}
-    	return $this->_compropagoService;
-    }
+
+
     
     
     /**
      * Availability for currency
+     *
+     * NOS CONSTA QUE ENTRA DESDE PASO 1
      *
      * @param string $currencyCode
      * @return bool
@@ -212,24 +146,46 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     	}
     	return true;
     }
+
     
     
     /**
      * Assign data to info model instance
      *
+     * ENTRA EN PLACE ORDER
+     *
      * @param \Magento\Framework\DataObject|mixed $data
      * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-  /*  public function assignData(\Magento\Framework\DataObject $data)
+    public function assignData(\Magento\Framework\DataObject $data)
     {
-    	if (!$data instanceof \Magento\Framework\DataObject) {
+
+        parent::assignData($data);
+
+        /**
+         * Instancia al factory
+         */
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+
+
+    	/*if (!$data instanceof \Magento\Framework\DataObject) {
     		$data = new \Magento\Framework\DataObject($data);
     	}
     
     	$this->getInfoInstance()->setPoNumber($data->getPoNumber());
     	return $this;
-    }*/
+
+        /*$array = array(
+            array("name" => "Oxxo", "internal_name" => "OXXO"),
+            array("name" => "7Eleven", "internal_name" => "7ELEVEN")
+        );
+
+        return $array;*/
+
+        return $this;
+    }
     
     /**
      * Determine method availability based on quote amount and config data

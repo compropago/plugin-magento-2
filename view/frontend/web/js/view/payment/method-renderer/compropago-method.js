@@ -8,8 +8,8 @@ define(
     [
 	     'Magento_Checkout/js/view/payment/default',
 	     'jquery',
-	     "mage/validation"
-	     
+	     "mage/validation",
+	     'ko'
     ],
     function (Component) {
         'use strict';
@@ -19,7 +19,11 @@ define(
                 template: 'Compropago_Magento2/payment/compropagotpl',
                 compropagoProvider: 'OXXO'
             },
+
             initObservable: function () {
+
+                console.log("initObservable");
+
                 this._super()
                     .observe('compropagoProvider');
                 return this;
@@ -29,7 +33,13 @@ define(
             
             /** Returns providers json */
             getCompropagoProviders: function() {
-            	var providers=[{name:"Oxxo",internal_name:"OXXO"},{name:"Otro",internal_name:"OTRO"}]
+
+                console.log('getCompropagoProviders');
+
+            	var providers=[
+                    {name:"Oxxo",internal_name:"OXXO"},
+                    {name:"Otro",internal_name:"OTRO"}
+                ];
             	
             	return providers;
             	
@@ -38,11 +48,11 @@ define(
            
            
              getData: function() {
-            	console.log("po_number:"+this.compropagoProvider());
-            	/*var d = new Date();
-                d.setTime(d.getTime() + (1*24*60*60*1000));
-                var expires = "expires="+d.toUTCString(); 
-            	document.cookie ="cpProvider="+ this.compropagoProvider() + ";" + expires;*/
+                 console.log('getData');
+
+                 document.cookie = "provider = "+this.compropagoProvider();
+                 document.cookie = "payment_method = compropago";
+
             	 return {
                      "method": this.item.method,
                      'po_number': this.compropagoProvider(),
@@ -54,7 +64,7 @@ define(
             /**
              * On Place Order Btn Submit 
              */
-           /* validate: function() {
+           /*validate: function() {
                 var form = '#compropago-form';
                 return $(form).validation() && $(form).validation('isValid');
               

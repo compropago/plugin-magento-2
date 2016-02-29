@@ -25,7 +25,15 @@
 
 
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+
+
 <div id="compropagoWrapper">
-<h4>ComproPago Success Page</h4>
+    <h4>ComproPago Success Page</h4>
+
+   <?php
+   $json = json_decode(base64_decode($block->getVars()));
+
+   \Compropago\Sdk\Controllers\Views::loadView('iframe',$json);
+   ?>
 </div>
 
