@@ -54,7 +54,7 @@ define(
             	return false;
             },
             compropagoSelectedProvider: function(){
-            	console.log('checked');
+            	ko.observable("OXXO");
             },
            
              getData: function() {
