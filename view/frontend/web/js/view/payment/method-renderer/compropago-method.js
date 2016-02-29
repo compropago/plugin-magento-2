@@ -18,7 +18,8 @@ define(
             defaults: {
                 template: 'Compropago_Magento2/payment/compropagotpl',
                 //default value
-                compropagoProvider: 'OXXO'
+                compropagoProvider: 'OXXO',
+                loadCompropago: 0
             },
 
             initObservable: function () {
@@ -54,9 +55,16 @@ define(
             },
             
             compropagoSelectedProvider: function(newvalue){
-            	console.log('clicked radio');
-            	this.compropagoProvider(newvalue);
-            	console.log('checkec value:'+this.compropagoProvider());
+            	
+            	
+            	this.loadCompropago++;
+            	//avoid model loading overrides OXXO as default 
+            	 if(this.loadCompropago>11){
+            		this.compropagoProvider(newvalue);
+                	console.log('Tienda' +' = '+this.compropagoProvider());
+            	 }
+            	
+            	
             	
             },
           
