@@ -79,7 +79,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
 	
     protected  function getShowLogos()
     {
-    	$this->method->getShowLogos();
+    	return $this->method->getShowLogos();
     }
     
   	protected function getProviders($type='json')
@@ -119,7 +119,8 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     	
     	$response = Views::loadView('providers',$compropagoData,'ob');
     	
-    	return str_replace('name="compropagoProvider"', 'data-bind="value: compropagoProvider" name="payment[po_number]"', $response);
+    	return str_replace('name="compropagoProvider"', 'data-bind="value: compropagoProvider" name="compropagoProvider"', $response);
+    	//return $response;
     }
 
   

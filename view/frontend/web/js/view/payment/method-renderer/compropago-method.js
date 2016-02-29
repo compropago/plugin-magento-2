@@ -44,11 +44,13 @@ define(
             },
             
             showLogos: function(){
+            	console.log('show logos:'+ window.checkoutConfig.payment.compropago.compropagoLogos);
             	if( window.checkoutConfig.payment.compropago.compropagoLogos == '1'){
             		return true;
             	}
             	return false;
             },
+      
            
              getData: function() {
                  console.log('getData:'+this.compropagoProvider());

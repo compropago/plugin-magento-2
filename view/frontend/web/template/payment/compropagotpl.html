@@ -18,18 +18,19 @@
 	           <!-- ko template: getTemplate() --><!-- /ko -->
 	           <!--/ko-->
 	       </div>
-	       <h4>Seleccione un tienda:</h4>
+	       
 	    	<!-- ko if: showLogos() -->
 		   	<div data-bind="html: showProviders()"></div>
             <!-- /ko -->
             <!-- ko ifnot: showLogos() -->
+            <h4>Seleccione un tienda:</h4>
             <select  name="payment[po_number]" data-bind="
                     attr: {id: getCode() + '_providers',
                     'data-validate': JSON.stringify({required:true})},
                     options: getCompropagoProviders(),
                     optionsValue: 'internal_name',
                     optionsText: 'name',
-                    optionsCaption: 'options caption',
+                    optionsCaption: 'Donde Pagar...',
                     value: compropagoProvider"
                     class="select">
             </select>
