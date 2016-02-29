@@ -126,7 +126,10 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     	return $this->_compropagoService->getProviders( );	
     }
    
-    
+    public function getShowLogos()
+    {
+    	return $this->getConfigData('showlogos');
+    }
 
 
     

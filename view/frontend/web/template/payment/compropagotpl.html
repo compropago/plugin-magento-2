@@ -19,8 +19,11 @@
 	           <!--/ko-->
 	       </div>
 	       <h4>Seleccione un tienda:</h4>
-	    
-		   <select  name="payment[po_number]" data-bind="
+	    	<!-- ko if: showLogos() -->
+		   	<div data-bind="html: showProviders()"></div>
+            <!-- /ko -->
+            <!-- ko ifnot: showLogos() -->
+            <select  name="payment[po_number]" data-bind="
                     attr: {id: getCode() + '_providers',
                     'data-validate': JSON.stringify({required:true})},
                     options: getCompropagoProviders(),
@@ -30,6 +33,7 @@
                     value: compropagoProvider"
                     class="select">
             </select>
+            <!-- /ko -->
       
      	   
        	</form>

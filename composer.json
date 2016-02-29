@@ -26,5 +26,15 @@
         "psr-4": {
             "Compropago\\Magento2\\": ""
         }
-    }
+    },
+     "authors": [
+        {
+            "name": "Rolando Lucio",
+            "email": "rolando@compropago.com"
+        },
+        {
+            "name": "Eduardo Aguilar",
+            "email": "eduardo.aguilar@compropago.com"
+        }
+    ]
 }

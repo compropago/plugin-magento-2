@@ -17,6 +17,7 @@ define(
         return Component.extend({
             defaults: {
                 template: 'Compropago_Magento2/payment/compropagotpl',
+                //default value
                 compropagoProvider: 'OXXO'
             },
 
@@ -32,23 +33,25 @@ define(
           
             
             /** Returns providers json */
-            getCompropagoProviders: function() {
-
-                console.log('getCompropagoProviders');
-
-            	var providers=[
-                    {name:"Oxxo",internal_name:"OXXO"},
-                    {name:"Otro",internal_name:"OTRO"}
-                ];
-            	
-            	return providers;
-            	
+            getCompropagoProviders: function() {               
+            	return window.checkoutConfig.payment.compropago.compropagoProviders;
             } ,
             
-           
+            /** Returns providers Logo Display */
+            showProviders: function() {
+            	// get provider output buffer
+                return window.checkoutConfig.payment.compropago.compropagoProvidersDisplay;
+            },
+            
+            showLogos: function(){
+            	if( window.checkoutConfig.payment.compropago.compropagoLogos == '1'){
+            		return true;
+            	}
+            	return false;
+            },
            
              getData: function() {
-                 console.log('getData');
+                 console.log('getData:'+this.compropagoProvider());
 
                  document.cookie = "provider = "+this.compropagoProvider();
                  document.cookie = "payment_method = compropago";
