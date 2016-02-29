@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /*
 * Copyright 2016 Compropago.
 *
@@ -14,15 +13,21 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*
-* @author Rolando Lucio <rolando@compropago.com>
 */
--->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Compropago_Magento2" setup_version="1.0.0">
-        <sequence>
-            <module name="Magento_Store"/>
-            <module name="Magento_Catalog"/>    
-        </sequence>
-    </module>
-</config>
+/**
+ * @author Rolando Lucio <rolando@compropago.com>
+ */
+
+
+namespace Compropago\Magento2\Block\Webhook;
+
+//use Compropago\Sdk\Controllers\Views;
+use \Compropago\Sdk\Client;
+use \Compropago\Sdk\Service;
+
+
+//class Receipt extends \Magento\Framework\View\Element\Template
+class Webhook extends \Magento\Payment\Block\Form
+{
+	
+}

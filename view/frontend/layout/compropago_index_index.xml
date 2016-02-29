@@ -18,11 +18,15 @@
 * @author Rolando Lucio <rolando@compropago.com>
 */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Compropago_Magento2" setup_version="1.0.0">
-        <sequence>
-            <module name="Magento_Store"/>
-            <module name="Magento_Catalog"/>    
-        </sequence>
-    </module>
-</config>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>
+            Brand New Page
+        </title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Compropago\Magento2\Block\Webhook\Webhook" template="webhook/webhook.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
