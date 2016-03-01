@@ -30,4 +30,10 @@ namespace Compropago\Magento2\Block\Webhook;
 class Webhook extends \Magento\Payment\Block\Form
 {
 	protected $_template = 'Compropago_Magento2::webhook/webhook.phtml';
+
+
+	public function webhook()
+	{
+		return "Hola webhook";
+	}
 }

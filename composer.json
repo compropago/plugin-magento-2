@@ -15,7 +15,6 @@
         "magento/framework": "100.0.*"
     },
     "type": "magento2-module",
-    
     "license": [
         "Apache-2.0"
     ],
