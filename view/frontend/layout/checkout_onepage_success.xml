@@ -20,14 +20,14 @@
 -->
 
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-	<head>        
+	<head>
         <css src="Compropago_Magento2::css/compropago.css"/>
 	</head>
     <body>
-       
+
         <referenceContainer name="order.success.additional.info">
             <block class="Compropago\Magento2\Block\Checkout\Onepage\Succes\Receipt" name="onepage.success.receipt" template="checkout/onepage/success/receipt.phtml"/>
         </referenceContainer>
-       
+
     </body>
 </page>
