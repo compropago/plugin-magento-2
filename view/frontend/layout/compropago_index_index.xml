@@ -19,12 +19,14 @@
 */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <title></title>
-    </head>
+	<head>
+        Hola
+	</head>
     <body>
-        <referenceContainer name="content">
-            <block class="Compropago\Magento2\Block\Webhook\Webhook" template="webhook/webhook.phtml"/>
+
+        <referenceContainer name="order.success.additional.info">
+            <block class="Compropago\Magento2\Block\Webhook\Webhook" name="compropago.webhook" template="webhook/webhook.phtml"/>
         </referenceContainer>
+
     </body>
 </page>

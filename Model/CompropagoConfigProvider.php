@@ -67,43 +67,42 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         return $this->method->isAvailable() ? [
             'payment' => [
                 'compropago' => [
-                    'data' => 'scope placeholder',            
+                    'data' => 'scope placeholder',
                 	'compropagoProvidersDisplay' => $this->showProviders(),
                 	'compropagoProviders'=> $this->getProviders(),
                 	'compropagoLogos'=> $this->getShowLogos()
-                	
                 ],
             ],
         ] : [];
     }
-	
+
     protected  function getShowLogos()
     {
     	return $this->method->getShowLogos();
     }
-    
+
   	protected function getProviders($type='json')
     {
     	//si se puede validar objetos o cambio a API generar en Model primario con try//catch
-    	 
+
     	$compropagoConfig= array(
     			'publickey'=>$this->method->getPublicKey(),
     			'privatekey'=>$this->method->getPrivateKey(),
     			'live'=>$this->method->getLiveMode()
     			//definir contained
     	);
-    	
+
     	// Instancia del Client, revisar el motivo por el que  no dejo pasar objetos
     	//$this->method->getCompropagoConfig()
-    	 
+
     	$compropagoClient  = new Client($compropagoConfig);
     	$compropagoService = new Service($compropagoClient);
-    	
+
     	$compropagoProviders = $compropagoService->getProviders();
-    	
+
     	return $compropagoProviders;
     }
-    
+
   	/**
   	 * Return providers buffer as string
   	 * @return string
@@ -111,19 +110,19 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     protected function showProviders()
     {
     	$compropagoData['providers']= $this->getProviders('json');
-    	
+
     	// Generar variables desde administrador /etc/adminhtml/system.xml
-    	$compropagoData['showlogo']='yes';                           
+    	$compropagoData['showlogo']='yes';
     	$compropagoData['description']='Realiza tu pago en OXXO, 7eleven, etc';
-    	$compropagoData['instrucciones']='Seleccione una tienda';  
-    	
+    	$compropagoData['instrucciones']='Seleccione una tienda';
+
     	$response = Views::loadView('providers',$compropagoData,'ob');
-    	
+
     	//return str_replace('name="compropagoProvider"', 'data-bind="value: compropagoProvider,checked: compropagoSelectedProvider, click: compropagoSelectedProvider" name="payment[po_number]"', $response);
     	//data-bind="checked: radioSelectedOptionValue"
     	return str_replace('name="compropagoProvider"', 'data-bind="click: compropagoSelectedProvider" name="compropagoProvider"', $response);
     	//return $response;
     }
 
-  
+
 }
