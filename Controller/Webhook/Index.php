@@ -32,6 +32,7 @@ class Index extends \Magento\Framework\App\Action\Action {
     public function execute()
     {
     	$message = "";
+    	$factory = \Magento\Framework\App\ObjectManager::getInstance();
     	$compropagoModel = $factory->create('\Compropago\Magento2\Model\Payment');
 
     	$request = @file_get_contents('php://input');
