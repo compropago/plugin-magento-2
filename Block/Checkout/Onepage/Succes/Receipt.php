@@ -15,7 +15,8 @@
 * limitations under the License.
 */
 /**
- * @author Rolando Lucio <rolando@compropago.com>
+ * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
+ * @author Rolando Lucio <rolando@compropago.com> 
  */
 
 
@@ -66,7 +67,9 @@ class Receipt extends \Magento\Payment\Block\Form
             'order_name'         => $order->getRealOrderId(),             // nombre para la orden
             'customer_name'      => $customer->getName(),                 // nombre del cliente
             'customer_email'     => $customer->getEmail(),                // email del cliente
-            'payment_type'       => $_COOKIE['provider']
+            'payment_type'       => $_COOKIE['provider'],
+        	'app_client_name'    =>	'magento2',
+        	'app_client_version' => '2.0.2'
         );
 
         $compropagoConfig = array(
