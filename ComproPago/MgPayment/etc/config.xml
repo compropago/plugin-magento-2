@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <compropago_mgpayment>
+                <active>1</active>
+                <title>Pago en efectivo - ComproPago</title>
+                <model>\ComproPago\MgPayment\Model\Standard</model>
+
+                <showlogo>1</showlogo>
+
+                <order_status>pending</order_status>
+                <active_providers>OXXO,SEVEN_ELEVEN,COPPEL,EXTRA,FARMACIA_ESQUIVAR,ELEKTRA,CASA_LEY,PITICO,TELECOMM,FARMACIA_ABC</active_providers>
+                <min_order_total>0.50</min_order_total>
+            </compropago_mgpayment>
+        </payment>
+    </default>
+</config>

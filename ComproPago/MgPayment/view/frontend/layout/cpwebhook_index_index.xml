@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="cpwebhook.content">
+            <block class="ComproPago\MgPayment\Block\Webhook\Webhook" template="webhook/webhook.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <container name="root">
+        <block class="ComproPago\MgPayment\Block\Webhook\Webhook" name="compropago_webhook" template="ComproPago_MgPayment::webhook/webhook.phtml"/>
+    </container>
+</layout>

@@ -1,0 +1,24 @@
+{
+  "name": "compropago/mgpayment",
+  "description": "N/A",
+  "require": {
+    "php": "~5.6.0|7.0.2|~7.0.6"
+  },
+  "type": "magento2-module",
+  "version": "0.0.0.1",
+  "license": [
+    "Apache2"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "ComproPago\\MgPayment\\": ""
+    }
+  },
+  "extra":
+  {
+
+  }
+}
