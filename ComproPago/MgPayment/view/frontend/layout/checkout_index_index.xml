@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+* Inchoo_Stripe layout configuration
+*
+* @category    Inchoo
+* @package     Inchoo_Stripe
+* @author      Ivan Weiler & Stjepan Udovičić
+* @copyright   Inchoo (http://inchoo.net)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-
-    <head>
-        <css src="ComproPago_MgPayment::css/cp_checkout.css" />
-    </head>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="checkout.root">
             <arguments>
@@ -27,10 +28,10 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="authorizenet" xsi:type="array">
+                                                                <item name="inchoo_stripe-payments" xsi:type="array">
                                                                     <item name="component" xsi:type="string">ComproPago_MgPayment/js/view/payment/mgpayment</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="authorizenet_directpost" xsi:type="array">
+                                                                        <item name="inchoo_stripe" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>

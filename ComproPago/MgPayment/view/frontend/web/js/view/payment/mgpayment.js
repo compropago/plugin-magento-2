@@ -1,6 +1,9 @@
 /**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
+ * ComproPago_MgPayment Magento JS component
+ *
+ * @category    ComproPago
+ * @package     ComproPago_MgPayment
+ * @author      Eduardo Aguilar
  */
 /*browser:true*/
 /*global define*/
@@ -17,10 +20,12 @@ define(
         rendererList.push(
             {
                 type: 'compropago_mgpayment',
-                component: 'ComproPago_MgPayment/js/view/payment/method-renderer/cp_method'
+                component: 'ComproPago_MgPayment/js/view/payment/method-renderer/mgpayment-method'
             }
         );
-        /** Add view logic here if needed */
+        /** 
+         * Add view logic here if needed 
+         */
         return Component.extend({});
     }
 );

@@ -74,6 +74,10 @@ class Standard extends AbstractMethod
 
     public function capture(InfoInterface $payment, $amount)
     {
-        throw new \Magento\Framework\Validator\Exception(__("Capture ComproPago"));
+        parent::capture($payment,$amount);
+
+        return $this;
+
+        //throw new \Magento\Framework\Validator\Exception(__("Capture ComproPago"));
     }
 }
