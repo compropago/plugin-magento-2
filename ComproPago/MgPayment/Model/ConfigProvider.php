@@ -62,14 +62,14 @@ class ConfigProvider implements ConfigProviderInterface
 
     protected function getProviders()
     {
-        die($this->instance->getConfigData('active_providers'));
+        //die($this->instance->getConfigData('active_providers'));
         return $this->instance->getConfigData('active_providers');
     }
 
 
     protected function getShowLogos()
     {
-        die($this->instance->getConfigData('showlogo'));
+        //die($this->instance->getConfigData('showlogo'));
         return $this->instance->getConfigData('showlogo');
     }
 }
