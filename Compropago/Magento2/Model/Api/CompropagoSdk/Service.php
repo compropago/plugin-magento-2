@@ -22,8 +22,12 @@
 
 namespace Compropago\Magento2\Model\Api\CompropagoSdk;
 
+use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\CpOrderInfo;
+use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\NewOrderInfo;
+use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\SmsInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\PlaceOrderInfo;
+use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Webhook;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Rest;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
 
@@ -85,7 +89,7 @@ class Service
 
     /**
      * @param $orderId
-     * @return \CompropagoSdk\Factory\Abs\CpOrderInfo
+     * @return CpOrderInfo
      * @throws \Exception
      */
     public function verifyOrder( $orderId )
@@ -100,7 +104,7 @@ class Service
 
     /**
      * @param PlaceOrderInfo $neworder
-     * @return \CompropagoSdk\Factory\Abs\NewOrderInfo
+     * @return NewOrderInfo
      * @throws \Exception
      */
     public function placeOrder(PlaceOrderInfo $neworder)
@@ -127,7 +131,7 @@ class Service
     /**
      * @param $number
      * @param $orderId
-     * @return \CompropagoSdk\Factory\Abs\SmsInfo
+     * @return SmsInfo
      * @throws \Exception
      */
     public function sendSmsInstructions($number,$orderId)
@@ -145,7 +149,7 @@ class Service
 
     /**
      * @param $url
-     * @return Models\Webhook
+     * @return Webhook
      * @throws \Exception
      */
     public function createWebhook($url)
@@ -211,5 +215,66 @@ class Service
         $obj = Factory::webhook($response);
 
         return $obj;
+    }
+
+
+    /**
+     * Despliegue de retroalimentacion en el panel de administración
+     *
+     * @param bool   $enabled
+     * @return array
+     */
+    public function hookRetro($enabled = true)
+    {
+        $error = array(
+            false,
+            '',
+            'yes'
+        );
+        if($enabled){
+            if(!empty($this->client->getPublickey()) && !empty($this->client->getPrivatekey()) ){
+                try{
+                    $compropagoResponse = Validations::evalAuth($this->client);
+                    //eval keys
+                    if(!Validations::validateGateway($this->client)){
+                        $error[1] = 'Invalid Keys, The Public Key and Private Key must be valid before using this module.';
+                        $error[0] = true;
+                    }else{
+                        if($compropagoResponse->mode_key != $compropagoResponse->livemode){
+                            $error[1] = 'Your Keys and Your ComproPago account are set to different Modes.';
+                            $error[0] = true;
+                        }else{
+                            if($this->client->getMode() != $compropagoResponse->livemode){
+                                $error[1] = 'Your Store and Your ComproPago account are set to different Modes.';
+                                $error[0] = true;
+                            }else{
+                                if($this->client->getMode() != $compropagoResponse->mode_key){
+                                    $error[1] = 'Your keys are for a different Mode.';
+                                    $error[0] = true;
+                                }else{
+                                    if(!$compropagoResponse->mode_key && !$compropagoResponse->livemode){
+                                        $error[1] = 'Account is running in TEST mode, NO REAL OPERATIONS';
+                                        $error[0] = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }catch (\Exception $e) {
+                    $error[2] = 'no';
+                    $error[1] = $e->getMessage();
+                    $error[0] = true;
+                }
+            }else{
+                $error[1] = 'The Public Key and Private Key must be set before using';
+                $error[2] = 'no';
+                $error[0] = true;
+            }
+        }else{
+            $error[1] = 'The module is not enable';
+            $error[2] = 'no';
+            $error[0] = true;
+        }
+        return $error;
     }
 }

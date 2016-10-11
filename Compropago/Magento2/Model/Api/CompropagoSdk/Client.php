@@ -63,6 +63,24 @@ class Client
         $this->api = new Service($this);
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getPrivatekey()
+    {
+        return $this->privatekey;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublickey()
+    {
+        return $this->publickey;
+    }
+
+
     /**
      * @return string
      */
@@ -102,4 +120,6 @@ class Client
     {
         return $this->contained;
     }
+
+
 }

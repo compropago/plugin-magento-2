@@ -21,16 +21,18 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-           <compropago>
+            <compropago>
                 <active>0</active>
                 <model>Compropago\Magento2\Model\Payment</model>
                 <order_status>pending</order_status>
-                <title>ComproPago (Paga en OXXO, 7Eleven,etc.)</title>
-             	<showlogos>1</showlogos>
-             	<live_mode>1</live_mode>
+                <title>Pago en efectivo (Oxxo, 7Eleven, Coppel, etc) - ComproPago</title>
+              	<showlogos>1</showlogos>
+              	<live_mode>1</live_mode>
                 <allowspecific>0</allowspecific>
                 <min_order_total>3</min_order_total>
-            </compropago>
+
+                <active_providers>OXXO,SEVEN_ELEVEN,COPPEL,EXTRA,FARMACIA_ESQUIVAR,ELEKTRA,CASA_LEY,PITICO,TELECOMM,FARMACIA_ABC</active_providers>
+             </compropago>
         </payment>
     </default>
 </config>

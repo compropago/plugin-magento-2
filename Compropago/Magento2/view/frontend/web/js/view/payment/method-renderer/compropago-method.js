@@ -43,7 +43,7 @@ define(
             
             compropagoSelectedProvider: function(newvalue){
             	this.loadCompropago++;
-                
+
                 if(this.loadCompropago>11){
                     this.compropagoProvider( newvalue );
                 }
@@ -67,7 +67,7 @@ define(
             /*validate: function() {
                 var form = '#compropago-form';
                 return $(form).validation() && $(form).validation('isValid');
-              
+
             }*/
            
         });
