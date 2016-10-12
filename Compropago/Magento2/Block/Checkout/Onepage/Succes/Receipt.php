@@ -17,15 +17,15 @@ use Magento\Framework\View\Element\Template;
 
 class Receipt extends Template
 {
-	/**
-	 * @var \Magento\Checkout\Model\Session
-	 */
-	protected $_checkoutSession;
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
 
-	/**
-	 * @var \Magento\Customer\Model\Session
-	 */
-	protected $_customerSession;
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
 
 
     /**
@@ -33,7 +33,7 @@ class Receipt extends Template
      *
      * @var string
      */
-	protected $_template = 'Compropago_Magento2::checkout/onepage/success/receipt.phtml';
+    protected $_template = 'Compropago_Magento2::checkout/onepage/success/receipt.phtml';
 
 
 
@@ -86,14 +86,13 @@ class Receipt extends Template
     private function createOrder()
     {
         $order = $this->checSession->getLastRealOrder();
-        $customer = $this->custSession->getCustomer();
-        
+
         $dataorder = new PlaceOrderInfo(
             $order->getRealOrderId(),
             $order->getRealOrderId(),
             $order->getData('total_due'),
-            $customer->getName(),
-            $customer->getEmail(),
+            $order->getCustomerFirstname() . " " . $order->getCustomerLastname(),
+            $order->getCustomerEmail(),
             $_COOKIE['provider'],
             null,
             'magento2',
@@ -143,5 +142,5 @@ class Receipt extends Template
      */
     public function getVars(){
         return $this->createOrder();
-	}
+    }
 }
