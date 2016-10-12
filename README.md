@@ -27,18 +27,19 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
 3. Copiar la carpeta **Compropago** que resulto de descomprimir el archivo zip, dentro de la carpeta **app/code/** de su instalacion de magento
 4. Ejecutar los siguientes comandos desde el CLI de magento 2:
 
-   ´´´bash
+
+   ```bash
    bin/magento module:enable
    bin/magento setup:upgrade
    bin/magento setup:di:compile
-   ´´´
+   ```
 5. Ingresar al panel de administración de Magento 2 en la seccion **Stores / Configuration / Sales / Payment Methods** y buscar la pestañe **ComproPago Payment Method**
 6. Llenaer la configuracion con los datos que se solicitan
 7. Borrar el cache de magento con el siguiente comando:
 
-   ´´´bash
+   ```bash
    bin/magento chache:flush
-   ´´´
+   ```
 
 
 ## ¿Cómo trabaja el modulo?
