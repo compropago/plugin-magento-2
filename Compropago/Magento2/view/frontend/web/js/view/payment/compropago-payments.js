@@ -18,6 +18,21 @@ define(
             }
         );
         /** Add view logic here if needed */
-             return Component.extend({});
+        return Component.extend({});
     }
 );
+
+
+window.onload = function(){
+    var items = document.querySelectorAll("[id^=compropago_]");
+
+    for(var x = 0; x < items.length; x++){
+        items[x].addEventListener('click', function(evt){
+            elem = evt.target;
+
+            console.log(elem.getAttribute('id'));
+        });
+    }
+
+    
+};
