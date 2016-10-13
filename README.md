@@ -29,7 +29,7 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
 
 
    ```bash
-   bin/magento module:enable
+   bin/magento module:enable Compropago_Magento2
    bin/magento setup:upgrade
    bin/magento setup:di:compile
    ```
