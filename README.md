@@ -101,9 +101,8 @@ Una vez que el cliente generó su órden de pago, dentro del panel de control de
 
 
 ## Documentación
-### Documentación ComproPago Plugin Magento
+### ComproPago Plugin Magento 2
 
-### Documentación de ComproPago
 **[API de ComproPago](https://compropago.com/documentacion/api)**
 
 ComproPago ofrece una API tipo REST para integrar pagos en efectivo en tu comercio electrónico o tus aplicaciones.
