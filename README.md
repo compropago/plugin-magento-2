@@ -52,7 +52,7 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
       - **Title:** Así aparecerá el nombre del plugin dentro del checkout.
 
 
-      - **Public Key:** Llave pública. Podrás obtenerla desde el panel de tu cuenta de ComproPago en el apartado de __Configuración__.
+      - **Public Key:** Llave pública. Podrás obtenerla desde el panel de tu cuenta de ComproPago en el apartado de __Configuración_**.
                            Es importante que introduzcas la llave pública para modo pruebas o modo activo dependiendo de cómo estés trabajando o de lo contrario degenerará en un error.
 
 
