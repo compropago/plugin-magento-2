@@ -35,11 +35,11 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
    bin/magento setup:upgrade
    bin/magento setup:di:compile
    ```
-**NOTA:** En sistemas \*nix probablemente tenga que dar permisos de ejecución al shell de magento:
+**NOTA:** En sistemas \*nix (Linux, MacOS) probablemente tenga que dar permisos de ejecución al shell de magento:
 
-```
-sudo chmod +x bin/magento
-```
+   ```
+   sudo chmod +x bin/magento
+   ```
 
 5. Ingresar al panel de administración de Magento 2 en la sección **Stores / Configuration / Sales / Payment Methods** y buscar la opción **ComproPago Payment Method**
 6. Llenar la configuración con los datos que se solicitan.
