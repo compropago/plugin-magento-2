@@ -44,6 +44,7 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
 5. Ingresar al panel de administración de Magento 2 en la sección **Stores / Configuration / Sales / Payment Methods** y buscar la opción **ComproPago Payment Method**
 6. Llenar la configuración con los datos que se solicitan.
 
+
     * **Enabled:** Activa el plugin de ComproPago dentro de Magento.
 
     * **Title:** Así aparecerá el nombre del plugin dentro del checkout.
