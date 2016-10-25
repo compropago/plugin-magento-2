@@ -25,8 +25,11 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
 ## Instalación:
 
 1. Descargar el archivo zip de la última versión estable desde [aquí][Magento-Connect].
+
 2. Descomprimir el contenido del archivo zip.
+
 3. Copiar la carpeta **Compropago** dentro de la carpeta **app/code/** dentro de la instalación de magento.
+
 4. Ejecutar los siguientes comandos desde el CLI de magento 2 desde la carpeta raíz de la instalación:
 
 
@@ -45,6 +48,7 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
    ```
 
 5. Ingresar al panel de administración de Magento 2 en la sección **Stores / Configuration / Sales / Payment Methods** y buscar la opción **ComproPago Payment Method**
+
 6. Llenar la configuración con los datos que se solicitan.
 
 
