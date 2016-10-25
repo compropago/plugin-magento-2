@@ -2,8 +2,8 @@ Plugin para Magento 2.x - ComproPago
 ====================================================
 
 ## Descripción
-Este módulo provee el servicio de ComproPago para poder generar intenciones de pago dentro de la plataforma Magento.
-Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en todo México.
+Este módulo provee el servicio de ComproPago para poder generar órdenes de pago dentro de la plataforma Magento.
+Con ComproPago puede recibir pagos en OXXO, 7Eleven y más tiendas en todo México.
 [Registrarse en ComproPago](https://compropago.com)
 
 
@@ -11,11 +11,11 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
 
 - [Centro de ayuda y soporte](https://compropago.com/ayuda-y-soporte)
 - [Solicitar integración](https://compropago.com/integracion)
-- [Guía para empezar a usar ComproPago](https://compropago.com/ayuda-y-soporte/como-comenzar-a-usar-compropago)
+- [Guía para comenzar a utilizar ComproPago](https://compropago.com/ayuda-y-soporte/como-comenzar-a-usar-compropago)
 - [Información de contacto](https://compropago.com/contacto)
 
 ## Requisitos Previos
-* [Magento 2.0.5+](https://magento.com/)
+* [Magento >= 2.0.5](https://magento.com/)
 * [PHP >= 7.0.8](http://www.php.net/)
 * [PHP JSON extension](http://php.net/manual/en/book.json.php)
 * [PHP cURL extension](http://php.net/manual/en/book.curl.php)
@@ -25,7 +25,7 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
 1. Descargar el archivo zip de la última versión estable desde [aquí][Magento-Connect].
 2. Descomprimir el contenido del archivo zip.
 3. Copiar la carpeta **Compropago** generada al descomprimir el archivo zip dentro de la carpeta **app/code/** de su instalación de magento.
-4. Ejecutar los siguientes comandos desde el CLI de magento 2 en la carpeta raíz de la instalación:
+4. Ejecutar los siguientes comandos desde el CLI de magento 2 desde la carpeta raíz de la instalación:
 
 
    ```bash
@@ -43,14 +43,14 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
 
 
 ## ¿Cómo trabaja el módulo?
-Una vez que el cliente sabe que comprará y continua con el proceso, seleccionará la opción de elegir el método de pago.
-Aquí aparecerá la opción de pago con ComproPago, seleccionamos el establecimiento de su conveniencia y el botón de **continuar**.
+Una vez que el cliente sabe que comprar y continua con el proceso, seleccionará la opción de elegir el método de pago.
+Aquí aparecerá la opción de pago con ComproPago, selecciona el establecimiento de su conveniencia y el botón de **continuar**.
 
 Al completar el proceso de compra dentro de la tienda, el sistema proporcionará un recibo de pago,
 por lo que solo resta realizar el pago en el establecimiento que seleccionó anteriormente.
 
-Una vez que el cliente generó su intención de pago, dentro del panel de control de ComproPago la orden se muestra como
-"PENDIENTE". Esto significa que el usuario tendrá que hacer el deposito a la brevedad posible.
+Una vez que el cliente generó su órden de pago, dentro del panel de control de ComproPago la orden se muestra como
+"PENDIENTE". Sólo resta que el cliente realice el depósito a la brevedad posible.
 
 
 
