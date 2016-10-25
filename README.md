@@ -1,31 +1,36 @@
-Plugin para Magento 2.x - ComproPago
+Plugin para Magento >= 2.0.5 - ComproPago
 ====================================================
 
 ## Descripción
-Este modulo provee el servicio de ComproPago para poder generar intenciones de pago dentro de la plataforma Magento.
-Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en todo México.
+Este módulo provee el servicio de ComproPago para poder generar órdenes de pago dentro de la plataforma de e-commerce Magento.
+Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo México.
+
+
 [Registrarse en ComproPago](https://compropago.com)
 
 
 ## Ayuda y Soporte de ComproPago
 
 - [Centro de ayuda y soporte](https://compropago.com/ayuda-y-soporte)
-- [Solicitar Integración](https://compropago.com/integracion)
-- [Guía para Empezar a usar ComproPago](https://compropago.com/ayuda-y-soporte/como-comenzar-a-usar-compropago)
-- [Información de Contacto](https://compropago.com/contacto)
+- [Solicitar integración](https://compropago.com/integracion)
+- [Guía para comenzar a utilizar ComproPago](https://compropago.com/ayuda-y-soporte/como-comenzar-a-usar-compropago)
+- [Información de contacto](https://compropago.com/contacto)
 
-## Requerimientos
-* [Magento 1.7.x, 1.8.x, 1.9.x](https://magento.com/)
-* [PHP >= 5.5](http://www.php.net/)
+## Requisitos Previos
+* [Magento >= 2.0.5](https://magento.com/)
+* [PHP >= 7.0.8](http://www.php.net/)
 * [PHP JSON extension](http://php.net/manual/en/book.json.php)
 * [PHP cURL extension](http://php.net/manual/en/book.curl.php)
 
 ## Instalación:
 
-1. Descargar el archivo zip de la ultima vercion estable desde aquí desde [aquí][Magento-Connect]
-2. Descomprimir el contenido del archivo zip
-3. Copiar la carpeta **Compropago** que resulto de descomprimir el archivo zip, dentro de la carpeta **app/code/** de su instalacion de magento
-4. Ejecutar los siguientes comandos desde el CLI de magento 2:
+1. Descargar el archivo zip de la última versión estable desde [aquí][Magento-Connect].
+
+2. Descomprimir el contenido del archivo zip.
+
+3. Copiar la carpeta **Compropago** dentro de la carpeta **app/code/** dentro de la instalación de magento.
+
+4. Ejecutar los siguientes comandos desde el CLI de magento 2 desde la carpeta raíz de la instalación:
 
 
    ```bash
@@ -33,25 +38,65 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
    bin/magento setup:upgrade
    bin/magento setup:di:compile
    ```
-5. Ingresar al panel de administración de Magento 2 en la seccion **Stores / Configuration / Sales / Payment Methods** y buscar la pestañe **ComproPago Payment Method**
-6. Llenaer la configuracion con los datos que se solicitan
-7. Borrar el cache de magento con el siguiente comando:
+**NOTA:** Es probable que de existir **\<magento root\>/var/di** haya que borrar el directorio **di** para
+  llevar a cabo la compilación.
+
+  En sistemas \*nix (Linux, MacOS) probablemente también tenga que dar permisos de ejecución al shell de magento:
+
+   ```
+   sudo chmod +x bin/magento
+   ```
+
+5. Ingresar al panel de administración de Magento 2 en la sección **Stores / Configuration / Sales / Payment Methods** y buscar la opción **ComproPago Payment Method**
+
+6. Llenar la configuración con los datos que se solicitan.
+
+
+
+      - **Enabled:** Activa el plugin de ComproPago dentro de Magento.
+
+
+      - **Title:** Así aparecerá el nombre del plugin dentro del checkout.
+
+
+      - **Public Key:** Llave pública. Podrás obtenerla desde el panel de tu cuenta de ComproPago en el apartado de _Configuración_.
+                           Es importante que introduzcas la llave pública para modo pruebas o modo activo dependiendo de cómo estés trabajando o de lo contrario degenerará en un error.
+
+
+      - **Private Key:** Llave privada. Funciona de igual manera que la llave pública.
+
+
+      - **Live Mode:** Modo activo. Si estás trabajando en producción selecciona "yes". Es importante que las llaves coincidan con el modo correspondiente.
+
+
+      - **Show Logos:** Muestra los logos de las tiendas de pago en el checkout.
+
+
+      - **Active Providers:** Las tiendas seleccionadas aparecerán como disponibles en el checkout.
+
+
+      - **New Order Status:** Es el status con el que aparecerán las nuevas órdenes creadas.
+
+
+      - **Minimum Order Total:** El monto mínimo de transacción. Tiene que ser siempre mayor a 3.
+
+
+7. Borrar el caché de magento con el siguiente comando:
 
    ```bash
    bin/magento chache:flush
    ```
 
 
-## ¿Cómo trabaja el modulo?
-Una vez que el cliente sabe que comprar y continua con el proceso de compra entrará a la opción de elegir metodo de pago
-justo aqui aparece la opción de pagar con ComproPago, seleccionamos el establecimiento de nuestra conveniencia y le
-damos continuar
+## ¿Cómo trabaja el módulo?
+Una vez que el cliente sabe que comprar y continúa con el proceso, seleccionará la opción de elegir el método de pago.
+Aquí aparecerá la opción de pago con ComproPago, selecciona el establecimiento de su conveniencia y el botón de **continuar**.
 
-Al completar el proceso de compra dentro de la tienda el sistema nos proporcionara un recibo de pago como el siguiente,
-solo falta realizar el pago en el establecimiento que seleccionamos.
+Al completar el proceso de compra dentro de la tienda, el sistema proporcionará un recibo de pago,
+por lo que solo resta realizar el pago en el establecimiento que seleccionó anteriormente.
 
-Una vez que el cliente genero su intención de pago, dentro del panel de control de ComproPago la orden se muestra como
-"PENDIENTE" esto significa que el usuario esta por ir a hacer el deposito.
+Una vez que el cliente generó su órden de pago, dentro del panel de control de ComproPago la orden se muestra como
+"PENDIENTE". Sólo resta que el cliente realice el depósito a la brevedad posible.
 
 
 
@@ -61,12 +106,12 @@ Una vez que el cliente genero su intención de pago, dentro del panel de control
 ### Documentación de ComproPago
 **[API de ComproPago](https://compropago.com/documentacion/api)**
 
-ComproPago te ofrece un API tipo REST para integrar pagos en efectivo en tu comercio electrónico o tus aplicaciones.
+ComproPago ofrece una API tipo REST para integrar pagos en efectivo en tu comercio electrónico o tus aplicaciones.
 
 
 **[General](https://compropago.com/documentacion)**
 
-Información de Comisiones y Horarios, como Transferir tu dinero y la Seguridad que proporciona ComproPAgo
+Información sobre Horarios y Comisiones, como Transferir tu dinero y la Seguridad que proporciona ComproPago.
 
 
 **[Herramientas](https://compropago.com/documentacion/boton-pago)**
