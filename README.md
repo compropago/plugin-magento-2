@@ -45,17 +45,23 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
 6. Llenar la configuración con los datos que se solicitan.
 
 
-- **Enabled:** Activa el plugin de ComproPago dentro de Magento.
 
-- **Title:** Así aparecerá el nombre del plugin dentro del checkout.
+        - **Enabled:** Activa el plugin de ComproPago dentro de Magento.
 
-- **Public Key:** Llave pública. Podrás obtenerla desde el panel de tu cuenta de ComproPago en el apartado de **Configuración**.
-                     Es importante que introduzcas la llave pública para modo pruebas o modo activo dependiendo de cómo estés trabajando o de lo contrario degenerará en un error.
 
-- **Private Key:** Llave privada. Funciona de igual manera que la llave pública.
+        - **Title:** Así aparecerá el nombre del plugin dentro del checkout.
 
-- **Live Mode:** Modo activo. Si estás trabajando en producción selecciona "yes". Es importante que las llaves coincidan con el modo
-                    correspondiente.
+
+        - **Public Key:** Llave pública. Podrás obtenerla desde el panel de tu cuenta de ComproPago en el apartado de **Configuración**.
+                             Es importante que introduzcas la llave pública para modo pruebas o modo activo dependiendo de cómo estés trabajando o de lo contrario degenerará en un error.
+
+
+        - **Private Key:** Llave privada. Funciona de igual manera que la llave pública.
+
+
+        - **Live Mode:** Modo activo. Si estás trabajando en producción selecciona "yes". Es importante que las llaves coincidan con el modo
+                            correspondiente.
+
 
 
 7. Borrar el caché de magento con el siguiente comando:
