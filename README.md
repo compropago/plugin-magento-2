@@ -1,4 +1,4 @@
-Plugin para Magento 2.x - ComproPago
+Plugin para Magento >= 2.0.5 - ComproPago
 ====================================================
 
 ## Descripción
