@@ -35,7 +35,10 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
    bin/magento setup:upgrade
    bin/magento setup:di:compile
    ```
-**NOTA:** En sistemas \*nix (Linux, MacOS) probablemente tenga que dar permisos de ejecución al shell de magento:
+**NOTA:** Es probable que de existir **<magento root>/var/di** haya que borrar el directorio **di** para
+  llevar a cabo la compilación.
+  
+  En sistemas \*nix (Linux, MacOS) probablemente también tenga que dar permisos de ejecución al shell de magento:
 
    ```
    sudo chmod +x bin/magento
