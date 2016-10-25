@@ -43,7 +43,7 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y más tiendas en todo Méxi
 
 
 ## ¿Cómo trabaja el módulo?
-Una vez que el cliente sabe que comprar y continua con el proceso, seleccionará la opción de elegir el método de pago.
+Una vez que el cliente sabe que comprar y continúa con el proceso, seleccionará la opción de elegir el método de pago.
 Aquí aparecerá la opción de pago con ComproPago, selecciona el establecimiento de su conveniencia y el botón de **continuar**.
 
 Al completar el proceso de compra dentro de la tienda, el sistema proporcionará un recibo de pago,
