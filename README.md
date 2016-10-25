@@ -59,9 +59,19 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
       - **Private Key:** Llave privada. Funciona de igual manera que la llave pública.
 
 
-      - **Live Mode:** Modo activo. Si estás trabajando en producción selecciona "yes". Es importante que las llaves coincidan con el modo
-                          correspondiente.
+      - **Live Mode:** Modo activo. Si estás trabajando en producción selecciona "yes". Es importante que las llaves coincidan con el modo correspondiente.
 
+
+      - **Show Logos:** Muestra los logos de las tiendas de pago en el checkout.
+
+
+      - **Active Providers:** Las tiendas seleccionadas aparecerán como disponibles en el checkout.
+
+
+      - **New Order Status:** Es el status con el que aparecerán las nuevas órdenes creadas.
+
+
+      - **Minimum Order Total:** El monto mínimo de transacción. Tiene que ser siempre mayor a 3.
 
 
 7. Borrar el caché de magento con el siguiente comando:
