@@ -59,7 +59,7 @@ class Webhook extends Template
 		 * Se valida el request y se transforma con la cadena a un objeto de tipo CpOrderInfo con el Factory
 		 */
 		if(empty($json) || !$resp_webhook = Factory::cpOrderInfo($json)){
-			die('Tipo de Request no Valido');
+			return 'Tipo de Request no Valido';
 		}
 
 
@@ -77,7 +77,7 @@ class Webhook extends Template
 		 */
 		//keys set?
 		if (empty($publickey) || empty($privatekey)){
-			die("Se requieren las llaves de compropago");
+			return "Se requieren las llaves de compropago";
 		}
 
 
@@ -100,7 +100,7 @@ class Webhook extends Template
 			Validations::validateGateway($client);
 		}catch (\Throwable $e) {
 			//something went wrong at sdk lvl
-			die($e->getMessage());
+			return $e->getMessage();
 		}
 
 
@@ -108,7 +108,7 @@ class Webhook extends Template
 		 * Verificamos si recivimos una peticion de prueba
 		 */
 		if($resp_webhook->getId()=="ch_00000-000-0000-000000"){
-			die("Probando el WebHook?, <b>Ruta correcta.</b>");
+			return "Probando el WebHook?, Ruta correcta.";
 		}
 
 
@@ -124,7 +124,7 @@ class Webhook extends Template
 			 * Comprovamos que la verificacion fue exitosa
 			 */
 			if($response->getType() == 'error'){
-				die('Error procesando el número de orden');
+				return 'Error procesando el número de orden';
 			}
 
 
@@ -153,12 +153,12 @@ class Webhook extends Template
                     $this->orderManager->setState('canceled');
 					break;
 				default:
-					die('Invalid Response type');
+					return 'Invalid Response type';
 			}
-
+ 
 		}catch (\Exception $e){
 			//something went wrong at sdk lvl
-			die($e->getMessage());
+			return $e->getMessage();
 		}
 
 	}

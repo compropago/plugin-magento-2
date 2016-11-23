@@ -94,9 +94,21 @@ class CompropagoConfigProvider implements ConfigProviderInterface
             $this->method->getLiveMode()
         );
 
+        $available = $this->method->getConfigData('active_providers');
+        $available = explode(',', $available);
+
     	$compropagoProviders = $client->api->listProviders(true, $this->getGrandTotal());
 
-    	return $compropagoProviders;
+        $final = [];
+        foreach ($compropagoProviders as $provider){
+            foreach($available as $prov_av){
+                if ($prov_av == $provider->internal_name){
+                    $final[] = $provider;
+                }
+            }
+        }
+
+    	return $final;
     }
 
     /**
