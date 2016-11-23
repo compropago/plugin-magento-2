@@ -21,9 +21,10 @@
 
 namespace Compropago\Magento2\Block\Webhook;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Payment\Block\Form;
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
+use Magento\Framework\View\Element\Template;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
@@ -38,17 +39,23 @@ class Webhook extends Template
      * @var \Magento\Sales\Model\Order
      */
     private $orderManager;
+    /**
+     * @var \Magento\Framework\App\Resource
+     */
+    private $resource;
 
     public function __construct(
         Template\Context $context,
         \Compropago\Magento2\Model\Payment $model,
         \Magento\Sales\Model\Order $orderManager,
+        \Magento\Framework\App\ResourceConnection $resourceConnection,
         array $data = []
     )
     {
         parent::__construct($context, $data);
-        $this->model = $model;
+        $this->model        = $model;
         $this->orderManager = $orderManager;
+        $this->resource     = $resourceConnection;
     }
 
 
@@ -59,7 +66,7 @@ class Webhook extends Template
 		 * Se valida el request y se transforma con la cadena a un objeto de tipo CpOrderInfo con el Factory
 		 */
 		if(empty($json) || !$resp_webhook = Factory::cpOrderInfo($json)){
-			die('Tipo de Request no Valido');
+			return 'Tipo de Request no Valido';
 		}
 
 
@@ -77,7 +84,7 @@ class Webhook extends Template
 		 */
 		//keys set?
 		if (empty($publickey) || empty($privatekey)){
-			die("Se requieren las llaves de compropago");
+			return "Se requieren las llaves de compropago";
 		}
 
 
@@ -100,7 +107,7 @@ class Webhook extends Template
 			Validations::validateGateway($client);
 		}catch (\Throwable $e) {
 			//something went wrong at sdk lvl
-			die($e->getMessage());
+			return $e->getMessage();
 		}
 
 
@@ -108,7 +115,8 @@ class Webhook extends Template
 		 * Verificamos si recivimos una peticion de prueba
 		 */
 		if($resp_webhook->getId()=="ch_00000-000-0000-000000"){
-			die("Probando el WebHook?, <b>Ruta correcta.</b>");
+
+			return "Probando el WebHook?, Ruta correcta.";
 		}
 
 
@@ -124,11 +132,18 @@ class Webhook extends Template
 			 * Comprovamos que la verificacion fue exitosa
 			 */
 			if($response->getType() == 'error'){
-				die('Error procesando el número de orden');
+				return 'Error procesando el número de orden';
 			}
 
 
+            $table_name      = $this->resource->getTableName('sales_order');
+            $table_grid_name = $this->resource->getTableName('sales_order_grid');
+            $connection      = $this->resource->getConnection();
+
+
             $this->orderManager->loadByIncrementId($response->getOrderInfo()->getOrderId());
+
+            $entity_id = $this->orderManager->getEntityId();
 
 			/**
 			 * Generamos las rutinas correspondientes para cada uno de los casos posible del webhook
@@ -136,29 +151,42 @@ class Webhook extends Template
 			switch ($response->getType()){
 				case 'charge.success':
 					$this->orderManager->setState('processing');
+                    $status = 'processing';
+
 					break;
 				case 'charge.pending':
                     $this->orderManager->setState('pending_payment');
+                    $status = 'pending_payment';
 					break;
 				case 'charge.declined':
                     $this->orderManager->setState('canceled');
+                    $status = 'canceled';
 					break;
 				case 'charge.expired':
                     $this->orderManager->setState('canceled');
+                    $status = 'canceled';
 					break;
 				case 'charge.deleted':
                     $this->orderManager->setState('canceled');
+                    $status = 'canceled';
 					break;
 				case 'charge.canceled':
                     $this->orderManager->setState('canceled');
+                    $status = 'canceled';
 					break;
 				default:
-					die('Invalid Response type');
+					return 'Invalid Response type';
 			}
 
+			$query = "UPDATE $table_name SET state = '$status', status = '$status' WHERE entity_id = $entity_id";
+			$connection->query($query);
+
+            $query = "UPDATE $table_grid_name SET status = '$status' WHERE entity_id = $entity_id";
+            $connection->query($query);
+ 
 		}catch (\Exception $e){
 			//something went wrong at sdk lvl
-			die($e->getMessage());
+			return $e->getMessage();
 		}
 
 	}

@@ -31,7 +31,7 @@
                 <allowspecific>0</allowspecific>
                 <min_order_total>3</min_order_total>
 
-                <active_providers>OXXO,SEVEN_ELEVEN,COPPEL,EXTRA,FARMACIA_ESQUIVAR,ELEKTRA,CASA_LEY,PITICO,TELECOMM,FARMACIA_ABC</active_providers>
+                <active_providers>*</active_providers>
              </compropago>
         </payment>
     </default>
