@@ -24,7 +24,7 @@ namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V10;
 
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\FeeDetails;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\Instructions;
+use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Instructions;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\NewOrderInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\OrderInfo;
 
@@ -41,7 +41,7 @@ class NewOrderInfo10 extends NewOrderInfo
     public function __construct()
     {
         $this->product_information = new ProductInformation();
-        $this->payment_instructions = new Instructions10();
+        $this->payment_instructions = new Instructions();
     }
 
     /**

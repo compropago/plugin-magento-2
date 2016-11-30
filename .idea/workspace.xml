@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2bdf7acc-752a-423e-b907-02aea1cd12bd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/InstructionDetails.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Instructions.php" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/InstrcutionDetails.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/Instructions.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/InstructionDetails10.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/Instructions10.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/InstructionDetails11.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/Instructions11.php" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Block/Checkout/Onepage/Succes/Receipt.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Block/Checkout/Onepage/Succes/Receipt.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Client.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Client.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/CpOrderInfo.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/CpOrderInfo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/FeeDetails.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/FeeDetails.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/NewOrderInfo.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/NewOrderInfo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/OrderInfo.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/OrderInfo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/SmsInfo.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/SmsInfo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Factory.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Factory.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Json/Serialize.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Json/Serialize.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpObject.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpObject.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpOrderInfo10.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpOrderInfo10.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/Data.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/Data.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/FeeDetails10.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/FeeDetails10.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/NewOrderInfo10.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/NewOrderInfo10.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/OrderInfo10.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/OrderInfo10.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/PaymentDetails.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/PaymentDetails.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/ProductInformation.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/ProductInformation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsInfo10.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsInfo10.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsPayment.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsPayment.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/CpOrderInfo11.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/CpOrderInfo11.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/FeeDetails11.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/FeeDetails11.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/NewOrderInfo11.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/NewOrderInfo11.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/OrderInfo11.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/OrderInfo11.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsData.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsData.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsInfo11.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsInfo11.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsObject.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsObject.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Customer.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Customer.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/EvalAuthInfo.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/EvalAuthInfo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/PlaceOrderInfo.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/PlaceOrderInfo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Provider.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Provider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Webhook.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Webhook.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/WebhookError.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/WebhookError.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Service.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Service.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Http.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Http.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Rest.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Rest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Validations.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Validations.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/CompropagoConfigProvider.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/CompropagoConfigProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/Model/Payment.php" afterPath="$PROJECT_DIR$/Compropago/Magento2/Model/Payment.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/view/frontend/templates/checkout/onepage/success/receipt.phtml" afterPath="$PROJECT_DIR$/Compropago/Magento2/view/frontend/templates/checkout/onepage/success/receipt.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Compropago/Magento2/view/frontend/web/js/view/payment/method-renderer/compropago-method.js" afterPath="$PROJECT_DIR$/Compropago/Magento2/view/frontend/web/js/view/payment/method-renderer/compropago-method.js" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="plugin-magento-2" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="receipt.phtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/view/frontend/templates/checkout/onepage/success/receipt.phtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="41" column="53" lean-forward="false" selection-start-line="41" selection-start-column="53" selection-end-line="41" selection-end-column="53" />
+              <folding>
+                <element signature="e#6#601#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Receipt.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Block/Checkout/Onepage/Succes/Receipt.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1335">
+              <caret line="93" column="33" lean-forward="false" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="33" />
+              <folding>
+                <element signature="e#140#195#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="compropago-method.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/view/frontend/web/js/view/payment/method-renderer/compropago-method.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1050">
+              <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Payment.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Payment.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="40" column="60" lean-forward="false" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+              <folding>
+                <element signature="e#6#601#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CompropagoConfigProvider.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/CompropagoConfigProvider.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="22" column="51" lean-forward="false" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Service.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Service.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="29" column="3" lean-forward="true" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+              <folding>
+                <element signature="e#750#814#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Serialize.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Json/Serialize.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="179">
+              <caret line="191" column="24" lean-forward="true" selection-start-line="191" selection-start-column="24" selection-end-line="191" selection-end-column="24" />
+              <folding>
+                <element signature="e#764#838#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NewOrderInfo11.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/NewOrderInfo11.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="43" column="20" lean-forward="false" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
+              <folding>
+                <element signature="e#763#834#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Client.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Client.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="30" column="26" lean-forward="false" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>bank_account_number</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Compropago/Magento2/view/frontend/templates/checkout/onepage/success/receipt.phtml" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Service.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Client.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Validations.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Rest.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Http.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/WebhookError.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Webhook.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Provider.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/PlaceOrderInfo.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Instructions.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/InstructionDetails.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/EvalAuthInfo.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Customer.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Factory.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsObject.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsInfo11.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsData.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/OrderInfo11.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/NewOrderInfo11.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/FeeDetails11.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/CpOrderInfo11.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsPayment.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsInfo10.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/ProductInformation.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/PaymentDetails.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/OrderInfo10.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/NewOrderInfo10.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/FeeDetails10.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/Data.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpOrderInfo10.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpObject.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/SmsInfo.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/OrderInfo.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/NewOrderInfo.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/FeeDetails.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/CpOrderInfo.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/view/frontend/web/js/view/payment/method-renderer/compropago-method.js" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/CompropagoConfigProvider.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Block/Checkout/Onepage/Succes/Receipt.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Payment.php" />
+        <option value="$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Json/Serialize.php" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1057" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Compropago" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Magento2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Compropago" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Magento2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Compropago" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Magento2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Observers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Compropago" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Magento2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CompropagoSdk" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugin-magento-2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Compropago" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Magento2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CompropagoSdk" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Models" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Compropago/Magento2/Model/Api" />
+    </key>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2bdf7acc-752a-423e-b907-02aea1cd12bd" name="Default" comment="" />
+      <created>1480358832704</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1480358832704</updated>
+      <workItem from="1480358835605" duration="4533000" />
+      <workItem from="1480457995135" duration="384000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="4917000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1920" height="1057" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18796591" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14052288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/view/frontend/web/js/view/payment/method-renderer/compropago-method.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1050">
+          <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Payment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="40" column="60" lean-forward="false" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+          <folding>
+            <element signature="e#6#601#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/CompropagoConfigProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="51" lean-forward="false" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Service.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="29" column="3" lean-forward="true" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+          <folding>
+            <element signature="e#750#814#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Json/Serialize.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#764#838#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Client.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="30" column="26" lean-forward="false" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json" />
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Validations.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="25" column="34" lean-forward="false" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+          <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Rest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Tools/Http.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/WebhookError.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Webhook.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Provider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/PlaceOrderInfo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Instructions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="40" lean-forward="false" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/EvalAuthInfo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/Customer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Factory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="24" column="34" lean-forward="false" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+          <caret line="25" column="34" lean-forward="false" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+          <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
+          <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+          <caret line="28" column="34" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+          <caret line="29" column="34" lean-forward="false" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsObject.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsInfo11.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/SmsData.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/OrderInfo11.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/FeeDetails11.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/CpOrderInfo11.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding>
+            <element signature="e#763#835#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsPayment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/SmsInfo10.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/ProductInformation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/PaymentDetails.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/OrderInfo10.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/NewOrderInfo10.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#766#837#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/FeeDetails10.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="25" column="34" lean-forward="false" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/Data.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpOrderInfo10.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding>
+            <element signature="e#763#835#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V10/CpObject.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/SmsInfo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/OrderInfo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/NewOrderInfo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/FeeDetails.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Abs/CpOrderInfo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/view/frontend/templates/checkout/onepage/success/receipt.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="41" column="53" lean-forward="false" selection-start-line="41" selection-start-column="53" selection-end-line="41" selection-end-column="53" />
+          <folding>
+            <element signature="e#6#601#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/view/frontend/web/js/view/payment/method-renderer/compropago-method.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1050">
+          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Models/InstructionDetails.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="11" lean-forward="false" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/CompropagoConfigProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="51" lean-forward="false" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Observers/WebhookRegister.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="40" column="7" lean-forward="true" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
+          <folding>
+            <element signature="e#744#810#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/ProvidersOption.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="25" column="4" lean-forward="true" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+          <folding>
+            <element signature="e#734#778#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Block/Checkout/Onepage/Succes/Receipt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1335">
+          <caret line="93" column="33" lean-forward="false" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="33" />
+          <folding>
+            <element signature="e#140#195#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Payment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="40" column="60" lean-forward="false" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+          <folding>
+            <element signature="e#6#601#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Client.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="30" column="26" lean-forward="false" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Service.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="29" column="3" lean-forward="true" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+          <folding>
+            <element signature="e#750#814#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/Json/Serialize.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="191" column="24" lean-forward="true" selection-start-line="191" selection-start-column="24" selection-end-line="191" selection-end-column="24" />
+          <folding>
+            <element signature="e#764#838#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Compropago/Magento2/Model/Api/CompropagoSdk/Factory/V11/NewOrderInfo11.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="43" column="20" lean-forward="false" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
+          <folding>
+            <element signature="e#763#834#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

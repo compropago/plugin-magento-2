@@ -66,17 +66,17 @@ abstract class CpOrderInfo
     public abstract function getFee();
 
     /**
-     * @return FeeDetails
+     * @return \CompropagoSdk\Factory\Abs\FeeDetails
      */
     public abstract function getFeeDetails();
 
     /**
-     * @return OrderInfo
+     * @return \CompropagoSdk\Factory\Abs\OrderInfo
      */
     public abstract function getOrderInfo();
 
     /**
-     * @return Customer
+     * @return \CompropagoSdk\Models\Customer
      */
     public abstract function getCustomer();
 

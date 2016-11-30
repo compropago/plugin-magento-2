@@ -28,13 +28,7 @@ namespace Compropago\Magento2\Model\Api\CompropagoSdk;
  */
 class Client
 {
-    const VERSION="2.0.0-alfa";
-
-    #const API_LIVE_URI='http://api-staging-compropago.herokuapp.com/v1/';
-    #const API_SANDBOX_URI='http://api-staging-compropago.herokuapp.com/v1/';
-
-    #const API_LIVE_URI='https://node-test-cp.herokuapp.com/v1/';
-    //const API_SANDBOX_URI='https://node-test-cp.herokuapp.com/v1/';
+    const VERSION="2.1.0";
 
     const API_LIVE_URI='http://api.compropago.com/v1/';
     const API_SANDBOX_URI='http://api.compropago.com/v1/';
@@ -63,23 +57,15 @@ class Client
         $this->api = new Service($this);
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getPrivatekey()
-    {
-        return $this->privatekey;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPublickey()
+    public function getPublicKey()
     {
         return $this->publickey;
     }
 
+    public function getPrivateKey()
+    {
+        return $this->privatekey;
+    }
 
     /**
      * @return string
@@ -120,6 +106,4 @@ class Client
     {
         return $this->contained;
     }
-
-
 }
