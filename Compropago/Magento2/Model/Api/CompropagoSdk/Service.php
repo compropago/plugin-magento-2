@@ -22,12 +22,8 @@
 
 namespace Compropago\Magento2\Model\Api\CompropagoSdk;
 
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\CpOrderInfo;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\NewOrderInfo;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\SmsInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\PlaceOrderInfo;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Webhook;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Rest;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
 
@@ -89,7 +85,7 @@ class Service
 
     /**
      * @param $orderId
-     * @return CpOrderInfo
+     * @return \CompropagoSdk\Factory\Abs\CpOrderInfo
      * @throws \Exception
      */
     public function verifyOrder( $orderId )
@@ -104,7 +100,7 @@ class Service
 
     /**
      * @param PlaceOrderInfo $neworder
-     * @return NewOrderInfo
+     * @return \CompropagoSdk\Factory\Abs\NewOrderInfo
      * @throws \Exception
      */
     public function placeOrder(PlaceOrderInfo $neworder)
@@ -131,7 +127,7 @@ class Service
     /**
      * @param $number
      * @param $orderId
-     * @return SmsInfo
+     * @return \CompropagoSdk\Factory\Abs\SmsInfo
      * @throws \Exception
      */
     public function sendSmsInstructions($number,$orderId)
@@ -149,7 +145,7 @@ class Service
 
     /**
      * @param $url
-     * @return Webhook
+     * @return Models\Webhook
      * @throws \Exception
      */
     public function createWebhook($url)
@@ -216,7 +212,6 @@ class Service
 
         return $obj;
     }
-
 
     /**
      * Despliegue de retroalimentacion en el panel de administración

@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Copyright 2016 Compropago.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,8 @@
 
 namespace Compropago\Magento2\Model;
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 /**
  * Class Payment
@@ -32,55 +34,26 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     
     protected $_code = self::CODE;
     
-    protected $_isOffline = true;
+    protected $_isOffline  = true;
     protected $_isGateway  = true;
-    protected $_canCapture  = true;
+    protected $_canCapture = true;
     
     protected $_supportedCurrencyCodes = array('USD','MXN');
 
 
 
-    /*public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory,
-        \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory,
-        \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Payment\Model\Method\Logger $logger,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection,
-        array $data = []
-    )
-    {
-        parent::__construct(
-            $context,
-            $registry,
-            $extensionFactory,
-            $customAttributeFactory,
-            $paymentData,
-            $scopeConfig,
-            $logger,
-            $resource,
-            $resourceCollection,
-            $data
-        );
-    }*/
-
-
-
     /**
-     * Initializes injected data
+     * Payment capturing
      *
-     * @param array $data
-     * @return void
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param float $amount
+     * @return $this
+     * @throws \Magento\Framework\Validator\Exception
      */
-    /*protected function initializeData($data = [])
+    public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
-        if (!empty($data['formBlockType'])) {
-            $this->_formBlockType = $data['formBlockType'];
-        }
-    }*/
+        die("entra compropago Capture");
+    }
 
     
     /**

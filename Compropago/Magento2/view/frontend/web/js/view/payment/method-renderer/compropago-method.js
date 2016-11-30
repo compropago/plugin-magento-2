@@ -58,8 +58,12 @@ define(
 
                 console.log('Otro Data:' + selected);
 
-                document.cookie = "provider = " + selected;
-                document.cookie = "payment_method = compropago";
+                if($("#input:radio#compropago").is(':checked')){
+                    document.cookie = "provider=" + selected;
+                    document.cookie = "payment_method=compropago";
+                }else{
+                    console.log('No es compropago');
+                }
 
                 return {
                     "method": this.item.method,
