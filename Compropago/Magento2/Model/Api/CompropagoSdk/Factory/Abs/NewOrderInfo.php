@@ -19,49 +19,47 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs;
-
 
 abstract class NewOrderInfo
 {
     /**
      * @return string
      */
-    public abstract function getId();
+    protected abstract function getId();
 
     /**
      * @return string
      */
-    public abstract function getShortId();
+    protected abstract function getShortId();
 
     /**
      * @return string
      */
-    public abstract function getStatus();
+    protected abstract function getStatus();
 
     /**
      * @return string
      */
-    public abstract function getCreated();
+    protected abstract function getCreated();
 
     /**
      * @return string
      */
-    public abstract function getExpirationDate();
+    protected abstract function getExpirationDate();
 
     /**
      * @return OrderInfo
      */
-    public abstract function getOrderInfo();
+    protected abstract function getOrderInfo();
 
     /**
      * @return FeeDetails
      */
-    public abstract function getFeeDetails();
+    protected abstract function getFeeDetails();
 
     /**
-     * @return Instructions
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Models\Instructions
      */
-    public abstract function getInstructions();
+    protected abstract function getInstructions();
 }

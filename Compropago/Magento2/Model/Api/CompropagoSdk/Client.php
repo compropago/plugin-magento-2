@@ -19,13 +19,8 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk;
 
-/**
- * Class Client Clase principal que procee acceso a los servicios de API
- * @package CompropagoSdk
- */
 class Client
 {
     const VERSION="2.1.0";

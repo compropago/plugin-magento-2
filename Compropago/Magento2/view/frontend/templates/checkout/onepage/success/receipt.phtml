@@ -1,37 +1,13 @@
 <?php
 /**
- * Copyright 2016 Compropago.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * @author Rolando Lucio <rolando@compropago.com>
- * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
- */
-
-/**
  * @var \Compropago\Magento2\Block\Checkout\Onepage\Succes\Receipt $block
  */
-
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 ?>
-
 
 <div id="compropagoWrapper">
     <?php
         $compropago_id = $block->getVars();
-        if(!empty($compropago_id)){
+        if (!empty($compropago_id)) {
     ?>
 
     <div id="compropagoWrapper">
@@ -56,15 +32,15 @@ ini_set("display_errors", 1);
                 }
             }
 
-            window.onload = function(event) {
+            window.onload = function() {
                 resizeIframe();
             };
-            window.onresize = function(event) {
+            window.onresize = function() {
                 resizeIframe();
             };
         </script>
     </div>
 
-    <?php }?>
+    <?php } ?>
 </div>
 

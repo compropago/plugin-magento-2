@@ -27,106 +27,106 @@ use \Magento\Framework\DB\Ddl\Table;
 
 class InstallSchema implements InstallSchemaInterface
 {
-	public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
-	{
-		$installer = $setup;
-		$installer->startSetup();
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $installer = $setup;
+        $installer->startSetup();
 
-		// Get compropago_orders table
-		$tableName = $installer->getTable('compropago_orders');
-		// Check if the table already exists
-		if ($installer->getConnection()->isTableExists($tableName) != true) {
-			// Create compropago_orders table
-			$table = $installer->getConnection()
-			->newTable($tableName)
-			->addColumn(
-				'id',
-				Table::TYPE_INTEGER,
-				11,
-				[
-					'identity' => true,
-					'unsigned' => true,
-					'nullable' => false,
-					'primary' => true
-				],
-				'ID'
-			)
-			->addColumn(
-				'date',
-				Table::TYPE_INTEGER,
-				11,
-				['nullable' => false],
-				'Reg date'
-			)
-			->addColumn(
+        // Get compropago_orders table
+        $tableName = $installer->getTable('compropago_orders');
+        // Check if the table already exists
+        if ($installer->getConnection()->isTableExists($tableName) != true) {
+            // Create compropago_orders table
+            $table = $installer->getConnection()
+            ->newTable($tableName)
+            ->addColumn(
+                'id',
+                Table::TYPE_INTEGER,
+                11,
+                [
+                    'identity' => true,
+                    'unsigned' => true,
+                    'nullable' => false,
+                    'primary' => true
+                ],
+                'ID'
+            )
+            ->addColumn(
+                'date',
+                Table::TYPE_INTEGER,
+                11,
+                ['nullable' => false],
+                'Reg date'
+            )
+            ->addColumn(
                 'modified',
                 Table::TYPE_INTEGER,
                 11,
                 ['nullable' => false],
                 'Mod date'
-			)
-			->addColumn(
+            )
+            ->addColumn(
                 'compropagoId',
                 Table::TYPE_TEXT,
                 50,
                 ['nullable' => false, 'default' => ''],
                 'Compropago Order Id'
-			)
-			->addColumn(
+            )
+            ->addColumn(
                 'compropagoStatus',
                 Table::TYPE_TEXT,
                 50,
                 ['nullable' => false, 'default' => ''],
                 'Compropago status'
-			)
-			->addColumn(
+            )
+            ->addColumn(
                 'storeCartId',
                 Table::TYPE_TEXT,
                 255,
                 ['nullable' => false, 'default' => ''],
                 'no cart id repeat order id'
-			)
-			->addColumn(
+            )
+            ->addColumn(
                 'storeOrderId',
                 Table::TYPE_TEXT,
                 255,
                 ['nullable' => false, 'default' => ''],
                 'store order Id to save'
-			)
-			->addColumn(
+            )
+            ->addColumn(
                 'storeExtra',
                 Table::TYPE_TEXT,
                 255,
                 ['nullable' => false, 'default' => ''],
                 'store extra or Compropago flags'
-			)
-			->addColumn(
+            )
+            ->addColumn(
                 'ioIn',
                 Table::TYPE_TEXT,
                 '2M',
                 ['nullable' => false, 'default' => ''],
                 'store extra or Compropago flags'
-			)
-			->addColumn(
+            )
+            ->addColumn(
                 'ioOut',
                 Table::TYPE_TEXT,
                 '2M',
                 ['nullable' => false, 'default' => ''],
                 'store extra or Compropago flags'
-			)
-			->setComment('ComproPago Orders Table')
-			->setOption('charset', 'utf8');
+            )
+            ->setComment('ComproPago Orders Table')
+            ->setOption('charset', 'utf8');
 
-			$installer->getConnection()->createTable($table);
-		}
+            $installer->getConnection()->createTable($table);
+        }
 
 
-		$tableName = $installer->getTable('compropago_transactions');
-		if ($installer->getConnection()->isTableExists($tableName) != true) {
-			// Create compropago_transactions table
-			$table = $installer->getConnection()
-			->newTable($tableName)
-			->addColumn(
+        $tableName = $installer->getTable('compropago_transactions');
+        if ($installer->getConnection()->isTableExists($tableName) != true) {
+            // Create compropago_transactions table
+            $table = $installer->getConnection()
+            ->newTable($tableName)
+            ->addColumn(
                 'id',
                 Table::TYPE_INTEGER,
                 11,
@@ -185,9 +185,9 @@ class InstallSchema implements InstallSchemaInterface
             ->setOption('charset', 'utf8');
             
             $installer->getConnection()->createTable($table);
-		}
-		
-		// end setup
-		$installer->endSetup();
-	}
+        }
+        
+        // end setup
+        $installer->endSetup();
+    }
 }

@@ -4,7 +4,7 @@ namespace Compropago\Magento2\Model\Api\CompropagoSdk\Models;
 
 class InstructionDetails
 {
-	public $amount;
+    public $amount;
     public $store;
 
     public $payment_amount;

@@ -19,9 +19,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V11;
-
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\CpOrderInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Customer;

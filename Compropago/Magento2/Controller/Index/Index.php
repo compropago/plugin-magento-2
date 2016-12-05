@@ -19,9 +19,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Controller\Index;
-
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -29,8 +27,7 @@ use Magento\Framework\View\Result\PageFactory;
 
 class Index extends Action
 {
-    protected $_resultPageFactory;
-
+    public $resultPageFactory;
 
     /**
      * Index constructor.
@@ -39,7 +36,7 @@ class Index extends Action
      */
     public function __construct(Context $context, PageFactory $resultPageFactory)
     {
-        $this->_resultPageFactory = $resultPageFactory;
+        $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
 
@@ -48,7 +45,7 @@ class Index extends Action
      */
     public function execute()
     {
-        $resultPage = $this->_resultPageFactory->create();
+        $resultPage = $this->resultPageFactory->create();
         return $resultPage;
     }
 }

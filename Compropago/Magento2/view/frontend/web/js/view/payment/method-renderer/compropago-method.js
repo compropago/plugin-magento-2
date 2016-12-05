@@ -24,7 +24,6 @@ define(
                 return 'compropago';
             },
 
-
             /** Returns providers json */
             getCompropagoProviders: function () {
                 console.log('providers');
@@ -58,12 +57,9 @@ define(
 
                 console.log('Otro Data:' + selected);
 
-                if($("#input:radio#compropago").is(':checked')){
-                    document.cookie = "provider=" + selected;
-                    document.cookie = "payment_method=compropago";
-                }else{
-                    console.log('No es compropago');
-                }
+                document.cookie = "provider=" + selected;
+
+                console.log('====>> Cookies: '+document.cookie);
 
                 return {
                     "method": this.item.method,

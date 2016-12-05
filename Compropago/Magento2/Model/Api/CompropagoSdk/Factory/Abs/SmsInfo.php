@@ -19,29 +19,27 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs;
-
 
 abstract class SmsInfo
 {
     /**
      * @return string
      */
-    public abstract function getType();
+    protected abstract function getType();
 
     /**
      * @return string
      */
-    public abstract function getObject();
+    protected abstract function getObject();
 
     /**
      * @return string
      */
-    public abstract function getId();
+    protected abstract function getId();
 
     /**
      * @return string
      */
-    public abstract function getShortId();
+    protected abstract function getShortId();
 }

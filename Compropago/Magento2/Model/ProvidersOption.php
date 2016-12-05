@@ -19,16 +19,13 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model;
-
 
 use Magento\Framework\Option\ArrayInterface;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 
 class ProvidersOption implements ArrayInterface
 {
-
     /**
      * Return array of options as value-label pairs
      *
@@ -36,12 +33,13 @@ class ProvidersOption implements ArrayInterface
      */
     public function toOptionArray()
     {
-        $client = new Client('','',false);
+        $client = new Client('', '', false);
 
         $providers = $client->api->listProviders();
 
         $array = [];
-        foreach ($providers as $provider){
+
+        foreach ($providers as $provider) {
             $array[] = [
                 'value' => $provider->internal_name,
                 'label' => $provider->name
