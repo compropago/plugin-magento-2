@@ -51,9 +51,13 @@ class Webhook extends Template
         /**
          * Se valida el request y se transforma con la cadena a un objeto de tipo CpOrderInfo con el Factory
          */
-        if ( empty($json) || !$resp_webhook = Factory::cpOrderInfo($json) ) {
-            return 'Tipo de Request no Valido';
+        if (empty($json)) {
+            return 'Tipo de request no valido: Informacion vacia.';
         }
+
+        /*if ( !$resp_webhook = Factory::cpOrderInfo($json) ) {
+            return 'Tipo de Request no Valido: Error de parseo';
+        }*/
 
         /**
          * Gurdamos la informacion necesaria para el Cliente
@@ -93,7 +97,7 @@ class Webhook extends Template
         /**
          * Verificamos si recivimos una peticion de prueba
          */
-        if ( $resp_webhook->getId() == "ch_00000-000-0000-000000" ) {
+        if ( $json->id == "ch_00000-000-0000-000000" ) {
 
             return "Probando el WebHook?, Ruta correcta.";
         }
@@ -102,7 +106,7 @@ class Webhook extends Template
             /**
              * Verificamos la informacion del Webhook recivido
              */
-            $response = $client->api->verifyOrder( $resp_webhook->getId() );
+            $response = $client->api->verifyOrder( $json->id );
 
             /**
              * Comprovamos que la verificacion fue exitosa
