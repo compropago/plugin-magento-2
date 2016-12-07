@@ -19,44 +19,42 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs;
-
 
 abstract class FeeDetails
 {
     /**
      * @return string
      */
-    public abstract function getAmount();
+    protected abstract function getAmount();
 
     /**
      * @return string
      */
-    public abstract function getCurrency();
+    protected abstract function getCurrency();
 
     /**
      * @return string
      */
-    public abstract function getType();
+    protected abstract function getType();
 
     /**
      * @return string
      */
-    public abstract function getDescription();
+    protected abstract function getDescription();
 
     /**
      * @return string
      */
-    public abstract function getApplication();
+    protected abstract function getApplication();
 
     /**
      * @return double
      */
-    public abstract function getAmountRefunded();
+    protected abstract function getAmountRefunded();
 
     /**
      * @return string
      */
-    public abstract function getTax();
+    protected abstract function getTax();
 }

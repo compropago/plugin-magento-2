@@ -19,9 +19,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V10;
-
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\CpOrderInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Customer;
@@ -102,7 +100,7 @@ class CpOrderInfo10 extends CpOrderInfo
     }
 
     /**
-     * @return \CompropagoSdk\Factory\Abs\FeeDetails
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\FeeDetails
      */
     public function getFeeDetails()
     {
@@ -110,7 +108,7 @@ class CpOrderInfo10 extends CpOrderInfo
     }
 
     /**
-     * @return \CompropagoSdk\Factory\Abs\OrderInfo
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\OrderInfo
      */
     public function getOrderInfo()
     {
@@ -130,7 +128,7 @@ class CpOrderInfo10 extends CpOrderInfo
     }
 
     /**
-     * @return \CompropagoSdk\Models\Customer
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Models\Customer
      */
     public function getCustomer()
     {

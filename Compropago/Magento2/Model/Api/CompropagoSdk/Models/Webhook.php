@@ -19,9 +19,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Models;
-
 
 class Webhook
 {
@@ -30,5 +28,7 @@ class Webhook
     public $mode;
     public $status;
 
-    public function __constructor(){}
+    public function __constructor()
+    {
+    }
 }

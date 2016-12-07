@@ -19,9 +19,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Json;
-
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V10\CpOrderInfo10;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V10\NewOrderInfo10;
@@ -31,10 +29,6 @@ use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V11\NewOrderInfo11;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V11\SmsInfo11;
 
 
-/**
- * Class Serialize Clase que convierte estandariza las diferentes respuestas en objetos similares
- * @package CompropagoSdk\Factory\Json
- */
 class Serialize
 {
 
@@ -167,18 +161,53 @@ class Serialize
         $res->payment_instructions->note_expiration_date = $obj->payment_instructions->note_expiration_date;
         $res->payment_instructions->note_confirmation    = $obj->payment_instructions->note_confirmation;
 
-        $res->payment_instructions->details->amount                   = isset($obj->payment_instructions->details->amount) ? $obj->payment_instructions->details->amount : null ;
-        $res->payment_instructions->details->store                    = isset($obj->payment_instructions->details->store) ? $obj->payment_instructions->details->store : null ;
-        $res->payment_instructions->details->payment_amount           = isset($obj->payment_instructions->details->payment_amount) ? $obj->payment_instructions->details->payment_amount : null ;
-        $res->payment_instructions->details->payment_store            = isset($obj->payment_instructions->details->payment_store) ? $obj->payment_instructions->details->payment_store : null ;
-        $res->payment_instructions->details->bank_account_holder_name = isset($obj->payment_instructions->details->bank_account_holder_name) ? $obj->payment_instructions->details->bank_account_holder_name : null ;
-        #$res->payment_instructions->details->bank_account_number      = isset($obj->payment_instructions->details->bank_account_number) ? $obj->payment_instructions->details->bank_account_number : null ;
-        $res->payment_instructions->details->bank_reference           = isset($obj->payment_instructions->details->bank_reference) ? $obj->payment_instructions->details->bank_reference : null ;
-        $res->payment_instructions->details->company_reference_name   = isset($obj->payment_instructions->details->company_reference_name) ? $obj->payment_instructions->details->company_reference_name : null ;
-        $res->payment_instructions->details->company_reference_number = isset($obj->payment_instructions->details->company_reference_number) ? $obj->payment_instructions->details->company_reference_number : null ;
-        $res->payment_instructions->details->order_reference_number   = isset($obj->payment_instructions->details->order_reference_number) ? $obj->payment_instructions->details->order_reference_number : null ;
-        $res->payment_instructions->details->bank_name                = isset($obj->payment_instructions->details->bank_name) ? $obj->payment_instructions->details->bank_name : null ;
-        $res->payment_instructions->details->company_bank_number      = isset($obj->payment_instructions->details->company_bank_number) ? $obj->payment_instructions->details->company_bank_number : null ;
+        $res->payment_instructions->details->amount =
+            isset($obj->payment_instructions->details->amount) ?
+                $obj->payment_instructions->details->amount : null ;
+
+        $res->payment_instructions->details->store =
+            isset($obj->payment_instructions->details->store) ?
+                $obj->payment_instructions->details->store : null ;
+
+        $res->payment_instructions->details->payment_amount =
+            isset($obj->payment_instructions->details->payment_amount) ?
+                $obj->payment_instructions->details->payment_amount : null ;
+
+        $res->payment_instructions->details->payment_store =
+            isset($obj->payment_instructions->details->payment_store) ?
+                $obj->payment_instructions->details->payment_store : null ;
+
+        $res->payment_instructions->details->bank_account_holder_name =
+            isset($obj->payment_instructions->details->bank_account_holder_name) ?
+                $obj->payment_instructions->details->bank_account_holder_name : null ;
+
+        $res->payment_instructions->details->bank_account_number =
+            isset($obj->payment_instructions->details->bank_account_number) ?
+                $obj->payment_instructions->details->bank_account_number : null ;
+
+        $res->payment_instructions->details->bank_reference =
+            isset($obj->payment_instructions->details->bank_reference) ?
+                $obj->payment_instructions->details->bank_reference : null ;
+
+        $res->payment_instructions->details->company_reference_name =
+            isset($obj->payment_instructions->details->company_reference_name) ?
+                $obj->payment_instructions->details->company_reference_name : null ;
+
+        $res->payment_instructions->details->company_reference_number =
+            isset($obj->payment_instructions->details->company_reference_number) ?
+                $obj->payment_instructions->details->company_reference_number : null ;
+
+        $res->payment_instructions->details->order_reference_number =
+            isset($obj->payment_instructions->details->order_reference_number) ?
+                $obj->payment_instructions->details->order_reference_number : null ;
+
+        $res->payment_instructions->details->bank_name =
+            isset($obj->payment_instructions->details->bank_name) ?
+                $obj->payment_instructions->details->bank_name : null ;
+
+        $res->payment_instructions->details->company_bank_number =
+            isset($obj->payment_instructions->details->company_bank_number) ?
+                $obj->payment_instructions->details->company_bank_number : null ;
 
         return $res;
     }
@@ -220,18 +249,53 @@ class Serialize
         $res->instructions->note_expiration_date = $obj->instructions->note_expiration_date;
         $res->instructions->note_confirmation    = $obj->instructions->note_confirmation;
 
-        $res->instructions->details->amount                   = isset($obj->instructions->details->amount) ? $obj->instructions->details->amount : null ;
-        $res->instructions->details->store                    = isset($obj->instructions->details->store) ? $obj->instructions->details->store : null ;
-        $res->instructions->details->payment_amount           = isset($obj->instructions->details->payment_amount) ? $obj->instructions->details->payment_amount : null ;
-        $res->instructions->details->payment_store            = isset($obj->instructions->details->payment_store) ? $obj->instructions->details->payment_store : null ;
-        $res->instructions->details->bank_account_holder_name = isset($obj->instructions->details->bank_account_holder_name) ? $obj->instructions->details->bank_account_holder_name : null ;
-        $res->instructions->details->bank_account_number      = isset($obj->instructions->details->bank_account_number) ? $obj->instructions->details->bank_account_number : null ;
-        $res->instructions->details->bank_reference           = isset($obj->instructions->details->bank_reference) ? $obj->instructions->details->bank_reference : null ;
-        $res->instructions->details->company_reference_name   = isset($obj->instructions->details->company_reference_name) ? $obj->instructions->details->company_reference_name : null ;
-        $res->instructions->details->company_reference_number = isset($obj->instructions->details->company_reference_number) ? $obj->instructions->details->company_reference_number : null ;
-        $res->instructions->details->order_reference_number   = isset($obj->instructions->details->order_reference_number) ? $obj->instructions->details->order_reference_number : null ;
-        $res->instructions->details->bank_name                = isset($obj->instructions->details->bank_name) ? $obj->instructions->details->bank_name : null ;
-        $res->instructions->details->company_bank_number      = isset($obj->instructions->details->company_bank_number) ? $obj->instructions->details->company_bank_number : null ;
+        $res->instructions->details->amount =
+            isset($obj->instructions->details->amount) ?
+                $obj->instructions->details->amount : null ;
+
+        $res->instructions->details->store =
+            isset($obj->instructions->details->store) ?
+                $obj->instructions->details->store : null ;
+
+        $res->instructions->details->payment_amount =
+            isset($obj->instructions->details->payment_amount) ?
+                $obj->instructions->details->payment_amount : null ;
+
+        $res->instructions->details->payment_store =
+            isset($obj->instructions->details->payment_store) ?
+                $obj->instructions->details->payment_store : null ;
+
+        $res->instructions->details->bank_account_holder_name =
+            isset($obj->instructions->details->bank_account_holder_name) ?
+                $obj->instructions->details->bank_account_holder_name : null ;
+
+        $res->instructions->details->bank_account_number =
+            isset($obj->instructions->details->bank_account_number) ?
+                $obj->instructions->details->bank_account_number : null ;
+
+        $res->instructions->details->bank_reference =
+            isset($obj->instructions->details->bank_reference) ?
+                $obj->instructions->details->bank_reference : null ;
+
+        $res->instructions->details->company_reference_name =
+            isset($obj->instructions->details->company_reference_name) ?
+                $obj->instructions->details->company_reference_name : null ;
+
+        $res->instructions->details->company_reference_number =
+            isset($obj->instructions->details->company_reference_number) ?
+                $obj->instructions->details->company_reference_number : null ;
+
+        $res->instructions->details->order_reference_number =
+            isset($obj->instructions->details->order_reference_number) ?
+                $obj->instructions->details->order_reference_number : null ;
+
+        $res->instructions->details->bank_name =
+            isset($obj->instructions->details->bank_name) ?
+                $obj->instructions->details->bank_name : null ;
+
+        $res->instructions->details->company_bank_number =
+            isset($obj->instructions->details->company_bank_number) ?
+                $obj->instructions->details->company_bank_number : null ;
 
         return $res;
     }

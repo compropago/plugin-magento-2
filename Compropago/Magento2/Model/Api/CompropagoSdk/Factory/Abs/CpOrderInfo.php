@@ -19,94 +19,92 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs;
-
 
 abstract class CpOrderInfo
 {
     /**
      * @return string
      */
-    public abstract function getId();
+    protected abstract function getId();
 
     /**
      * @return string
      */
-    public abstract function getType();
+    protected abstract function getType();
 
     /**
      * @return string
      */
-    public abstract function getCreated();
+    protected abstract function getCreated();
 
     /**
      * @return bool
      */
-    public abstract function getPaid();
+    protected abstract function getPaid();
 
     /**
      * @return string
      */
-    public abstract function getAmount();
+    protected abstract function getAmount();
 
     /**
      * @return string
      */
-    public abstract function getCurrency();
+    protected abstract function getCurrency();
 
     /**
      * @return bool
      */
-    public abstract function getRefunded();
+    protected abstract function getRefunded();
 
     /**
      * @return string
      */
-    public abstract function getFee();
+    protected abstract function getFee();
 
     /**
-     * @return \CompropagoSdk\Factory\Abs\FeeDetails
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\FeeDetails
      */
-    public abstract function getFeeDetails();
+    protected abstract function getFeeDetails();
 
     /**
-     * @return \CompropagoSdk\Factory\Abs\OrderInfo
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\OrderInfo
      */
-    public abstract function getOrderInfo();
+    protected abstract function getOrderInfo();
 
     /**
-     * @return \CompropagoSdk\Models\Customer
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Models\Customer
      */
-    public abstract function getCustomer();
-
-    /**
-     * @return string
-     */
-    public abstract function getCaptured();
+    protected abstract function getCustomer();
 
     /**
      * @return string
      */
-    public abstract function getFailureMessage();
+    protected abstract function getCaptured();
 
     /**
      * @return string
      */
-    public abstract function getFailureCode();
+    protected abstract function getFailureMessage();
+
+    /**
+     * @return string
+     */
+    protected abstract function getFailureCode();
 
     /**
      * @return double
      */
-    public abstract function getAmountRefunded();
+    protected abstract function getAmountRefunded();
 
     /**
      * @return string
      */
-    public abstract function getDescription();
+    protected abstract function getDescription();
 
     /**
      * @return string
      */
-    public abstract function getDispute();
+    protected abstract function getDispute();
 }

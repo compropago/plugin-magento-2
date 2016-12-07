@@ -19,38 +19,30 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Tools;
-
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
 
-
-/**
- * Class Validations Contiene las validaciones generales para el uso de los servicios
- * @package CompropagoSdk\Tools
- */
 class Validations
 {
-
     /**
      * Evalua que el cliente pueda autentificarse correctamente
      *
      * @param Client $client
-     * @return \CompropagoSdk\Models\EvalAuthInfo
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Models\EvalAuthInfo
      * @throws \Exception
      */
-    public static function evalAuth( Client $client )
+    public static function evalAuth(Client $client)
     {
         $response = Rest::get($client->getUri()."users/auth/", $client->getFullAuth());
         $info = Factory::evalAuthInfo($response);
 
-        switch($info->code){
+        switch ($info->code) {
             case '200':
                 return $info;
             default:
-                throw new \Exception("CODE {$info->getCode()}: ".$info->getMessage(),$info->getCode());
+                throw new \Exception("CODE {$info->code}: ".$info->message, $info->code);
         }
     }
 
@@ -61,9 +53,9 @@ class Validations
      * @return bool
      * @throws \Exception
      */
-    public static function validateGateway( Client $client )
+    public static function validateGateway(Client $client)
     {
-        if(empty($client)){
+        if (empty($client)) {
             throw new \Exception("El objecto Client no es valido");
         }
 
@@ -71,15 +63,15 @@ class Validations
 
         $authinfo = self::evalAuth($client);
 
-        if($authinfo->mode_key != $authinfo->livemode){
+        if ($authinfo->mode_key != $authinfo->livemode) {
             throw new \Exception("Las llaves no corresponden a modo de la tienda");
         }
 
-        if($clientMode != $authinfo->livemode){
+        if ($clientMode != $authinfo->livemode) {
             throw new \Exception("El modo del cliente no corresponde al de la tienda");
         }
 
-        if($clientMode != $authinfo->mode_key){
+        if ($clientMode != $authinfo->mode_key) {
             throw new \Exception("El modo del cliente no corresponde al de las llaves");
         }
 

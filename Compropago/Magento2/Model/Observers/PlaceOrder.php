@@ -2,7 +2,6 @@
 
 namespace Compropago\Magento2\Model\Observers;
 
-
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
@@ -10,30 +9,11 @@ use Compropago\Magento2\Model\Api\CompropagoSdk\Models\PlaceOrderInfo;
 
 class PlaceOrder implements ObserverInterface
 {
-
-    /**
-     * @var \Magento\Framework\Message\ManagerInterface
-     */
     private $messageManager;
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
     private $storeManager;
-    /**
-     * @var \Compropago\Magento2\Model\Payment
-     */
     private $model;
-    /**
-     * @var \Magento\Framework\Session\Generic
-     */
     private $sessionManager;
-    /**
-     * @var \Magento\Framework\App\ProductMetadataInterface
-     */
     private $metada;
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
     private $checSession;
 
     public function __construct(
@@ -45,7 +25,6 @@ class PlaceOrder implements ObserverInterface
         \Compropago\Magento2\Model\Payment $model
     )
     {
-
         $this->messageManager  = $messageManager;
         $this->storeManager    = $storeManager;
         $this->model           = $model;
@@ -61,7 +40,7 @@ class PlaceOrder implements ObserverInterface
     {
         $order = $this->checSession->getLastRealOrder();
 
-        if($order->getPayment()->getMethod() == 'compropago'){
+        if ($order->getPayment()->getMethod() == 'compropago') {
             $dataorder = new PlaceOrderInfo(
                 $order->getRealOrderId(),
                 $order->getRealOrderId(),
@@ -74,7 +53,7 @@ class PlaceOrder implements ObserverInterface
                 $this->metada->getVersion()
             );
 
-            try{
+            try {
                 $client = new Client(
                     $this->model->getPublicKey(),
                     $this->model->getPrivateKey(),
@@ -84,7 +63,7 @@ class PlaceOrder implements ObserverInterface
                 $response = $client->api->placeOrder($dataorder);
 
                 $this->checSession->setCompropagoId($response->getId());
-            }catch(\Exception $e){
+            } catch(\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
         }

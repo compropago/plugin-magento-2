@@ -19,14 +19,8 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Tools;
 
-
-/**
- * Class Http Crea llamas Http para el consumo de servicios
- * @package CompropagoSdk\Tools
- */
 class Http
 {
     /**
@@ -85,7 +79,7 @@ class Http
      */
     public static function setPostFields(&$ch, $fields="")
     {
-        if(!empty($fields)) {
+        if ( !empty($fields) ) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
         }
     }
@@ -112,7 +106,7 @@ class Http
     {
         $response = curl_exec($ch);
 
-        if(empty($response)){
+        if ( empty( $response ) ) {
             $code = curl_errno($ch);
 
             if ($code == 60 || $code == 77) {
@@ -120,7 +114,7 @@ class Http
                 $response = curl_exec($ch);
             }
 
-            if(empty($response)){
+            if ( empty( $response ) ) {
                 $error = curl_error($ch);
                 $code = curl_errno($ch);
                 throw new \Exception($error, $code);

@@ -19,15 +19,10 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Models;
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 
-/**
- * Class PlaceOrderInfo informacion de nuevas ordenes
- * @package CompropagoSdk\Models
- */
 class PlaceOrderInfo
 {
     public $order_id;
@@ -41,15 +36,15 @@ class PlaceOrderInfo
     public $app_client_version;
 
     public function __construct(
-        $order_id, 
-        $order_name, 
-        $order_price, 
-        $customer_name, 
-        $customer_email, 
-        $payment_type="OXXO", 
-        $image_url=null, 
-        $app_client_name="phpsdk", 
-        $app_client_version=Client::VERSION
+        $order_id,
+        $order_name,
+        $order_price,
+        $customer_name,
+        $customer_email,
+        $payment_type = "OXXO",
+        $image_url = null,
+        $app_client_name = "phpsdk",
+        $app_client_version = Client::VERSION
     )
     {
         $this->order_id           = $order_id;

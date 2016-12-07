@@ -19,30 +19,17 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Observers;
-
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 
-
 class WebhookRegister implements ObserverInterface
 {
-
-    /**
-     * @var \Magento\Framework\Message\ManagerInterface
-     */
     private $messageManager;
-    /**
-     * @var \Compropago\Magento2\Model\Payment
-     */
     private $model;
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
     private $storeManager;
 
     public function __construct(
@@ -56,15 +43,11 @@ class WebhookRegister implements ObserverInterface
         $this->storeManager = $storeManager;
     }
 
-    /**
-     * @param Observer $observer
-     * @return void
-     */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $webhook = $this->storeManager->getStore()->getBaseUrl() . "cpwebhook/";
 
-        try{
+        try {
             $client = new Client(
                 $this->model->getPublicKey(),
                 $this->model->getPrivateKey(),
@@ -79,10 +62,10 @@ class WebhookRegister implements ObserverInterface
                 $this->model->getConfigData('active') == 1
             );
 
-            if($response[0]){
+            if ($response[0]) {
                 $this->messageManager->addNotice("ComproPago: {$response[1]}");
             }
-        }catch(\Exception $e){
+        } catch(\Exception $e) {
             $this->messageManager->addError("ComproPago: {$e->getMessage()}");
         }
     }

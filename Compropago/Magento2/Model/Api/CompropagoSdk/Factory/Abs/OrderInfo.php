@@ -19,52 +19,47 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs;
 
-/**
- * Class OrderInfo
- * @package CompropagoSdk\Factory\Abs
- */
 abstract class OrderInfo
 {
     /**
      * @return string
      */
-    public abstract function getOrderId();
+    protected abstract function getOrderId();
 
     /**
      * @return string
      */
-    public abstract function getOrderPrice();
+    protected abstract function getOrderPrice();
 
     /**
      * @return string
      */
-    public abstract function getOrderName();
+    protected abstract function getOrderName();
 
     /**
      * @return string
      */
-    public abstract function getPaymentMethod();
+    protected abstract function getPaymentMethod();
 
     /**
      * @return string
      */
-    public abstract function getStore();
+    protected abstract function getStore();
 
     /**
      * @return string
      */
-    public abstract function getCountry();
+    protected abstract function getCountry();
 
     /**
      * @return string
      */
-    public abstract function getImageUrl();
+    protected abstract function getImageUrl();
 
     /**
      * @return string
      */
-    public abstract function getSuccessUrl();
+    protected abstract function getSuccessUrl();
 }

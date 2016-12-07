@@ -19,9 +19,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V10;
-
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\FeeDetails;
 
@@ -91,6 +89,6 @@ class FeeDetails10 extends FeeDetails
      */
     public function getTax()
     {
-        return null;
+        return "";
     }
 }

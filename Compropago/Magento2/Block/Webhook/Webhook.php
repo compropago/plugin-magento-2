@@ -21,9 +21,6 @@
 
 namespace Compropago\Magento2\Block\Webhook;
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 use Magento\Framework\View\Element\Template;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
@@ -31,17 +28,8 @@ use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
 
 class Webhook extends Template
 {
-    /**
-     * @var \Compropago\Magento2\Model\Payment
-     */
     private $model;
-    /**
-     * @var \Magento\Sales\Model\Order
-     */
     private $orderManager;
-    /**
-     * @var \Magento\Framework\App\Resource
-     */
     private $resource;
 
     public function __construct(
@@ -58,136 +46,125 @@ class Webhook extends Template
         $this->resource     = $resourceConnection;
     }
 
-
     public function procesWebhook($json = null)
-	{
+    {
+        /**
+         * Se valida el request y se transforma con la cadena a un objeto de tipo CpOrderInfo con el Factory
+         */
+        if (empty($json)) {
+            return 'Tipo de request no valido: Informacion vacia.';
+        }
 
-		/**
-		 * Se valida el request y se transforma con la cadena a un objeto de tipo CpOrderInfo con el Factory
-		 */
-		if(empty($json) || !$resp_webhook = Factory::cpOrderInfo($json)){
-			return 'Tipo de Request no Valido';
-		}
+        /*if ( !$resp_webhook = Factory::cpOrderInfo($json) ) {
+            return 'Tipo de Request no Valido: Error de parseo';
+        }*/
 
+        /**
+         * Gurdamos la informacion necesaria para el Cliente
+         * las llaves de compropago y el modo de ejecucion de la tienda
+         */
+        $publickey     = $this->model->getPublicKey();
+        $privatekey    = $this->model->getPrivateKey();
+        $live          = $this->model->getLiveMode(); // si es modo pruebas cambiar por 'false'
 
-		/**
-		 * Gurdamos la informacion necesaria para el Cliente
-		 * las llaves de compropago y el modo de ejecucion de la tienda
-		 */
-		$publickey     = $this->model->getPublicKey();
-		$privatekey    = $this->model->getPrivateKey();
-		$live          = $this->model->getLiveMode(); // si es modo pruebas cambiar por 'false'
+        /**
+         * Se valida que las llaves no esten vacias (No es obligatorio pero si recomendado)
+         */
+        //keys set?
+        if ( empty($publickey) || empty($privatekey) ) {
+            return "Se requieren las llaves de compropago";
+        }
 
+        try{
+            /**
+             * Se incializa el cliente
+             */
+            $client = new Client(
+                $publickey,
+                $privatekey,
+                $live
+            );
 
-		/**
-		 * Se valida que las llaves no esten vacias (No es obligatorio pero si recomendado)
-		 */
-		//keys set?
-		if (empty($publickey) || empty($privatekey)){
-			return "Se requieren las llaves de compropago";
-		}
+            /**
+             * Validamos que nuestro cliente pueda procesar informacion
+             */
+            Validations::validateGateway($client);
+        }catch (\Throwable $e) {
+            //something went wrong at sdk lvl
+            return $e->getMessage();
+        }
 
+        /**
+         * Verificamos si recivimos una peticion de prueba
+         */
+        if ( $json->id == "ch_00000-000-0000-000000" ) {
 
+            return "Probando el WebHook?, Ruta correcta.";
+        }
 
+        try{
+            /**
+             * Verificamos la informacion del Webhook recivido
+             */
+            $response = $client->api->verifyOrder( $json->id );
 
-
-		try{
-			/**
-			 * Se incializa el cliente
-			 */
-			$client = new Client(
-				$publickey,
-				$privatekey,
-				$live
-			);
-
-			/**
-			 * Validamos que nuestro cliente pueda procesar informacion
-			 */
-			Validations::validateGateway($client);
-		}catch (\Throwable $e) {
-			//something went wrong at sdk lvl
-			return $e->getMessage();
-		}
-
-
-		/**
-		 * Verificamos si recivimos una peticion de prueba
-		 */
-		if($resp_webhook->getId()=="ch_00000-000-0000-000000"){
-
-			return "Probando el WebHook?, Ruta correcta.";
-		}
-
-
-
-		try{
-			/**
-			 * Verificamos la informacion del Webhook recivido
-			 */
-			$response = $client->api->verifyOrder($resp_webhook->getId());
-
-
-			/**
-			 * Comprovamos que la verificacion fue exitosa
-			 */
-			if($response->getType() == 'error'){
-				return 'Error procesando el número de orden';
-			}
-
+            /**
+             * Comprovamos que la verificacion fue exitosa
+             */
+            if ($response->getType() == 'error') {
+                return 'Error procesando el número de orden';
+            }
 
             $table_name      = $this->resource->getTableName('sales_order');
             $table_grid_name = $this->resource->getTableName('sales_order_grid');
             $connection      = $this->resource->getConnection();
 
-
-            $this->orderManager->loadByIncrementId($response->getOrderInfo()->getOrderId());
+            $this->orderManager->loadByIncrementId( $response->getOrderInfo()->getOrderId() );
 
             $entity_id = $this->orderManager->getEntityId();
 
-			/**
-			 * Generamos las rutinas correspondientes para cada uno de los casos posible del webhook
-			 */
-			switch ($response->getType()){
-				case 'charge.success':
-					$this->orderManager->setState('processing');
+            /**
+             * Generamos las rutinas correspondientes para cada uno de los casos posible del webhook
+             */
+            switch ( $response->getType() ) {
+                case 'charge.success':
+                    $this->orderManager->setState('processing');
                     $status = 'processing';
-
-					break;
-				case 'charge.pending':
+                    break;
+                case 'charge.pending':
                     $this->orderManager->setState('pending_payment');
                     $status = 'pending_payment';
-					break;
-				case 'charge.declined':
+                    break;
+                case 'charge.declined':
                     $this->orderManager->setState('canceled');
                     $status = 'canceled';
-					break;
-				case 'charge.expired':
+                    break;
+                case 'charge.expired':
                     $this->orderManager->setState('canceled');
                     $status = 'canceled';
-					break;
-				case 'charge.deleted':
+                    break;
+                case 'charge.deleted':
                     $this->orderManager->setState('canceled');
                     $status = 'canceled';
-					break;
-				case 'charge.canceled':
+                    break;
+                case 'charge.canceled':
                     $this->orderManager->setState('canceled');
                     $status = 'canceled';
-					break;
-				default:
-					return 'Invalid Response type';
-			}
+                    break;
+                default:
+                    return 'Invalid Response type';
+            }
 
-			$query = "UPDATE $table_name SET state = '$status', status = '$status' WHERE entity_id = $entity_id";
-			$connection->query($query);
+            $query = "UPDATE $table_name SET state = '$status', status = '$status' WHERE entity_id = $entity_id";
+            $connection->query($query);
 
             $query = "UPDATE $table_grid_name SET status = '$status' WHERE entity_id = $entity_id";
             $connection->query($query);
- 
-		}catch (\Exception $e){
-			//something went wrong at sdk lvl
-			return $e->getMessage();
-		}
 
-	}
+            return "success";
+        }catch (\Exception $e){
+            //something went wrong at sdk lvl
+            return $e->getMessage();
+        }
+    }
 }

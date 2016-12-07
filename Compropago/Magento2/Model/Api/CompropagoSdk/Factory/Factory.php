@@ -19,42 +19,21 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory;
 
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\CpOrderInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\EvalAuthInfo;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\NewOrderInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Json\Serialize;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Webhook;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Provider;
 
-/**
- * Class Factory
- * @package CompropagoSdk\Factory
- */
 class Factory
 {
-    /**
-     * Verifica la version de la respuesta de una peticion
-     *
-     * @param $source       string Cadena Json con el contenido de la respuesta
-     * @return string
-     */
     private static function verifyVersion($source)
     {
         $obj = json_decode($source);
         return isset($obj->api_version) ? $obj->api_version : null;
     }
 
-
-    /**
-     * Constructor de objetos EvalOutInfo
-     *
-     * @param $source               string Cadena Json con el contenido a construir como objeto
-     * @return \CompropagoSdk\Models\EvalAuthInfo
-     * @throws \Exception
-     */
     public static function evalAuthInfo($source)
     {
         $res = new EvalAuthInfo();
@@ -69,24 +48,17 @@ class Factory
         return $res;
     }
 
-    /**
-     * Construye un arreglo de Objetos tipo \CompropagoSdk\Models\Provider
-     *
-     * @param $source   string Cadena Json con el contenido a construir
-     * @throws \Exception
-     * @return array
-     */
     public static function arrayProviders($source)
     {
         $jsonObj= json_decode($source);
 
-        if(isset($jsonObj->type) && $jsonObj->type == "error"){
+        if (isset($jsonObj->type) && $jsonObj->type == "error") {
             throw new \Exception($jsonObj->message, $jsonObj->code);
         }
 
         $res = array();
 
-        foreach($jsonObj as $val){
+        foreach ($jsonObj as $val) {
             $provider = new Provider();
 
             $provider->name = $val->name;
@@ -105,14 +77,9 @@ class Factory
         return $res;
     }
 
-    /**
-     * @param $source
-     * @return CpOrderInfo
-     * @throws \Exception
-     */
     public static function cpOrderInfo($source)
     {
-        switch(self::verifyVersion($source)){
+        switch ( self::verifyVersion($source) ) {
             case '1.1':
                 return Serialize::cpOrderInfo11($source);
             default:
@@ -120,14 +87,9 @@ class Factory
         }
     }
 
-    /**
-     * @param $source
-     * @return NewOrderInfo
-     * @throws \Exception
-     */
     public static function newOrderInfo($source)
     {
-        switch(self::verifyVersion($source)){
+        switch ( self::verifyVersion($source) ) {
             case '1.1':
                 return Serialize::newOrderInfo11($source);
             default:
@@ -135,30 +97,20 @@ class Factory
         }
     }
 
-    /**
-     * @param $source
-     * @return Abs\SmsInfo
-     * @throws \Exception
-     */
     public static function smsInfo($source)
     {
-        if(array_key_exists('payment', json_decode($source))){
+        if ( array_key_exists('payment', json_decode($source)) ) {
             return Serialize::smsInfo10($source);
-        }else{
+        } else {
             return Serialize::smsInfo11($source);
         }
     }
 
-    /**
-     * @param $source
-     * @return Webhook
-     * @throws \Exception
-     */
     public static function webhook($source)
     {
         $json = json_decode($source);
         
-        if(isset($json->type) && $json->type == 'error'){
+        if (isset($json->type) && $json->type == 'error') {
             throw new \Exception($json->message, $json->code);
         }
         
@@ -172,16 +124,11 @@ class Factory
         return $object;
     }
 
-    /**
-     * @param $source
-     * @return array
-     * @throws \Exception
-     */
     public static function listWebhooks($source)
     {
         $final = array();
 
-        foreach (json_decode($source,true) as $value){
+        foreach (json_decode($source,true) as $value) {
             $final[] = self::webhook(json_encode($value));
         }
 

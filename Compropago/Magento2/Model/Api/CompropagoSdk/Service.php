@@ -19,7 +19,6 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk;
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
@@ -27,10 +26,6 @@ use Compropago\Magento2\Model\Api\CompropagoSdk\Models\PlaceOrderInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Rest;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
 
-/**
- * Class Service Provee de los servicios necesarios para el manejo de la API de ComproPago
- * @package CompropagoSdk
- */
 class Service
 {
     private $client;
@@ -57,27 +52,27 @@ class Service
      */
     public function listProviders($auth = false, $limit = 0, $fetch = false)
     {
-        if($auth){
+        if ($auth) {
             $uri = $this->client->getUri()."providers";
             $keys = $this->client->getFullAuth();
-        }else{
+        } else {
             $uri = $this->client->getUri()."providers/true";
             $keys = "";
         }
 
-        if(is_numeric($limit) && $limit > 0){
+        if (is_numeric($limit) && $limit > 0) {
             $uri .= "?order_total=$limit";
         }
 
-        if(is_bool($fetch) && $fetch){
-            if(is_numeric($limit) && $limit > 0){
+        if (is_bool($fetch) && $fetch) {
+            if (is_numeric($limit) && $limit > 0) {
                 $uri .= "&fetch=true";
-            }else{
+            } else {
                 $uri .= "?fetch=true";
             }
         }
 
-        $response = Rest::get($uri,$keys,$this->headers);
+        $response = Rest::get($uri, $keys, $this->headers);
         $providers = Factory::arrayProviders($response);
 
         return $providers;
@@ -85,14 +80,14 @@ class Service
 
     /**
      * @param $orderId
-     * @return \CompropagoSdk\Factory\Abs\CpOrderInfo
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\CpOrderInfo
      * @throws \Exception
      */
     public function verifyOrder( $orderId )
     {
         Validations::validateGateway($this->client);
 
-        $response = Rest::get($this->client->getUri()."charges/$orderId/",$this->client->getAuth(),$this->headers);
+        $response = Rest::get($this->client->getUri()."charges/$orderId/", $this->client->getAuth(), $this->headers);
         $obj = Factory::cpOrderInfo($response);
 
         return $obj;
@@ -100,7 +95,7 @@ class Service
 
     /**
      * @param PlaceOrderInfo $neworder
-     * @return \CompropagoSdk\Factory\Abs\NewOrderInfo
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\NewOrderInfo
      * @throws \Exception
      */
     public function placeOrder(PlaceOrderInfo $neworder)
@@ -117,7 +112,12 @@ class Service
             "&app_client_name=".$neworder->app_client_name.
             "&app_client_version=".$neworder->app_client_version;
 
-        $response = Rest::post($this->client->getUri()."charges/",$this->client->getAuth(),$params,$this->headers);
+        $response = Rest::post(
+            $this->client->getUri()."charges/",
+            $this->client->getAuth(),
+            $params,
+            $this->headers
+        );
 
         $obj = Factory::newOrderInfo($response);
 
@@ -127,7 +127,7 @@ class Service
     /**
      * @param $number
      * @param $orderId
-     * @return \CompropagoSdk\Factory\Abs\SmsInfo
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\SmsInfo
      * @throws \Exception
      */
     public function sendSmsInstructions($number,$orderId)
@@ -136,8 +136,13 @@ class Service
 
         $params = "customer_phone=".$number;
 
-        $response= Rest::post($this->client->getUri()."charges/".$orderId."/sms/",$this->client->getAuth(),$params,
-            $this->headers);
+        $response= Rest::post(
+            $this->client->getUri()."charges/".$orderId."/sms/",
+            $this->client->getAuth(),
+            $params,
+            $this->headers
+        );
+
         $obj = Factory::smsInfo($response);
 
         return $obj;
@@ -154,8 +159,13 @@ class Service
 
         $params = "url=".$url;
 
-        $response = Rest::post($this->client->getUri()."webhooks/stores/", $this->client->getFullAuth(), $params,
-            $this->headers);
+        $response = Rest::post(
+            $this->client->getUri()."webhooks/stores/",
+            $this->client->getFullAuth(),
+            $params,
+            $this->headers
+        );
+
         $obj = Factory::webhook($response);
 
         return $obj;
@@ -169,8 +179,12 @@ class Service
     {
         Validations::validateGateway($this->client);
 
-        $response = Rest::get($this->client->getUri()."webhooks/stores/",$this->client->getFullAuth(),
-            $this->headers);
+        $response = Rest::get(
+            $this->client->getUri()."webhooks/stores/",
+            $this->client->getFullAuth(),
+            $this->headers
+        );
+
         $obj = Factory::listWebhooks($response);
 
         return $obj;
@@ -188,8 +202,12 @@ class Service
 
         $params = "url=".$url;
 
-        $response = Rest::put($this->client->getUri()."webhooks/stores/$webhookId/", $this->client->getFullAuth(),
-            $params, $this->headers);
+        $response = Rest::put(
+            $this->client->getUri()."webhooks/stores/$webhookId/",
+            $this->client->getFullAuth(),
+            $params,
+            $this->headers
+        );
 
         $obj = Factory::webhook($response);
 
@@ -205,8 +223,12 @@ class Service
     {
         Validations::validateGateway($this->client);
 
-        $response=Rest::delete($this->client->getUri()."webhooks/stores/$webhookId/", $this->client->getFullAuth(),
-            null,$this->headers);
+        $response = Rest::delete(
+            $this->client->getUri()."webhooks/stores/$webhookId/",
+            $this->client->getFullAuth(),
+            null,
+            $this->headers
+        );
 
         $obj = Factory::webhook($response);
 
@@ -226,28 +248,28 @@ class Service
             '',
             'yes'
         );
-        if($enabled){
-            if(!empty($this->client->getPublickey()) && !empty($this->client->getPrivatekey()) ){
-                try{
+        if ($enabled) {
+            if ( !empty($this->client->getPublickey()) && !empty($this->client->getPrivatekey()) ) {
+                try {
                     $compropagoResponse = Validations::evalAuth($this->client);
                     //eval keys
-                    if(!Validations::validateGateway($this->client)){
+                    if ( !Validations::validateGateway($this->client) ) {
                         $error[1] = 'Invalid Keys, The Public Key and Private Key must be valid before using this module.';
                         $error[0] = true;
-                    }else{
-                        if($compropagoResponse->mode_key != $compropagoResponse->livemode){
+                    } else {
+                        if ($compropagoResponse->mode_key != $compropagoResponse->livemode) {
                             $error[1] = 'Your Keys and Your ComproPago account are set to different Modes.';
                             $error[0] = true;
-                        }else{
-                            if($this->client->getMode() != $compropagoResponse->livemode){
+                        } else {
+                            if ($this->client->getMode() != $compropagoResponse->livemode) {
                                 $error[1] = 'Your Store and Your ComproPago account are set to different Modes.';
                                 $error[0] = true;
-                            }else{
-                                if($this->client->getMode() != $compropagoResponse->mode_key){
+                            } else {
+                                if ($this->client->getMode() != $compropagoResponse->mode_key) {
                                     $error[1] = 'Your keys are for a different Mode.';
                                     $error[0] = true;
-                                }else{
-                                    if(!$compropagoResponse->mode_key && !$compropagoResponse->livemode){
+                                } else {
+                                    if (!$compropagoResponse->mode_key && !$compropagoResponse->livemode) {
                                         $error[1] = 'Account is running in TEST mode, NO REAL OPERATIONS';
                                         $error[0] = true;
                                     }
@@ -255,17 +277,17 @@ class Service
                             }
                         }
                     }
-                }catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $error[2] = 'no';
                     $error[1] = $e->getMessage();
                     $error[0] = true;
                 }
-            }else{
+            } else {
                 $error[1] = 'The Public Key and Private Key must be set before using';
                 $error[2] = 'no';
                 $error[0] = true;
             }
-        }else{
+        } else {
             $error[1] = 'The module is not enable';
             $error[2] = 'no';
             $error[0] = true;

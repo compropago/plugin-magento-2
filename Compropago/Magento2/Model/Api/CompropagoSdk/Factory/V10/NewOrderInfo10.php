@@ -19,9 +19,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\V10;
-
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\FeeDetails;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Models\Instructions;

@@ -19,14 +19,8 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Tools;
 
-
-/**
- * Class Rest Proporciona los metodos de conexion
- * @package CompropagoSdk\Tools
- */
 class Rest
 {
     /**
@@ -73,9 +67,9 @@ class Rest
 
         $response = Http::execHttp($ch);
 
-        if(empty($response)){
+        if ( empty($response) ) {
             throw new \Exception("Respuesta vacia");
-        }else{
+        } else {
             return $response;
         }
     }
@@ -98,9 +92,9 @@ class Rest
 
         $response = Http::execHttp($ch);
 
-        if(empty($response)){
+        if (empty($response)) {
             throw new \Exception("Respuesta vacia");
-        }else{
+        } else {
             return $response;
         }
     }
@@ -119,7 +113,7 @@ class Rest
         Http::setMethod($ch, 'DELETE');
         Http::setAuth($ch, $auth);
 
-        if(!empty($data)) {
+        if (!empty($data)) {
             Http::setPostFields($ch, $data);
         }
 
@@ -127,9 +121,9 @@ class Rest
 
         $response = Http::execHttp($ch);
 
-        if(empty($response)){
+        if (empty($response)) {
             throw new \Exception("Respuesta vacia");
-        }else{
+        } else {
             return $response;
         }
     }
