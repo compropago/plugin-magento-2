@@ -1,244 +1,172 @@
 <?php
-/**
- * Copyright 2015 Compropago.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Compropago php-sdk
- * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
- */
 
 namespace Compropago\Magento2\Model\Api\CompropagoSdk;
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Models\PlaceOrderInfo;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Rest;
+use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\PlaceOrderInfo;
+use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Request;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
+
 
 class Service
 {
     private $client;
-    private $headers;
-    
-    /**
-     * Service constructor.
-     * @param Client $client
-     */
+
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->headers = array(
-            'useragent: '.$client->getContained()
-        );
     }
 
     /**
      * @param bool $auth
      * @param int $limit
-     * @param bool $fetch
+     * @param string $currency
      * @return array
-     * @throws \Exception
      */
-    public function listProviders($auth = false, $limit = 0, $fetch = false)
+    public function listProviders($auth = false, $limit = 0, $currency='MXN')
     {
         if ($auth) {
-            $uri = $this->client->getUri()."providers";
-            $keys = $this->client->getFullAuth();
+            $url = $this->client->deployUri.'providers/';
+            $keys = ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()];
         } else {
-            $uri = $this->client->getUri()."providers/true";
-            $keys = "";
+            $url = $this->client->deployUri.'providers/true/';
+            $keys = [];
         }
-
-        if (is_numeric($limit) && $limit > 0) {
-            $uri .= "?order_total=$limit";
+        if ($limit > 0) {
+            $url .= '?order_total='.$limit;
         }
-
-        if (is_bool($fetch) && $fetch) {
-            if (is_numeric($limit) && $limit > 0) {
-                $uri .= "&fetch=true";
-            } else {
-                $uri .= "?fetch=true";
-            }
+        if ($limit > 0 && !empty($currency) && $currency != 'MXN') {
+            $url .= '&currency='.$currency;
         }
-
-        $response = Rest::get($uri, $keys, $this->headers);
-        $providers = Factory::arrayProviders($response);
-
-        return $providers;
+        $response = Request::get($url, $keys);
+        return Factory::getInstanceOf('ListProviders', $response);
     }
 
     /**
      * @param $orderId
-     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\CpOrderInfo
-     * @throws \Exception
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\CpOrderInfo
      */
     public function verifyOrder( $orderId )
     {
-        Validations::validateGateway($this->client);
+        $response = Request::get(
+            $this->client->deployUri.'charges/'.$orderId.'/',
+            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
+        );
 
-        $response = Rest::get($this->client->getUri()."charges/$orderId/", $this->client->getAuth(), $this->headers);
-        $obj = Factory::cpOrderInfo($response);
-
-        return $obj;
+        return Factory::getInstanceOf('CpOrderInfo', $response);
     }
 
     /**
      * @param PlaceOrderInfo $neworder
-     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\NewOrderInfo
-     * @throws \Exception
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\NewOrderInfo
      */
     public function placeOrder(PlaceOrderInfo $neworder)
     {
-        Validations::validateGateway($this->client);
+        $params = [
+            'order_id' => $neworder->order_id,
+            'order_name' => $neworder->order_name,
+            'order_price' => $neworder->order_price,
+            'customer_name' => $neworder->customer_name,
+            'customer_email' => $neworder->customer_email,
+            'payment_type' => $neworder->payment_type,
+            'currency' => $neworder->currency,
+            'image_url' => $neworder->image_url,
+            'app_client_name' => $neworder->app_client_name,
+            'app_client_version' => $neworder->app_client_version
+        ];
 
-        $params = "order_id=".$neworder->order_id.
-            "&order_name=".$neworder->order_name.
-            "&order_price=".$neworder->order_price.
-            "&customer_name=".$neworder->customer_name.
-            "&customer_email=".$neworder->customer_email.
-            "&payment_type=".$neworder->payment_type.
-            "&image_url=".$neworder->image_url.
-            "&app_client_name=".$neworder->app_client_name.
-            "&app_client_version=".$neworder->app_client_version;
-
-        $response = Rest::post(
-            $this->client->getUri()."charges/",
-            $this->client->getAuth(),
+        $response = Request::post(
+            $this->client->deployUri.'charges/',
             $params,
-            $this->headers
+            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
         );
 
-        $obj = Factory::newOrderInfo($response);
-
-        return $obj;
+        return Factory::getInstanceOf('NewOrderInfo', $response);
     }
 
     /**
      * @param $number
      * @param $orderId
-     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Abs\SmsInfo
-     * @throws \Exception
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\SmsInfo
      */
     public function sendSmsInstructions($number,$orderId)
     {
-        Validations::validateGateway($this->client);
+        $params = ['customer_phone' => $number];
 
-        $params = "customer_phone=".$number;
-
-        $response= Rest::post(
-            $this->client->getUri()."charges/".$orderId."/sms/",
-            $this->client->getAuth(),
+        $response = Request::post(
+            $this->client->deployUri.'charges/'.$orderId.'/sms/',
             $params,
-            $this->headers
+            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
         );
 
-        $obj = Factory::smsInfo($response);
-
-        return $obj;
+        return Factory::getInstanceOf('SmsInfo', $response);
     }
 
     /**
      * @param $url
-     * @return Models\Webhook
-     * @throws \Exception
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\Webhook
      */
     public function createWebhook($url)
     {
-        Validations::validateGateway($this->client);
+        $params = ['url' => $url];
 
-        $params = "url=".$url;
-
-        $response = Rest::post(
-            $this->client->getUri()."webhooks/stores/",
-            $this->client->getFullAuth(),
+        $response = Request::post(
+            $this->client->deployUri.'webhooks/stores/',
             $params,
-            $this->headers
+            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
         );
 
-        $obj = Factory::webhook($response);
-
-        return $obj;
+        return Factory::getInstanceOf('Webhook', $response);
     }
 
     /**
      * @return array
-     * @throws \Exception
      */
     public function listWebhooks()
     {
-        Validations::validateGateway($this->client);
-
-        $response = Rest::get(
-            $this->client->getUri()."webhooks/stores/",
-            $this->client->getFullAuth(),
-            $this->headers
+        $response = Request::get(
+            $this->client->deployUri.'webhooks/stores/',
+            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
         );
 
-        $obj = Factory::listWebhooks($response);
-
-        return $obj;
+        return Factory::getInstanceOf('ListWebhooks', $response);
     }
 
     /**
      * @param $webhookId
      * @param $url
-     * @return Models\Webhook
-     * @throws \Exception
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\Webhook
      */
     public function updateWebhook($webhookId, $url)
     {
-        Validations::validateGateway($this->client);
+        $params = ['url' => $url];
 
-        $params = "url=".$url;
-
-        $response = Rest::put(
-            $this->client->getUri()."webhooks/stores/$webhookId/",
-            $this->client->getFullAuth(),
+        $response = Request::put(
+            $this->client->deployUri.'webhooks/stores/'.$webhookId.'/',
             $params,
-            $this->headers
+            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
         );
 
-        $obj = Factory::webhook($response);
-
-        return $obj;
+        return Factory::getInstanceOf('Webhook', $response);
     }
 
     /**
      * @param $webhookId
-     * @return Models\Webhook
-     * @throws \Exception
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\Webhook
      */
     public function deleteWebhook($webhookId)
     {
-        Validations::validateGateway($this->client);
-
-        $response = Rest::delete(
-            $this->client->getUri()."webhooks/stores/$webhookId/",
-            $this->client->getFullAuth(),
+        $response = Request::delete(
+            $this->client->deployUri.'webhooks/stores/'.$webhookId.'/',
             null,
-            $this->headers
+            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
         );
 
-        $obj = Factory::webhook($response);
-
-        return $obj;
+        return Factory::getInstanceOf('Webhook', $response);
     }
 
     /**
-     * Despliegue de retroalimentacion en el panel de administración
-     *
-     * @param bool   $enabled
+     * @param bool $enabled
      * @return array
      */
     public function hookRetro($enabled = true)
@@ -249,7 +177,7 @@ class Service
             'yes'
         );
         if ($enabled) {
-            if ( !empty($this->client->getPublickey()) && !empty($this->client->getPrivatekey()) ) {
+            if ( !empty($this->client->publickey) && !empty($this->client->privatekey) ) {
                 try {
                     $compropagoResponse = Validations::evalAuth($this->client);
                     //eval keys
@@ -261,11 +189,11 @@ class Service
                             $error[1] = 'Your Keys and Your ComproPago account are set to different Modes.';
                             $error[0] = true;
                         } else {
-                            if ($this->client->getMode() != $compropagoResponse->livemode) {
+                            if ($this->client->live != $compropagoResponse->livemode) {
                                 $error[1] = 'Your Store and Your ComproPago account are set to different Modes.';
                                 $error[0] = true;
                             } else {
-                                if ($this->client->getMode() != $compropagoResponse->mode_key) {
+                                if ($this->client->live != $compropagoResponse->mode_key) {
                                     $error[1] = 'Your keys are for a different Mode.';
                                     $error[0] = true;
                                 } else {
@@ -294,4 +222,5 @@ class Service
         }
         return $error;
     }
+
 }

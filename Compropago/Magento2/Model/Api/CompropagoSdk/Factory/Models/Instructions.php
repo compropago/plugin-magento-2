@@ -1,10 +1,10 @@
 <?php
 
-namespace Compropago\Magento2\Model\Api\CompropagoSdk\Models;
+namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models;
 
 class Instructions
 {
-    public $description;
+	public $description;
     public $step_1;
     public $step_2;
     public $step_3;
@@ -15,6 +15,6 @@ class Instructions
 
     public function __construct()
     {
-        $this->details = new InstructionDetails();
+    	$this->details = new InstructionDetails();
     }
 }

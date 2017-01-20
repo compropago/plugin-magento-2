@@ -55,9 +55,9 @@ class Webhook extends Template
             return 'Tipo de request no valido: Informacion vacia.';
         }
 
-        /*if ( !$resp_webhook = Factory::cpOrderInfo($json) ) {
+        if ( !$resp_webhook = Factory::getInstanceOf('CpOrderInfo', $json) ) {
             return 'Tipo de Request no Valido: Error de parseo';
-        }*/
+        }
 
         /**
          * Gurdamos la informacion necesaria para el Cliente
@@ -79,17 +79,13 @@ class Webhook extends Template
             /**
              * Se incializa el cliente
              */
-            $client = new Client(
-                $publickey,
-                $privatekey,
-                $live
-            );
+            $client = new Client($publickey, $privatekey, $live);
 
             /**
              * Validamos que nuestro cliente pueda procesar informacion
              */
             Validations::validateGateway($client);
-        }catch (\Throwable $e) {
+        }catch (\Exception $e) {
             //something went wrong at sdk lvl
             return $e->getMessage();
         }
@@ -97,8 +93,7 @@ class Webhook extends Template
         /**
          * Verificamos si recivimos una peticion de prueba
          */
-        if ( $json->id == "ch_00000-000-0000-000000" ) {
-
+        if ( $resp_webhook->id == "ch_00000-000-0000-000000" ) {
             return "Probando el WebHook?, Ruta correcta.";
         }
 
@@ -106,12 +101,12 @@ class Webhook extends Template
             /**
              * Verificamos la informacion del Webhook recivido
              */
-            $response = $client->api->verifyOrder( $json->id );
+            $response = $client->api->verifyOrder( $resp_webhook->id );
 
             /**
              * Comprovamos que la verificacion fue exitosa
              */
-            if ($response->getType() == 'error') {
+            if ($response->type == 'error') {
                 return 'Error procesando el número de orden';
             }
 
@@ -119,14 +114,14 @@ class Webhook extends Template
             $table_grid_name = $this->resource->getTableName('sales_order_grid');
             $connection      = $this->resource->getConnection();
 
-            $this->orderManager->loadByIncrementId( $response->getOrderInfo()->getOrderId() );
+            $this->orderManager->loadByIncrementId( $response->order_info->order_id );
 
             $entity_id = $this->orderManager->getEntityId();
 
             /**
              * Generamos las rutinas correspondientes para cada uno de los casos posible del webhook
              */
-            switch ( $response->getType() ) {
+            switch ( $response->type ) {
                 case 'charge.success':
                     $this->orderManager->setState('processing');
                     $status = 'processing';

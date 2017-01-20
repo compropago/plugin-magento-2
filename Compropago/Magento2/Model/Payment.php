@@ -28,12 +28,12 @@ namespace Compropago\Magento2\Model;
 class Payment extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const CODE = 'compropago';
-    
+
     public $_isOffline  = true;
     public $_isGateway  = true;
     public $_canCapture = true;
-    
-    public $_supportedCurrencyCodes = ['USD','MXN'];
+
+    public $_supportedCurrencyCodes = ['USD','MXN','GBP','EUR'];
 
     public function getCode()
     {
@@ -54,7 +54,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     {
         return ($this->getConfigData('live_mode')=='1')? true : false;
     }
-   
+
     public function getShowLogos()
     {
         return $this->getConfigData('showlogos');
