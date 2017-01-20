@@ -84,7 +84,7 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
 7. Borrar el caché de magento con el siguiente comando:
 
    ```bash
-   bin/magento chache:flush
+   bin/magento cache:flush
    ```
 
 
@@ -119,7 +119,3 @@ Información sobre Horarios y Comisiones, como Transferir tu dinero y la Segurid
 * WebHooks
 * Librerías y Plugins
 * Shopify
-
-[Magento-Connect]: https://github.com/compropago/plugin-magento-2/releases/tag/1.1.0
-[Compropago-Panel]: https://compropago.com/panel/configuracion
-[Compropago-Webhooks]: https://compropago.com/panel/webhooks
