@@ -21,7 +21,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="compropago" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="compropago" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>ComproPago Payment Method</label>
                 <comment>
                     <![CDATA[<a href="https://compropago.com/" target="_blank">Sign up for ComproPago account</a>]]>
@@ -38,7 +38,7 @@
                 </field>
                 <field id="private_key" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Private Key</label>
-                </field>	
+                </field>
                 <field id="live_mode" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Live Mode</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -75,7 +75,7 @@
                 </field>
                 <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Maximum Order Total</label>
-                    <comment>Leave empty to disable limit</comment> 
+                    <comment>Leave empty to disable limit</comment>
                 </field>
             </group>
         </section>

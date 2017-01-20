@@ -1,6 +1,12 @@
 <?php
 $response = file_get_contents('php://input');
 
-$obj = json_decode($response);
+try {
+  $output = $this->procesWebhook($response);
 
-die($this->procesWebhook($obj));
+  die($output);
+} catch(\Exception $e) {
+  die($e->getMessage());
+}
+
+
