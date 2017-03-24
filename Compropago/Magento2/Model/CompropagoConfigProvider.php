@@ -5,6 +5,9 @@
 
 namespace Compropago\Magento2\Model;
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 
@@ -70,7 +73,11 @@ class CompropagoConfigProvider implements ConfigProviderInterface
             }
         }
 
-        return $final;
+        if (empty($final)) {
+            return 0;
+        } else {
+            return $final;
+        }
     }
 
     public function getGrandTotal()
