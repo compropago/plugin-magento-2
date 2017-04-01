@@ -3,7 +3,7 @@ Plugin para Magento >= 2.0.5 - ComproPago
 
 ## Descripción
 Este módulo provee el servicio de ComproPago para poder generar órdenes de pago dentro de la plataforma de e-commerce Magento.
-Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo México.
+Con ComproPago puedes recibir pagos en 7Eleven, Extra y más tiendas en todo México.
 
 
 [Registrarse en ComproPago](https://compropago.com)
