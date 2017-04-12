@@ -33,20 +33,6 @@ class ProvidersOption implements ArrayInterface
      */
     public function toOptionArray()
     {
-        // $client = new Client('', '', false);
-
-        // $providers = $client->api->listProviders();
-
-        // $array = [];
-
-        // foreach ($providers as $provider) {
-        //     $array[] = [
-        //         'value' => $provider->internal_name,
-        //         'label' => $provider->name
-        //     ];
-        // }
-
-        // return $array;
         $options = array();
         $client = new Client('', '', false);
         $flag = false;
@@ -55,7 +41,6 @@ class ProvidersOption implements ArrayInterface
                 'value' => $provider->internal_name,
                 'label' => $provider->name
             );
-
             if ($provider->internal_name == "OXXO") { $flag = true; }
         }
         if (!$flag) {
