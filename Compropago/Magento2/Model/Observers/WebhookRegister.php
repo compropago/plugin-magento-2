@@ -1,23 +1,4 @@
 <?php
-/**
- * Copyright 2015 Compropago.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Compropago $Library
- * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
- */
 
 namespace Compropago\Magento2\Model\Observers;
 
@@ -26,12 +7,22 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 
+
 class WebhookRegister implements ObserverInterface
 {
     private $messageManager;
     private $model;
     private $storeManager;
 
+    /**
+     * WebhookRegister constructor.
+     *
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Compropago\Magento2\Model\Payment $model
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     public function __construct(
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -43,30 +34,37 @@ class WebhookRegister implements ObserverInterface
         $this->storeManager = $storeManager;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    /**
+     * Event for the observer
+     *
+     * @param Observer $observer
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
+    public function execute(Observer $observer)
     {
         $webhook = $this->storeManager->getStore()->getBaseUrl() . "cpwebhook/";
 
+        $client = new Client(
+            $this->model->getPublicKey(),
+            $this->model->getPrivateKey(),
+            $this->model->getLiveMode()
+        );
+
         try {
-            $client = new Client(
-                $this->model->getPublicKey(),
-                $this->model->getPrivateKey(),
-                $this->model->getLiveMode()
-            );
-
             Validations::validateGateway($client);
-
             $client->api->createWebhook($webhook);
-
-            $response = $client->api->hookRetro(
-                $this->model->getConfigData('active') == 1
-            );
-
-            if ($response[0]) {
-                $this->messageManager->addNotice("ComproPago: {$response[1]}");
-            }
         } catch(\Exception $e) {
             $this->messageManager->addError("ComproPago: {$e->getMessage()}");
+        }
+
+        $response = $this->model->hookRetro(
+            $client,
+            $this->model->getConfigData('active') == 1
+        );
+
+        if ($response[0]) {
+            $this->messageManager->addNotice("ComproPago: {$response[1]}");
         }
     }
 }

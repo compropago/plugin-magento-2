@@ -36,19 +36,23 @@ class ProvidersOption implements ArrayInterface
         $options = array();
         $client = new Client('', '', false);
         $flag = false;
-        foreach ($client->api->listProviders() as $provider){
+
+        foreach ($client->api->listDefaultProviders() as $provider){
             $options[] = array(
                 'value' => $provider->internal_name,
                 'label' => $provider->name
             );
+
             if ($provider->internal_name == "OXXO") { $flag = true; }
         }
+
         if (!$flag) {
             $options[] = [
                 'value' => "OXXO",
                 'label' => "Oxxo"
             ];
         }
+
         return $options;
     }
 }
