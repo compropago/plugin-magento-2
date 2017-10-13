@@ -2,6 +2,7 @@
 
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models;
 
+
 class Customer
 {
     public $customer_name;

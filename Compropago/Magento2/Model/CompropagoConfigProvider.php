@@ -18,6 +18,16 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     private $checSession;
     private $storeManager;
 
+    /**
+     * CompropagoConfigProvider constructor.
+     *
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Checkout\Model\Session $checSession
+     * @param Payment $instance
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     public function __construct(
         \Magento\Framework\Escaper $escaper,
         \Magento\Checkout\Model\Session $checSession,
@@ -30,6 +40,13 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         $this->storeManager = $storeManager;
     }
 
+    /**
+     * Config for front framework
+     *
+     * @return array
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     public function getConfig()
     {
         return $this->method->isAvailable() ? [
@@ -42,11 +59,25 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         ] : [];
     }
 
+    /**
+     * Verify if store logos will be show
+     *
+     * @return mixed
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     protected function getShowLogos()
     {
         return $this->method->getShowLogos();
     }
 
+    /**
+     * Return List of providers
+     *
+     * @return array|int
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     protected function getProviders()
     {
         $client = new Client(
@@ -80,6 +111,13 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         }
     }
 
+    /**
+     * Obtain grand total for the current order
+     *
+     * @return float
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     public function getGrandTotal()
     {
         return (float)$this->checSession->getQuote()->getGrandTotal();

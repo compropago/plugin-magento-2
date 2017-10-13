@@ -3,64 +3,109 @@
 namespace Compropago\Magento2\Model\Api\CompropagoSdk;
 
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\PlaceOrderInfo;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Request;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
 
-
+/**
+ * Class Service
+ * @package CompropagoSdk
+ *
+ * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+ */
 class Service
 {
     private $client;
 
+    /**
+     * Service constructor.
+     *
+     * @param Client $client
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
     /**
-     * @param bool $auth
-     * @param int $limit
-     * @param string $currency
+     * Get auth info
+     *
      * @return array
+     * 
+     * @author Eduardo Aguilar <dante.aguilar@gmail.com>
      */
-    public function listProviders($auth = false, $limit = 0, $currency='MXN')
+    private function getAuth()
     {
-        if ($auth) {
-            $url = $this->client->deployUri.'providers/';
-            $keys = ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()];
-        } else {
-            $url = $this->client->deployUri.'providers/true/';
-            $keys = [];
-        }
-        if ($limit > 0) {
-            $url .= '?order_total='.$limit;
-        }
-        if ($limit > 0 && !empty($currency) && $currency != 'MXN') {
-            $url .= '&currency='.$currency;
-        }
-        $response = Request::get($url, $keys);
+        return [
+            "user" => $this->client->getUser(),
+            "pass" => $this->client->getPass()
+        ];
+    }
+
+    /**
+     * Get default Providers
+     *
+     * @return array
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
+    public function listDefaultProviders()
+    {
+        $url = $this->client->deployUri . 'providers/true';
+        $response = Request::get($url);
+
         return Factory::getInstanceOf('ListProviders', $response);
     }
 
     /**
-     * @param $orderId
-     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\CpOrderInfo
+     * Get list providers by account
+     *
+     * @param float $limit
+     * @param string $currency
+     * @return array
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
-    public function verifyOrder( $orderId )
+    public function listProviders($limit = 0.0, $currency='MXN')
     {
-        $response = Request::get(
-            $this->client->deployUri.'charges/'.$orderId.'/',
-            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
-        );
+        $url = $this->client->deployUri . 'providers/';
 
+        if ($limit > 0) {
+            $url .= '?order_total='.$limit;
+        }
+
+        if ($limit > 0 && !empty($currency) && $currency != 'MXN') {
+            $url .= '&currency='.$currency;
+        }
+
+        $response = Request::get($url, $this->getAuth());
+
+        return Factory::getInstanceOf('ListProviders', $response);
+    }
+
+    /**
+     * Get info of an order
+     *
+     * @param string $orderId
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\CpOrderInfo
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
+    public function verifyOrder($orderId)
+    {
+        $response = Request::get($this->client->deployUri.'charges/'.$orderId.'/', $this->getAuth());
         return Factory::getInstanceOf('CpOrderInfo', $response);
     }
 
     /**
-     * @param PlaceOrderInfo $neworder
+     * Create new order
+     *
+     * @param \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\PlaceOrderInfo $neworder
      * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\NewOrderInfo
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
-    public function placeOrder(PlaceOrderInfo $neworder)
+    public function placeOrder($neworder)
     {
         $params = [
             'order_id' => $neworder->order_id,
@@ -70,157 +115,110 @@ class Service
             'customer_email' => $neworder->customer_email,
             'payment_type' => $neworder->payment_type,
             'currency' => $neworder->currency,
+            'expiration_time' => $neworder->expiration_time,
             'image_url' => $neworder->image_url,
             'app_client_name' => $neworder->app_client_name,
-            'app_client_version' => $neworder->app_client_version
+            'app_client_version' => $neworder->app_client_version,        
         ];
 
-        $response = Request::post(
-            $this->client->deployUri.'charges/',
-            $params,
-            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
-        );
-
+        $response = Request::post($this->client->deployUri.'charges/', $params, $this->getAuth());
         return Factory::getInstanceOf('NewOrderInfo', $response);
     }
 
     /**
-     * @param $number
-     * @param $orderId
+     * Send SMS instructions for an order
+     *
+     * @param string $number
+     * @param string $orderId
      * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\SmsInfo
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function sendSmsInstructions($number,$orderId)
     {
         $params = ['customer_phone' => $number];
 
-        $response = Request::post(
-            $this->client->deployUri.'charges/'.$orderId.'/sms/',
-            $params,
-            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
-        );
-
+        $response = Request::post($this->client->deployUri.'charges/'.$orderId.'/sms/', $params, $this->getAuth());
         return Factory::getInstanceOf('SmsInfo', $response);
     }
 
     /**
-     * @param $url
+     * Create new webhook Url
+     *
+     * @param string $url
      * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\Webhook
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function createWebhook($url)
     {
         $params = ['url' => $url];
 
-        $response = Request::post(
-            $this->client->deployUri.'webhooks/stores/',
-            $params,
-            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
-        );
-
+        $response = Request::post($this->client->deployUri.'webhooks/stores/', $params, $this->getAuth());
         return Factory::getInstanceOf('Webhook', $response);
     }
 
     /**
+     * Get list of webhooks
+     *
      * @return array
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function listWebhooks()
     {
-        $response = Request::get(
-            $this->client->deployUri.'webhooks/stores/',
-            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
-        );
-
+        $response = Request::get($this->client->deployUri.'webhooks/stores/', $this->getAuth());
         return Factory::getInstanceOf('ListWebhooks', $response);
     }
 
     /**
-     * @param $webhookId
-     * @param $url
+     * Update a webhook url
+     *
+     * @param string $webhookId
+     * @param string $url
+     * @param string $type (secondary | primary)
      * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\Webhook
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
-    public function updateWebhook($webhookId, $url)
+    public function updateWebhook($webhookId, $url=null, $type=null)
     {
-        $params = ['url' => $url];
+        $params = [
+            'url' => $url,
+            'webhookType' => $type
+        ];
 
-        $response = Request::put(
-            $this->client->deployUri.'webhooks/stores/'.$webhookId.'/',
-            $params,
-            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
-        );
-
+        $response = Request::put($this->client->deployUri.'webhooks/stores/'.$webhookId.'/', $params, $this->getAuth());
         return Factory::getInstanceOf('Webhook', $response);
     }
 
     /**
-     * @param $webhookId
+     * Deactive a webhook URL
+     *
+     * @param string $webhookId
      * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\Webhook
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
+    public function deactiveWebhook($webhookId)
+    {
+        $url = $this->client->deployUri.'webhooks/stores/'.$webhookId.'/deactive';
+
+        $response = Request::delete($url, null, $this->getAuth());
+        return Factory::getInstanceOf('Webhook', $response);
+    }
+
+    /**
+     * Delete a webhook URL
+     *
+     * @param string $webhookId
+     * @return \Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models\Webhook
+     * 
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function deleteWebhook($webhookId)
     {
-        $response = Request::delete(
-            $this->client->deployUri.'webhooks/stores/'.$webhookId.'/',
-            null,
-            ['user' => $this->client->getUser(), 'pass' => $this->client->getPass()]
-        );
-
+        $response = Request::delete($this->client->deployUri.'webhooks/stores/'.$webhookId.'/', null, $this->getAuth());
         return Factory::getInstanceOf('Webhook', $response);
     }
-
-    /**
-     * @param bool $enabled
-     * @return array
-     */
-    public function hookRetro($enabled = true)
-    {
-        $error = array(
-            false,
-            '',
-            'yes'
-        );
-        if ($enabled) {
-            if ( !empty($this->client->publickey) && !empty($this->client->privatekey) ) {
-                try {
-                    $compropagoResponse = Validations::evalAuth($this->client);
-                    //eval keys
-                    if ( !Validations::validateGateway($this->client) ) {
-                        $error[1] = 'Invalid Keys, The Public Key and Private Key must be valid before using this module.';
-                        $error[0] = true;
-                    } else {
-                        if ($compropagoResponse->mode_key != $compropagoResponse->livemode) {
-                            $error[1] = 'Your Keys and Your ComproPago account are set to different Modes.';
-                            $error[0] = true;
-                        } else {
-                            if ($this->client->live != $compropagoResponse->livemode) {
-                                $error[1] = 'Your Store and Your ComproPago account are set to different Modes.';
-                                $error[0] = true;
-                            } else {
-                                if ($this->client->live != $compropagoResponse->mode_key) {
-                                    $error[1] = 'Your keys are for a different Mode.';
-                                    $error[0] = true;
-                                } else {
-                                    if (!$compropagoResponse->mode_key && !$compropagoResponse->livemode) {
-                                        $error[1] = 'Account is running in TEST mode, NO REAL OPERATIONS';
-                                        $error[0] = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (\Exception $e) {
-                    $error[2] = 'no';
-                    $error[1] = $e->getMessage();
-                    $error[0] = true;
-                }
-            } else {
-                $error[1] = 'The Public Key and Private Key must be set before using';
-                $error[2] = 'no';
-                $error[0] = true;
-            }
-        } else {
-            $error[1] = 'The module is not enable';
-            $error[2] = 'no';
-            $error[0] = true;
-        }
-        return $error;
-    }
-
 }
