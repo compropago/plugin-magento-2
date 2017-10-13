@@ -2,6 +2,7 @@
 
 namespace Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Models;
 
+
 class EvalAuthInfo
 {
     public $type;
@@ -9,5 +10,4 @@ class EvalAuthInfo
     public $mode_key;
     public $message;
     public $code;
-
 }

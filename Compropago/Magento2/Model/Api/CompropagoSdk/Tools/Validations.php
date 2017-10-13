@@ -5,9 +5,23 @@ namespace Compropago\Magento2\Model\Api\CompropagoSdk\Tools;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
 
-
+/**
+ * Class Validations
+ * @package CompropagoSdk\Tools
+ *
+ * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+ */
 class Validations
 {
+    /**
+     * Eval credentials of the configuration in Client
+     *
+     * @param Client $client
+     * @return mixed
+     * @throws \Exception
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com
+     */
     public static function evalAuth( Client $client )
     {
         $response = Request::get(
@@ -25,6 +39,15 @@ class Validations
         }
     }
 
+    /**
+     * Validate if the credentias has some error
+     *
+     * @param Client $client
+     * @return bool
+     * @throws \Exception
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     public static function validateGateway( Client $client )
     {
         if(empty($client)){

@@ -1,27 +1,11 @@
 <?php
-/**
- * Copyright 2015 Compropago.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Compropago $Library
- * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
- */
 
 namespace Compropago\Magento2\Block\Webhook;
 
+use Magento\Sales\Model\Order;
+use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\View\Element\Template;
+use Compropago\Magento2\Model\Payment;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
 use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
@@ -32,11 +16,22 @@ class Webhook extends Template
     private $orderManager;
     private $resource;
 
+    /**
+     * Webhook constructor.
+     *
+     * @param Template\Context $context
+     * @param Payment $model
+     * @param Order $orderManager
+     * @param ResourceConnection $resourceConnection
+     * @param array $data
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
     public function __construct(
         Template\Context $context,
-        \Compropago\Magento2\Model\Payment $model,
-        \Magento\Sales\Model\Order $orderManager,
-        \Magento\Framework\App\ResourceConnection $resourceConnection,
+        Payment $model,
+        Order $orderManager,
+        ResourceConnection $resourceConnection,
         array $data = []
     )
     {
@@ -48,66 +43,68 @@ class Webhook extends Template
 
     public function procesWebhook($json = null)
     {
-        /**
-         * Se valida el request y se transforma con la cadena a un objeto de tipo CpOrderInfo con el Factory
-         */
         if (empty($json)) {
-            return 'Tipo de request no valido: Informacion vacia.';
+            return json_encode([
+                'status' => 'error',
+                'message' => 'invalid request',
+                'short_id' => null,
+                'reference' => null
+            ]);
         }
 
-        if ( !$resp_webhook = Factory::getInstanceOf('CpOrderInfo', $json) ) {
-            return 'Tipo de Request no Valido: Error de parseo';
+        if (!$resp_webhook = Factory::getInstanceOf('CpOrderInfo', $json)) {
+            return json_encode([
+                'status' => 'error',
+                'message' => 'invalid request',
+                'short_id' => null,
+                'reference' => null
+            ]);
         }
 
-        /**
-         * Gurdamos la informacion necesaria para el Cliente
-         * las llaves de compropago y el modo de ejecucion de la tienda
-         */
         $publickey     = $this->model->getPublicKey();
         $privatekey    = $this->model->getPrivateKey();
-        $live          = $this->model->getLiveMode(); // si es modo pruebas cambiar por 'false'
+        $live          = $this->model->getLiveMode();
 
-        /**
-         * Se valida que las llaves no esten vacias (No es obligatorio pero si recomendado)
-         */
-        //keys set?
         if ( empty($publickey) || empty($privatekey) ) {
-            return "Se requieren las llaves de compropago";
+            return json_encode([
+                'status' => 'error',
+                'message' => 'ivalid compropago keys',
+                'short_id' => null,
+                'reference' => null
+            ]);
         }
 
         try{
-            /**
-             * Se incializa el cliente
-             */
             $client = new Client($publickey, $privatekey, $live);
-
-            /**
-             * Validamos que nuestro cliente pueda procesar informacion
-             */
             Validations::validateGateway($client);
         }catch (\Exception $e) {
-            //something went wrong at sdk lvl
-            return $e->getMessage();
+            return json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'short_id' => null,
+                'reference' => null
+            ]);
         }
 
-        /**
-         * Verificamos si recivimos una peticion de prueba
-         */
-        if ( $resp_webhook->id == "ch_00000-000-0000-000000" ) {
-            return "Probando el WebHook?, Ruta correcta.";
+        if ( $resp_webhook->short_id == '000000' ) {
+            return json_encode([
+                'status' => 'success',
+                'message' => 'OK - test',
+                'short_id' => $resp_webhook->short_id,
+                'reference' => $resp_webhook->order_info->order_id
+            ]);
         }
 
         try{
-            /**
-             * Verificamos la informacion del Webhook recivido
-             */
             $response = $client->api->verifyOrder( $resp_webhook->id );
 
-            /**
-             * Comprovamos que la verificacion fue exitosa
-             */
             if ($response->type == 'error') {
-                return 'Error procesando el número de orden';
+                return json_encode([
+                    'status' => 'error',
+                    'message' => 'verify order failed',
+                    'short_id' => $resp_webhook->short_id,
+                    'reference' => $resp_webhook->order_info->order_id
+                ]);
             }
 
             $table_name      = $this->resource->getTableName('sales_order');
@@ -118,36 +115,30 @@ class Webhook extends Template
 
             $entity_id = $this->orderManager->getEntityId();
 
-            /**
-             * Generamos las rutinas correspondientes para cada uno de los casos posible del webhook
-             */
             switch ( $response->type ) {
+                case 'charge.pending':
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'OK - charge.pending',
+                        'short_id' => $response->short_id,
+                        'reference' => $response->order_info->order_id
+                    ]);
+                    break;
                 case 'charge.success':
                     $this->orderManager->setState('processing');
                     $status = 'processing';
-                    break;
-                case 'charge.pending':
-                    $this->orderManager->setState('pending_payment');
-                    $status = 'pending_payment';
-                    break;
-                case 'charge.declined':
-                    $this->orderManager->setState('canceled');
-                    $status = 'canceled';
                     break;
                 case 'charge.expired':
                     $this->orderManager->setState('canceled');
                     $status = 'canceled';
                     break;
-                case 'charge.deleted':
-                    $this->orderManager->setState('canceled');
-                    $status = 'canceled';
-                    break;
-                case 'charge.canceled':
-                    $this->orderManager->setState('canceled');
-                    $status = 'canceled';
-                    break;
                 default:
-                    return 'Invalid Response type';
+                    return json_encode([
+                        'status' => 'error',
+                        'message' => 'invalid request type - ' . $response->type,
+                        'short_id' => $response->short_id,
+                        'reference' => $response->order_info->order_id
+                    ]);
             }
 
             $query = "UPDATE $table_name SET state = '$status', status = '$status' WHERE entity_id = $entity_id";
@@ -156,9 +147,13 @@ class Webhook extends Template
             $query = "UPDATE $table_grid_name SET status = '$status' WHERE entity_id = $entity_id";
             $connection->query($query);
 
-            return "success";
+            return json_encode([
+                'status' => 'success',
+                'message' => 'OK - ' . $response->type,
+                'short_id' => $response->short_id,
+                'reference' => $response->order_info->order_id
+            ]);
         }catch (\Exception $e){
-            //something went wrong at sdk lvl
             return $e->getMessage();
         }
     }
