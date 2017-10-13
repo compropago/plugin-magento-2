@@ -78,7 +78,12 @@ class Webhook extends Template
             $client = new Client($publickey, $privatekey, $live);
             Validations::validateGateway($client);
         }catch (\Exception $e) {
-            return $e->getMessage();
+            return json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'short_id' => null,
+                'reference' => null
+            ]);
         }
 
         if ( $resp_webhook->short_id == '000000' ) {
