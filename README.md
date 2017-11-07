@@ -12,7 +12,7 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
 
 [Comisiones](https://www.compropago.com/comisiones/)
 
-# Ayuda
+## Ayuda
 
 - [Centro de ayuda y soporte](https://compropago.com/ayuda-y-soporte)
 - [Solicitar integración](https://compropago.com/integracion)
@@ -24,6 +24,10 @@ Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en tod
 * [PHP >= 7.0.8](http://www.php.net/)
 * [PHP JSON extension](http://php.net/manual/en/book.json.php)
 * [PHP cURL extension](http://php.net/manual/en/book.curl.php)
+
+## Instalación
+
+Por favor revisar la siguiente [documentación](http://demo.compropago.com/list/plugins/magento2.php)
 
 ## Documentación
 
