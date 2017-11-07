@@ -1,121 +1,53 @@
-Plugin para Magento >= 2.0.5 - ComproPago 
+Plugin para Magento 2 (>= 2.0.5.x)
 ====================================================
 
+**Nota.-Este plugin sólo funcionará con cuentas de ComproPago generadas a partir de Agosto del 2017. Si tienes una cuenta creada anterior a esta fecha por favor utilizar la versión 1.4.0.2 del plugin.**
+
 ## Descripción
-Este módulo provee el servicio de ComproPago para poder generar órdenes de pago dentro de la plataforma de e-commerce Magento.
-Con ComproPago puedes recibir pagos en 7Eleven, Extra y más tiendas en todo México.
+Este módulo permite la integración del servicio de ComproPago en tu eCommerce de Magento. 
 
+Con ComproPago puede recibir pagos en OXXO, 7Eleven y muchas tiendas más en todo México.
 
-[Registrarse en ComproPago](https://compropago.com)
+[Registrarse en ComproPago ](https://compropago.com/)
 
+[Comisiones](https://www.compropago.com/comisiones/)
 
-## Ayuda y Soporte de ComproPago
+# Ayuda
 
 - [Centro de ayuda y soporte](https://compropago.com/ayuda-y-soporte)
 - [Solicitar integración](https://compropago.com/integracion)
-- [Guía para comenzar a utilizar ComproPago](https://compropago.com/ayuda-y-soporte/como-comenzar-a-usar-compropago)
+- [Guía para empezar a usar ComproPago](https://compropago.com/ayuda-y-soporte/como-comenzar-a-usar-compropago)
 - [Información de contacto](https://compropago.com/contacto)
 
-## Requisitos Previos
+## Requerimientos
 * [Magento >= 2.0.5](https://magento.com/)
 * [PHP >= 7.0.8](http://www.php.net/)
 * [PHP JSON extension](http://php.net/manual/en/book.json.php)
 * [PHP cURL extension](http://php.net/manual/en/book.curl.php)
 
-## Instalación:
-
-1. Descargar el archivo zip de la última versión estable desde [aquí][Magento-Connect].
-
-2. Descomprimir el contenido del archivo zip.
-
-3. Copiar la carpeta **Compropago** dentro de la carpeta **app/code/** dentro de la instalación de magento.
-
-4. Ejecutar los siguientes comandos desde el CLI de magento 2 desde la carpeta raíz de la instalación:
-
-
-   ```bash
-   bin/magento module:enable Compropago_Magento2
-   bin/magento setup:upgrade
-   bin/magento setup:di:compile
-   ```
-**NOTA:** Es probable que de existir **\<magento root\>/var/di** haya que borrar el directorio **di** para
-  llevar a cabo la compilación.
-
-  En sistemas \*nix (Linux, MacOS) probablemente también tenga que dar permisos de ejecución al shell de magento:
-
-   ```
-   sudo chmod +x bin/magento
-   ```
-
-5. Ingresar al panel de administración de Magento 2 en la sección **Stores / Configuration / Sales / Payment Methods** y buscar la opción **ComproPago Payment Method**
-
-6. Llenar la configuración con los datos que se solicitan.
-
-
-
-      - **Enabled:** Activa el plugin de ComproPago dentro de Magento.
-
-
-      - **Title:** Así aparecerá el nombre del plugin dentro del checkout.
-
-
-      - **Public Key:** Llave pública. Podrás obtenerla desde el panel de tu cuenta de ComproPago en el apartado de _Configuración_.
-                           Es importante que introduzcas la llave pública para modo pruebas o modo activo dependiendo de cómo estés trabajando o de lo contrario degenerará en un error.
-
-
-      - **Private Key:** Llave privada. Funciona de igual manera que la llave pública.
-
-
-      - **Live Mode:** Modo activo. Si estás trabajando en producción selecciona "yes". Es importante que las llaves coincidan con el modo correspondiente.
-
-
-      - **Show Logos:** Muestra los logos de las tiendas de pago en el checkout.
-
-
-      - **Active Providers:** Las tiendas seleccionadas aparecerán como disponibles en el checkout.
-
-
-      - **New Order Status:** Es el status con el que aparecerán las nuevas órdenes creadas.
-
-
-      - **Minimum Order Total:** El monto mínimo de transacción. Tiene que ser siempre mayor a 3.
-
-
-7. Borrar el caché de magento con el siguiente comando:
-
-   ```bash
-   bin/magento cache:flush
-   ```
-
-
-## ¿Cómo trabaja el módulo?
-Una vez que el cliente sabe que comprar y continúa con el proceso, seleccionará la opción de elegir el método de pago.
-Aquí aparecerá la opción de pago con ComproPago, selecciona el establecimiento de su conveniencia y el botón de **continuar**.
-
-Al completar el proceso de compra dentro de la tienda, el sistema proporcionará un recibo de pago,
-por lo que solo resta realizar el pago en el establecimiento que seleccionó anteriormente.
-
-Una vez que el cliente generó su órden de pago, dentro del panel de control de ComproPago la orden se muestra como
-"PENDIENTE". Sólo resta que el cliente realice el depósito a la brevedad posible.
-
-
-
 ## Documentación
-### ComproPago Plugin Magento 2
 
 **[API de ComproPago](https://compropago.com/documentacion/api)**
 
-ComproPago ofrece una API tipo REST para integrar pagos en efectivo en tu comercio electrónico o tus aplicaciones.
+ComproPago te ofrece un API REST para integrar pagos en efectivo en tu comercio electrónico o aplicaciones.
 
 
 **[General](https://compropago.com/documentacion)**
 
-Información sobre Horarios y Comisiones, como Transferir tu dinero y la Seguridad que proporciona ComproPago.
+Información de comisiones y horarios, como transferir tu dinero y la seguridad que proporciona ComproPago.
 
+**[Otras formas de integración](https://compropago.com/soluciones/)**
+* [Botón de pago](https://compropago.com/documentacion/boton-pago)
+* [Librerías > sección SDK](http://demo.compropago.com/)
+* [Plugins > sección Plugins](http://demo.compropago.com/)
 
-**[Herramientas](https://compropago.com/documentacion/boton-pago)**
-* Botón de pago
-* Modo de pruebas/activo
-* WebHooks
-* Librerías y Plugins
-* Shopify
+## Soporte
+
+En caso de tener alguna pregunta o requerir el apoyo técnico, por favor contactar al correo: **soporte@compropago.com**, proporcionando la siguiente información:
+
+- Nombre completo (Propietario de la cuenta).
+- Url del sitio web de la tienda.
+- Teléfono local y celular.
+- Correo electrónico del propietario de la cuenta.
+- Texto detallado de la duda o requerimiento.
+- En caso de presentar algún problema técnico, por favor enviar capturas de pantalla o evidencia para una respuesta más rápida.
