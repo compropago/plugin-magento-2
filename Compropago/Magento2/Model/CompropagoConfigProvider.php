@@ -90,7 +90,6 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         $available = explode(',', $available);
 
         $compropagoProviders = $client->api->listProviders(
-            true,
             $this->getGrandTotal(),
             $this->storeManager->getStore()->getCurrentCurrencyCode()
         );
