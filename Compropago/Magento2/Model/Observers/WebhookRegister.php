@@ -55,7 +55,9 @@ class WebhookRegister implements ObserverInterface
             Validations::validateGateway($client);
             $client->api->createWebhook($webhook);
         } catch(\Exception $e) {
-            $this->messageManager->addError("ComproPago: {$e->getMessage()}");
+            if ($e->getMessage() != 'Error: conflict.urls.create') {
+                $this->messageManager->addError("ComproPago: {$e->getMessage()}");
+            } 
         }
 
         $response = $this->model->hookRetro(
