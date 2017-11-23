@@ -15,6 +15,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\App\ResourceConnection;
 
 
 class PlaceOrder implements ObserverInterface
@@ -25,34 +26,37 @@ class PlaceOrder implements ObserverInterface
     private $metada;
     private $checSession;
     private $order;
+    private $connection;
 
     /**
      * PlaceOrder constructor.
      *
      * @param ManagerInterface $messageManager
      * @param StoreManagerInterface $storeManager
-     * @param ProductMetadataInterface $metada
-     * @param Session $checSession
+     * @param ProductMetadataInterface $metadata
+     * @param Session $checkSession
      * @param OrderInterface $order
      * @param Payment $model
-     *
+     * @param ResourceConnection $connection
+     * 
      * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function __construct(
         ManagerInterface $messageManager,
         StoreManagerInterface $storeManager,
-        ProductMetadataInterface $metada,
-        Session $checSession,
+        ProductMetadataInterface $metadata,
+        Session $checkSession,
         OrderInterface $order,
-        Payment $model
-    )
-    {
+        Payment $model,
+        ResourceConnection $connection
+    ) {
         $this->messageManager  = $messageManager;
         $this->storeManager    = $storeManager;
         $this->model           = $model;
-        $this->metada          = $metada;
+        $this->metada          = $metadata;
         $this->order           = $order;
-        $this->checSession     = $checSession;
+        $this->checSession     = $checkSession;
+        $this->connection      = $connection;
     }
 
     /**
@@ -78,7 +82,7 @@ class PlaceOrder implements ObserverInterface
                 'customer_name' => $customer_name,
                 'customer_email' => $order->getCustomerEmail(),
                 'payment_type' => $_COOKIE['provider'],
-                'currency' => $this->storeManager->getStore()->getCurrentCurrencyCode(),
+                'currency' => strtoupper($order->getStoreCurrencyCode()),
                 'app_client_name' => 'magento2',
                 'app_client_version' => $this->metada->getVersion()
             ];
@@ -95,10 +99,57 @@ class PlaceOrder implements ObserverInterface
 
                 $response =$client->api->placeOrder($dataorder);
 
+                $this->addTransactionId($order, $response);
+
                 $this->checSession->setCompropagoId($response->id);
             } catch(\Exception $e){
                 $this->messageManager->addError($e->getMessage());
             }
         }
+    }
+
+    /**
+     * Add transaction info for the order
+     *
+     * @param $order
+     * @param $cpOrder
+     *
+     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     */
+    public function addTransactionId($order, $cpOrder)
+    {
+        $order_payment       = $this->connection->getTableName('sales_order_payment');
+        $payment_transaction = $this->connection->getTableName('sales_payment_transaction');
+        $connection          = $this->connection->getConnection();
+
+        $payment = $order->getPayment();
+        $method = $payment->getMethodInstance();
+        $methodTitle = $method->getTitle();
+
+        $addInfo = [
+            "method_title" => $methodTitle,
+            "offline_info" => [
+                "type" => $this->model->getCode(),
+                "data" => [
+                    "reference" => $cpOrder->short_id,
+                    "expires_at" => date(
+                        "Y-m-d H:i:s",
+                        substr("{$cpOrder->expires_at}", 0, 10)
+                    )
+                ]
+            ]
+        ];
+
+        $json = json_encode($addInfo);
+        $entity_id = $order->getEntityId();
+
+        $query1 = "UPDATE {$order_payment} SET last_trans_id = '{$cpOrder->id}',
+            additional_information = '{$json}' where entity_id = {$entity_id}";
+
+        $query2 = "INSERT INTO {$payment_transaction} (order_id, payment_id, txn_id, txn_type) 
+            VALUES ({$entity_id}, {$entity_id}, '{$cpOrder->id}', 'authorization')";
+
+        $connection->query($query1);
+        $connection->query($query2);
     }
 }
