@@ -158,7 +158,9 @@ class Payment extends AbstractMethod
         $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
 
         foreach ($additionalData as $key => $value) {
-            $this->getInfoInstance()->setAdditionalInformation($key, $value);
+            if(!is_object($value)){
+                $this->getInfoInstance()->setAdditionalInformation($key, $value);
+            }
         }
 
         return $this;
@@ -307,7 +309,7 @@ class Payment extends AbstractMethod
     {
         return array(
             "Type"       => $this->_code,
-            "Provider"   => $info["provider"],
+            "Provider"   => isset($info["provider"]) ? $info["provider"] : null,
             "ID"         => $response->id,
             "Reference"  => $response->short_id,
             "expires_at" => date(
