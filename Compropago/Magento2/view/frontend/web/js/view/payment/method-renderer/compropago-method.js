@@ -11,7 +11,9 @@ define(
         return Component.extend({
             defaults: {
                 template: 'Compropago_Magento2/payment/compropagotpl',
-                compropagoProvider: 'OXXO'
+                compropagoProvider: 'OXXO',
+                providerSelector: "[id^=compropago_]:checked",
+                provider: ""
             },
 
             initialize: function () {
@@ -40,35 +42,19 @@ define(
             },
 
             getData: function () {
+                var self = this;
 
-                var elems = $("[id^=compropago_]");
-                var selected = "";
+                self.compropagoProvider = $(self.providerSelector).val();
 
-                for (var x = 0; x < elems.length; x++) {
-                    if ($(elems[x]).is(':checked')) {
-                        console.log("Valido para el loop");
-                        selected = $(elems[x]).attr('value');
-                    }
-                }
-
-                if(selected == ""){
-                    selected = this.compropagoProvider();
-                }
-
-                console.log('Otro Data:' + selected);
-
-                document.cookie = "provider=" + selected;
-
-                console.log('====>> Cookies: '+document.cookie);
+                console.log('==> Provider:' + self.compropagoProvider);
 
                 return {
                     "method": this.item.method,
-                    'po_number': selected,
-                    "additional_data": null
+                    "additional_data": {
+                        "provider" : self.compropagoProvider
+                    }
                 };
-
             }
-
         });
     }
 );
