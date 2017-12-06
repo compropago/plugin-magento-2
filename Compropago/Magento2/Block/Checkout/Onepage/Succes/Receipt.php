@@ -23,10 +23,11 @@ class Receipt extends \Magento\Checkout\Block\Onepage\Success
         $info = $this->getOrder()
             ->getPayment()
             ->getMethodInstance()
-            ->getInfoInstance()
-            ->getAdditionalInformation("offline_info");
+            ->getInfoInstance();
+
+        $info = $info->getAdditionalInformation("offline_info") ? : $info->getAdditionalInformation();
             
-        if(isset($info["ID"])){
+        if(isset($info["ID"])) {
             $_txnId = $info["ID"];
         } 
         return $_txnId;

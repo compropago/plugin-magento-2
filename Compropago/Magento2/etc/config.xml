@@ -24,7 +24,7 @@
             <compropago>
                 <active>0</active>
                 <model>Compropago\Magento2\Model\Payment</model>
-                <order_status>pending_payment</order_status>
+                <order_status>pending</order_status>
                 <payment_action>authorize</payment_action>
                 <title>Pago en efectivo (Oxxo, 7Eleven, Coppel, etc) - ComproPago</title>
               	<showlogos>1</showlogos>

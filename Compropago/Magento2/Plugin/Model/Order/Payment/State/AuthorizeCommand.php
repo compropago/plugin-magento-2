@@ -30,9 +30,11 @@ use Magento\Sales\Api\Data\OrderPaymentInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\State\CommandInterface as BaseCommandInterface;
 use Magento\Store\Model\ScopeInterface;
+use Compropago\Magento2\Model\Config\Source\Order\Status;
 
 class AuthorizeCommand
 {
+    const STATUS_PENDING = "pending";
     /**
      * @var Magento\Store\Model\ScopeInterface
      */
@@ -74,8 +76,12 @@ class AuthorizeCommand
             $orderStatus = $this->_scopeConfig->getValue($xpath, ScopeInterface::SCOPE_STORE);
 
             if ($orderStatus) {
-                $order->setState($orderStatus)
-                      ->setStatus($order->getConfig()->getStateDefaultStatus($orderStatus));
+                $order->setStatus($orderStatus);
+                if($orderStatus == self::STATUS_PENDING) {
+                    $order->setState(Status::STATE_PENDING);
+                } else {
+                    $order->setState($order->getConfig()->getStateDefaultStatus($orderStatus));
+                }
             }
         }
         return $result;

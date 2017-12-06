@@ -23,21 +23,51 @@
  * © 2017 QBO DIGITAL SOLUTIONS. 
  *
  */
-namespace Compropago\Magento2\Model\Config\Source\Order\Status;
+namespace Compropago\Magento2\Model\Config\Source\Order;
 
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Config\Source\Order\Status;
-
 /**
  * Order Status source model
  */
-class PendingPayment extends Status {
+class Status {
 
+    const UNDEFINED_OPTION_LABEL = '-- Please Select --';
+    const STATE_PENDING = 'new';
     /**
      * @var string[]
      */
     protected $_stateStatuses = [
-        Order::STATE_PENDING_PAYMENT
+        Order::STATE_PENDING_PAYMENT,
+        self::STATE_PENDING
     ];
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+     /**
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     */
+    public function __construct(\Magento\Sales\Model\Order\Config $orderConfig)
+    {
+        $this->_orderConfig = $orderConfig;
+    }
+
+    /**
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        $statuses = $this->_stateStatuses
+            ? $this->_orderConfig->getStateStatuses($this->_stateStatuses)
+            : $this->_orderConfig->getStatuses();
+
+        $options = [['value' => '', 'label' => __(self::UNDEFINED_OPTION_LABEL)]];
+        foreach ($statuses as $code => $label) {
+            $options[] = ['value' => $code, 'label' => $label];
+        }
+        return $options;
+    }
     
 }

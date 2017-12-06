@@ -45,6 +45,7 @@ class Payment extends AbstractMethod
     const CODE = 'compropago';
     const API_CLIENT_NAME = 'magento2';
     const API_CALL_NAME = 'PlaceOrderInfo';
+    const PROVIDER_KEY_NAME = 'provider';
 
     const ERROR_CODE_STORE_NOT_FOUND = 5002;
     /**
@@ -155,14 +156,19 @@ class Payment extends AbstractMethod
     {
         parent::assignData($data);
         
-        $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-
-        foreach ($additionalData as $key => $value) {
-            if(!is_object($value)){
-                $this->getInfoInstance()->setAdditionalInformation($key, $value);
+        if($data->getData(self::PROVIDER_KEY_NAME)){
+            $this->getInfoInstance()->setAdditionalInformation(
+                self::PROVIDER_KEY_NAME,
+                $data->getData(self::PROVIDER_KEY_NAME)
+            );
+        } else {
+            $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
+            foreach ($additionalData as $key => $value) {
+                if(!is_object($value)){
+                    $this->getInfoInstance()->setAdditionalInformation($key, $value);
+                }
             }
         }
-
         return $this;
     }
     /**
@@ -201,7 +207,6 @@ class Payment extends AbstractMethod
                     $result
                 );
                 $response = $result['response'];
-                $order->setExtOrderId($response->id)->save();
             } 
              
         } catch(\Exception $e) {
@@ -248,11 +253,19 @@ class Payment extends AbstractMethod
     {
         $provider = $this->getInfoInstance()->getAdditionalInformation('provider');
 
+        if (!empty($order->getCustomerFirstname()) && 
+            !empty($order->getCustomerLastname())) 
+        {
+            $customerName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
+        } else {
+            $customerName = $order->getShippingAddress()->getName();
+        }        
+
         return array(
             'order_id'           => $order->getIncrementId(),
             'order_name'         => $order->getIncrementId(),
             'order_price'        => $order->getGrandTotal(),
-            'customer_name'      => $order->getCustomerName(),
+            'customer_name'      => $customerName,
             'customer_email'     => $order->getCustomerEmail(),
             'payment_type'       => $provider,
             'currency'           => strtoupper($order->getStoreCurrencyCode()),
@@ -270,12 +283,12 @@ class Payment extends AbstractMethod
      */
     public function _addTransactionInfo(&$payment, $result)
     {
+        if(!isset($result['response'])){
+            throw new \Magento\Framework\Validator\Exception(__('An error occurred.'));  
+        }
+
         $response = $result['response'];
-
-        $info = $this->getInfoInstance()
-            ->getAdditionalInformation();
-
-        $offlineInfo = $this->getOfflineInfo($info, $response);
+        $offlineInfo = $this->getOfflineInfo($response);
 
         $this->getInfoInstance()->setAdditionalInformation([
             "offline_info" => $offlineInfo
@@ -305,11 +318,11 @@ class Payment extends AbstractMethod
      * @param [object] $response
      * @return void
      */
-    protected function getOfflineInfo($info, $response) 
+    protected function getOfflineInfo($response) 
     {
         return array(
             "Type"       => $this->_code,
-            "Provider"   => isset($info["provider"]) ? $info["provider"] : null,
+            "Provider"   => $this->getInfoInstance()->getAdditionalInformation("provider") ? : null,
             "ID"         => $response->id,
             "Reference"  => $response->short_id,
             "expires_at" => date(
@@ -334,6 +347,7 @@ class Payment extends AbstractMethod
         } 
         throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.'));
     }
+    
 
     /**
      * Return payment method code
