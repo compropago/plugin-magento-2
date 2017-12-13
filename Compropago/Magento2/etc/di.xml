@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Sales\Model\Order\Payment\State\AuthorizeCommand">
+        <plugin name="compropago_set_order_status" type="Compropago\Magento2\Plugin\Model\Order\Payment\State\AuthorizeCommand" sortOrder="100" />
+    </type>
+</config>

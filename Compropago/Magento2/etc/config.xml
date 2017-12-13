@@ -25,12 +25,12 @@
                 <active>0</active>
                 <model>Compropago\Magento2\Model\Payment</model>
                 <order_status>pending</order_status>
+                <payment_action>authorize</payment_action>
                 <title>Pago en efectivo (Oxxo, 7Eleven, Coppel, etc) - ComproPago</title>
               	<showlogos>1</showlogos>
               	<live_mode>1</live_mode>
                 <allowspecific>0</allowspecific>
                 <min_order_total>3</min_order_total>
-
                 <active_providers>*</active_providers>
              </compropago>
         </payment>

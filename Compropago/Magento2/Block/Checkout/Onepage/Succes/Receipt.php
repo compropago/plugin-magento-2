@@ -7,26 +7,38 @@ namespace Compropago\Magento2\Block\Checkout\Onepage\Succes;
 
 use Magento\Framework\View\Element\Template;
 
-class Receipt extends Template
+class Receipt extends \Magento\Checkout\Block\Onepage\Success
 {
     public $_template = 'Compropago_Magento2::checkout/onepage/success/receipt.phtml';
-    private $checSession;
 
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Checkout\Model\Session $checSession,
-        array $data = []
-    )
-    {
-        parent::__construct($context, $data);
-        $this->checSession = $checSession;
-    }
-
+    /**
+     * Get Payment TXN ID
+     *
+     * @return void
+     */
     public function getVars()
     {
-        $compropago_id = $this->checSession->getCompropagoId();
-        $this->checSession->setCompropagoId(null);
+        $_txnId = "";
 
-        return $compropago_id;
+        $info = $this->getOrder()
+            ->getPayment()
+            ->getMethodInstance()
+            ->getInfoInstance();
+
+        $info = $info->getAdditionalInformation("offline_info") ? : $info->getAdditionalInformation();
+            
+        if(isset($info["ID"])) {
+            $_txnId = $info["ID"];
+        } 
+        return $_txnId;
+    }
+    /**
+     * Get Order Object
+     * 
+     * @return type
+     */
+    public function getOrder()
+    {
+        return $this->_checkoutSession->getLastRealOrder();
     }
 }
