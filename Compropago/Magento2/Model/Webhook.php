@@ -115,20 +115,22 @@ class Webhook
                     //Do nothing
                     break;
                 case self::CHARGE_TYPE_SUCCESS:
-                    $order->setState(Order::STATE_PROCESSING)
-                          ->setStatus(Order::STATE_PROCESSING);
-                    $this->_processOrderComments($order, true);
+                    if($order->getStatus() != Order::STATE_PROCESSING) 
+                    {
+                        $order->setState(Order::STATE_PROCESSING)
+                              ->setStatus(Order::STATE_PROCESSING);
+                        $this->_processOrderComments($order, true);
+                    }
                     break;
                 case self::CHARGE_TYPE_EXPIRED:
                     $order->setState(Order::STATE_CANCELED)
-                          ->setStatus(Order::STATE_CANCELED);
+                          ->setStatus(Order::STATE_CANCELED)
+                          ->save();
                     break;
             }
-            
             $this->result = [
                 'success' => true
             ];
-            
         } catch (\Exception $e){
             $this->result = array(
                 'success' => false,
@@ -194,8 +196,8 @@ class Webhook
         //Avoid fraud by matching request ID with order original transaction ID
         if($order->getPayment()->getAdditionalInformation("ID") != $charge->id) {
             throw new \Exception(
-                __("[Compropago Webhook] Reference ID does not match transaction ID"),
-                \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
+                 __("[Compropago Webhook] Reference ID does not match transaction ID"),
+                 \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
         return $order;
