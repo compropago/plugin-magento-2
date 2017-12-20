@@ -49,6 +49,10 @@ class Payment extends AbstractMethod
 
     const ERROR_CODE_STORE_NOT_FOUND = 5002;
     /**
+     * @var string
+     */
+    protected $_infoBlockType  = 'Compropago\Magento2\Block\Payment\Info';    
+    /**
      * Mode
      *
      * @var boolean
@@ -293,6 +297,12 @@ class Payment extends AbstractMethod
         $this->getInfoInstance()->setAdditionalInformation([
             "offline_info" => $offlineInfo
         ]);
+
+        foreach($offlineInfo as $key => $value) {
+            $this->getInfoInstance()->setAdditionalInformation(
+                $key, $value
+            );
+        }
         /**
          * Set TXN ID
          */
@@ -321,10 +331,10 @@ class Payment extends AbstractMethod
     protected function getOfflineInfo($response) 
     {
         return array(
-            "Type"       => $this->_code,
-            "Provider"   => $this->getInfoInstance()->getAdditionalInformation("provider") ? : null,
+            "type"       => $this->_code,
+            "provider"   => $this->getInfoInstance()->getAdditionalInformation("provider") ? : null,
             "ID"         => $response->id,
-            "Reference"  => $response->short_id,
+            "reference"  => $response->short_id,
             "expires_at" => date(
                 "Y-m-d H:i:s",
                 substr("{$response->expires_at}", 0, 10)

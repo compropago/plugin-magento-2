@@ -27,6 +27,7 @@
                 <order_status>pending</order_status>
                 <payment_action>authorize</payment_action>
                 <title>Pago en efectivo (Oxxo, 7Eleven, Coppel, etc) - ComproPago</title>
+                <verified_payment_message>Hemos recibido su pago con éxito. Su pedido esta en camino.</verified_payment_message>
               	<showlogos>1</showlogos>
               	<live_mode>1</live_mode>
                 <allowspecific>0</allowspecific>
