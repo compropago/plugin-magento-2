@@ -194,12 +194,16 @@ class Webhook
             );
         }
         //Avoid fraud by matching request ID with order original transaction ID
-        if($order->getPayment()->getAdditionalInformation("ID") != $charge->id) {
+        $referenceId = $order->getPayment()->getAdditionalInformation("ID") ?
+            : $order->getPayment()->getAdditionalInformation("id");
+
+        if($referenceId != $charge->id) {
             throw new \Exception(
-                 __("[Compropago Webhook] Reference ID does not match transaction ID"),
-                 \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
+                __("[Compropago Webhook] Reference ID does not match transaction ID"),
+                \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
+
         return $order;
     }
     /**

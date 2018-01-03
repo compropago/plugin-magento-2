@@ -38,10 +38,10 @@ use \Psr\Log\LoggerInterface;
 
 class Index extends Action
 {
-    const SUCESS_MESSAGE = "Payment successfully processed.";
+    const SUCESS_MESSAGE = "OK";
     const INVALID_REQUEST_MESSAGE = "Invalid Request. Please verify request order info";
     const SERVER_ERROR_MESSAGE = "Ups. An error occurred during server request processing.";
-    const SUCCESSFUL_TEST_MESSAGE = "Test succesfully passed.";
+    const SUCCESSFUL_TEST_MESSAGE = "OK";
     const BAD_REQUEST_MESSAGE = '[Compropago Webhook] Please specify an Order ID or Payment Type.';
     const SUCESS_STATUS  = "success";
     const ERROR_STATUS   = "error";
@@ -143,9 +143,9 @@ class Index extends Action
             );
             $this->jsonResponse->setData([
                 'status' => self::SUCESS_STATUS,
-                'message' => __(self::SUCESS_MESSAGE),
+                'message' => self::SUCESS_MESSAGE,
                 'short_id' =>  $event["short_id"],
-                'reference' =>  $event["order_info"]["order_id"]
+                'reference' =>  $event["id"]
             ]);
             return $this->jsonResponse;
         }
@@ -170,7 +170,7 @@ class Index extends Action
     protected function _validateRequest($event) 
     {        
         if( !is_array($event) ||
-            !in_array("short_id", $event) ||
+            !isset($event["short_id"]) ||
             empty($event)
         ) {
             $this->jsonResponse->setHttpResponseCode(
@@ -213,7 +213,9 @@ class Index extends Action
             );
             $this->jsonResponse->setData([
                 'status' => self::SUCESS_STATUS,
-                'message' => __(self::SUCCESSFUL_TEST_MESSAGE)      
+                'message' => self::SUCCESSFUL_TEST_MESSAGE,
+                'short_id' => $event["short_id"],
+                'reference' => $event["id"]
             ]);
             return true;
         }
