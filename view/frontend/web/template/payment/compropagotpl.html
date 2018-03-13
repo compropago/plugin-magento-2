@@ -20,7 +20,7 @@
 	        </div>
 
             <!-- ko if: getCompropagoProviders() != 0 -->
-                <p><b>Seleccione un establecimiento:</b></p>
+                <p><b>Selecciona el establecimiento donde deseas pagar</b></p>
 
                 <select  name="payment[po_number]"
                          class="select"
@@ -36,7 +36,7 @@
                     <a href="https://s3.amazonaws.com/compropago/documents/cnvb/corresponsales_bancarios.pdf"
                        target="_blank">
                         <small>
-                            Listado de establecimientos <b>proporcionado por la CNBV</b> para fines informativos.
+                            Establecimientos <b>autorizados por la CNBV</b> como corresponsales bancarios
                         </small>
                     </a>
                 </p>
@@ -44,7 +44,7 @@
             <!-- /ko -->
 
             <!-- ko if: getCompropagoProviders() == 0 -->
-                <p><b>Servicio temporalemnte fuera de servicio.</b></p>
+                <p><b>Temporalmente fuera de servicio.</b></p>
             <!-- /ko -->
 
        	</form>
