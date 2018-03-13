@@ -1,15 +1,18 @@
 <?php
 /**
+ * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  * @author Rolando Lucio <rolando@compropago.com>
  */
 
 namespace Compropago\Magento2\Model;
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+use CompropagoSdk\Client;
 
+use Magento\Checkout\Model\Session;
+use Magento\Framework\Escaper;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Checkout\Model\ConfigProviderInterface;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
+
 
 class CompropagoConfigProvider implements ConfigProviderInterface
 {
@@ -20,19 +23,16 @@ class CompropagoConfigProvider implements ConfigProviderInterface
 
     /**
      * CompropagoConfigProvider constructor.
-     *
-     * @param \Magento\Framework\Escaper $escaper
-     * @param \Magento\Checkout\Model\Session $checSession
+     * @param Escaper $escaper
+     * @param Session $checSession
      * @param Payment $instance
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Framework\Escaper $escaper,
-        \Magento\Checkout\Model\Session $checSession,
-        \Compropago\Magento2\Model\Payment $instance,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        Escaper $escaper,
+        Session $checSession,
+        Payment $instance,
+        StoreManagerInterface $storeManager
     ) {
         $this->escaper = $escaper;
         $this->method = $instance;
@@ -42,10 +42,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
 
     /**
      * Config for front framework
-     *
      * @return array
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function getConfig()
     {
@@ -61,10 +58,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
 
     /**
      * Verify if store logos will be show
-     *
      * @return mixed
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     protected function getShowLogos()
     {
@@ -73,10 +67,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
 
     /**
      * Return List of providers
-     *
      * @return array|int
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     protected function getProviders()
     {
@@ -112,10 +103,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
 
     /**
      * Obtain grand total for the current order
-     *
      * @return float
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function getGrandTotal()
     {

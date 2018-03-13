@@ -26,6 +26,7 @@
 namespace Compropago\Magento2\Model\Config\Source\Order;
 
 use Magento\Sales\Model\Order;
+
 /**
  * Order Status source model
  */

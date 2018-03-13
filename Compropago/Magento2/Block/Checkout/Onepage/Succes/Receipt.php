@@ -5,7 +5,6 @@
 
 namespace Compropago\Magento2\Block\Checkout\Onepage\Succes;
 
-use Magento\Framework\View\Element\Template;
 
 class Receipt extends \Magento\Checkout\Block\Onepage\Success
 {
@@ -13,8 +12,7 @@ class Receipt extends \Magento\Checkout\Block\Onepage\Success
 
     /**
      * Get Payment TXN ID
-     *
-     * @return void
+     * @return string
      */
     public function getVars()
     {
@@ -29,13 +27,14 @@ class Receipt extends \Magento\Checkout\Block\Onepage\Success
             
         if(isset($info["ID"])) {
             $_txnId = $info["ID"];
-        } 
+        }
+
         return $_txnId;
     }
+
     /**
      * Get Order Object
-     * 
-     * @return type
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {

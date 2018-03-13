@@ -1,11 +1,19 @@
 <?php
+/**
+ * @author Eduardo Aguilar <dante.aguiar41@gmail.com>
+ */
 
 namespace Compropago\Magento2\Model\Observers;
 
-use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
+use Compropago\Magento2\Model\Payment;
+
+use CompropagoSdk\Tools\Validations;
+use CompropagoSdk\Client;
+
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
+use Magento\Framework\Message\ManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 
 class WebhookRegister implements ObserverInterface
@@ -16,17 +24,14 @@ class WebhookRegister implements ObserverInterface
 
     /**
      * WebhookRegister constructor.
-     *
-     * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Compropago\Magento2\Model\Payment $model
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+     * @param ManagerInterface $messageManager
+     * @param StoreManagerInterface $storeManager
+     * @param Payment $model
      */
     public function __construct(
-        \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Compropago\Magento2\Model\Payment $model
+        ManagerInterface $messageManager,
+        StoreManagerInterface $storeManager,
+        Payment $model
     )
     {
         $this->messageManager = $messageManager;
@@ -36,10 +41,7 @@ class WebhookRegister implements ObserverInterface
 
     /**
      * Event for the observer
-     *
      * @param Observer $observer
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function execute(Observer $observer)
     {

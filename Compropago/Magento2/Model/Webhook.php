@@ -29,16 +29,11 @@
 namespace Compropago\Magento2\Model;
 
 use Magento\Sales\Model\Order;
-use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\View\Element\Template;
-use Magento\Sales\Model\Order\Payment as PaymentRespository;
 use Magento\Sales\Model\Order\Email\Sender\OrderCommentSender;
 use Magento\Framework\Escaper;
 
-use Compropago\Magento2\Model\Payment;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
+use CompropagoSdk\Client;
+use CompropagoSdk\Tools\Validations;
 
 class Webhook
 {
@@ -47,40 +42,48 @@ class Webhook
     const CHARGE_TYPE_SUCCESS  = "charge.success";
 
     const XML_PATH_VERIFIED_MESSAGE = 'verified_payment_message';
+
     /**
-     * @var Compropago\Magento2\Model\Payment
+     * @var \Compropago\Magento2\Model\Payment
      */
     protected $_paymentModel;
+
     /**
      * @var array
      */
     protected $result = array();
+
     /**
      * @var array
      */
     protected $client = array();
+
     /**
-     * @var Magento\Sales\Model\Order
+     * @var Order
      */
-    protected $_orderRepository; 
+    protected $_orderRepository;
+
     /**
-     * @var Magento\Sales\Model\Order
-     */   
-    protected $_order;  
+     * @var
+     */
+    protected $_order;
+
     /**
      * @var \Magento\Sales\Model\Order\Email\Sender\OrderCommentSender 
      */
-    protected $_orderCommandSender; 
-    /**
-     * @var Magento\Framework\Escaper
-     */ 
-    protected $_escaper;  
+    protected $_orderCommandSender;
 
     /**
-     * Constructor Method
-     *
+     * @var Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * Webhook constructor.
      * @param Payment $model
      * @param Order $order
+     * @param OrderCommentSender $orderCommentSender
+     * @param Escaper $_escaper
      * @param array $data
      */
     public function __construct(
@@ -96,11 +99,10 @@ class Webhook
         $this->_paymentModel = $model;
         $this->_escaper = $_escaper;
     }
+
     /**
-     * Process Request
-     *
-     * @param array $charge
-     * @return void
+     * @param $charge
+     * @return array
      */
     public function processRequest($charge)
     {        
@@ -140,11 +142,11 @@ class Webhook
         }
         return $this->result;
     }
+
     /**
      * Validate Request Info
-     *
-     * @param [type] $charge
-     * @return void
+     * @param $charge
+     * @throws \Exception
      */
     protected function _validate($charge)
     {
@@ -157,10 +159,10 @@ class Webhook
             );
         }
     }
+
     /**
      * Initialize API Client
-     *
-     * @return void
+     * @throws \Exception
      */
     protected function _initClient()
     {
@@ -206,10 +208,10 @@ class Webhook
 
         return $order;
     }
+
     /**
      * Process Order History comments and notify customer via email
-     * 
-     * @param type $order
+     * @param $order
      */
     protected function _processOrderComments($order)
     {
@@ -227,7 +229,7 @@ class Webhook
         
         try{
             $this->_orderCommandSender->send($order, true, $comment);
-        } catch (\Magento\Framework\Exception\MailException $e) {
+        } catch (\Exception $e) {
         }       
     }
 }

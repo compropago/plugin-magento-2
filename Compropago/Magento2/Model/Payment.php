@@ -18,6 +18,7 @@
  *
  * @author QBO Team <info@qbo.tech>
  * @author Rolando Lucio <rolando@compropago.com>
+ * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  * @category Compropago
  * @copyright qbo (http://www.qbo.tech)
  * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -25,16 +26,27 @@
  * © 2017 QBO DIGITAL SOLUTIONS. 
  *
  */
+
 namespace Compropago\Magento2\Model;
 
-use Compropago\Magento2\Model\Api\CompropagoSdk\Tools\Validations;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
+use CompropagoSdk\Tools\Validations;
+use CompropagoSdk\Client;
+use CompropagoSdk\Factory\Factory;
 
+use Magento\Framework\Api\AttributeValueFactory;
+use Magento\Framework\Api\ExtensionAttributesFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\DataObject;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Registry;
+use Magento\Payment\Helper\Data;
+use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Payment\Model\Method\Logger;
 use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
 
 
 /**
@@ -48,44 +60,52 @@ class Payment extends AbstractMethod
     const PROVIDER_KEY_NAME = 'provider';
 
     const ERROR_CODE_STORE_NOT_FOUND = 5002;
+
     /**
      * @var string
      */
-    protected $_infoBlockType  = 'Compropago\Magento2\Block\Payment\Info';    
+    protected $_infoBlockType  = 'Compropago\Magento2\Block\Payment\Info';
+
     /**
      * Mode
      *
      * @var boolean
      */
     public $_isOffline  = false;
+
     /**
      * Gateway
      *
      * @var boolean
      */
     public $_isGateway  = true;
+
     /**
      * Can Capture Transaction
      *
      * @var boolean
      */
     public $_canCapture = true;
+
     /**
      * Payment Method Code
      *
      * @var [type]
      */
     protected $_code = self::CODE;
+
     /**
      *
      * @var [type]
      */
     protected $_metadata;
+
     /**
      *
      * @var [type]
      */
     protected $_validations;
+
     /**
      * Api Client
      *
@@ -99,8 +119,7 @@ class Payment extends AbstractMethod
     public $_supportedCurrencyCodes = ['USD','MXN','GBP','EUR'];
 
     /**
-     * Constructor Method.
-     *
+     * Payment constructor.
      * @param Context $context
      * @param Registry $registry
      * @param ExtensionAttributesFactory $extensionFactory
@@ -108,26 +127,20 @@ class Payment extends AbstractMethod
      * @param Data $paymentData
      * @param ScopeConfigInterface $scopeConfig
      * @param Logger $logger
-     * @param ModuleListInterface $moduleList
-     * @param TimezoneInterface $localeDate
-     * @param CountryFactory $countryFactory
-     * @param DataHelper $_data
-     * @param CardManager $cardManager
-     * @param Subscription $subscription
+     * @param BuilderInterface $transactionBuilder
      * @param ProductMetadataInterface $metadata
-     * @param Client $client
      * @param Validations $validations
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory,
-        \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory,
-        \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Payment\Model\Method\Logger $logger,
-        \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,        
+        Context $context,
+        Registry $registry,
+        ExtensionAttributesFactory $extensionFactory,
+        AttributeValueFactory $customAttributeFactory,
+        Data $paymentData,
+        ScopeConfigInterface $scopeConfig,
+        Logger $logger,
+        BuilderInterface $transactionBuilder,
         ProductMetadataInterface $metadata,
         Validations $validations,
         array $data = array()
@@ -149,14 +162,14 @@ class Payment extends AbstractMethod
             $data
         );
     }
-   /**
-    * Assign corresponding data to payment info object
-    *
-    * @param \Magento\Framework\DataObject|mixed $data
-    * @return $this
-    * @throws LocalizedException
-    */
-    public function assignData(\Magento\Framework\DataObject $data) 
+
+    /**
+     * Assign corresponding data to payment info object
+     * @param DataObject $data
+     * @return $this
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function assignData(DataObject $data)
     {
         parent::assignData($data);
         
@@ -175,9 +188,9 @@ class Payment extends AbstractMethod
         }
         return $this;
     }
+
     /**
      * Initialize Compropago API Client
-     *
      * @return void
      */
     protected function _initialize() 
@@ -188,14 +201,16 @@ class Payment extends AbstractMethod
             $this->getLiveMode()
         );
     }
+
     /**
      * Payment Authorization Processing
-     *
-     * @param \Magento\Payment\Model\InfoInterface $payment
-     * @param [type] $amount
-     * @return void
+     * @param InfoInterface $payment
+     * @param float $amount
+     * @return $this
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Validator\Exception
      */
-    public function authorize(\Magento\Payment\Model\InfoInterface $payment, $amount)
+    public function authorize(InfoInterface $payment, $amount)
     {
         $this->_initialize();
         $order = $payment->getOrder();
@@ -205,23 +220,26 @@ class Payment extends AbstractMethod
                 $this->_getRequestInfo($order)
             );
 
-            if(isset($result['success'])) {
+            if (isset($result['success'])) {
                 $this->_addTransactionInfo(
                     $payment, 
                     $result
                 );
-                $response = $result['response'];
             } 
              
         } catch(\Exception $e) {
             $this->_processErrors($e);
         }
+
         return $this;
     }
+
     /**
      * Process Payment Data to Compropago API
-     *
-     * @return void
+     * @param $_orderInfo
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Validator\Exception
      */
     protected function _executePayment($_orderInfo)
     {
@@ -247,11 +265,13 @@ class Payment extends AbstractMethod
 
         return $result;
     }
+
+
     /**
      * Build Order Request Info
-     *
-     * @param [type] $order
-     * @return void
+     * @param $order
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function _getRequestInfo($order) 
     {
@@ -280,15 +300,15 @@ class Payment extends AbstractMethod
 
     /**
      * Add transaction info to payment object
-     *
-     * @param $order
-     * @param $response
-     *
+     * @param $payment
+     * @param $result
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Validator\Exception
      */
     public function _addTransactionInfo(&$payment, $result)
     {
         if(!isset($result['response'])){
-            throw new \Magento\Framework\Validator\Exception(__('An error occurred.'));  
+            throw new \Magento\Framework\Validator\Exception(__('An error occurred.'));
         }
 
         $response = $result['response'];
@@ -303,30 +323,25 @@ class Payment extends AbstractMethod
                 $key, $value
             );
         }
+
         /**
          * Set TXN ID
          */
-        $payment->setTransactionId(
-            $response->id
-        )->setIsTransactionClosed(
-            0
-        )->setSkipOrderProcessing(
-            true
-        );
+        $payment->setTransactionId($response->id)
+            ->setIsTransactionClosed(0)
+            ->setSkipOrderProcessing(true);
+
         /**
          * Add Transaction Details
          */
-        $payment->setTransactionAdditionalInfo(
-            \Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS, 
-            $offlineInfo
-        );
+        $payment->setTransactionAdditionalInfo(Transaction::RAW_DETAILS, $offlineInfo);
     }
+
     /**
      * Get Payment Info After Charge
-     *
-     * @param [array] $info
-     * @param [object] $response
-     * @return void
+     * @param $response
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function getOfflineInfo($response) 
     {
@@ -344,8 +359,8 @@ class Payment extends AbstractMethod
 
     /**
      * Error Handler
-     * 
-     * @param type $e
+     * @param $e
+     * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Validator\Exception
      */
     protected function _processErrors($e)
@@ -361,10 +376,7 @@ class Payment extends AbstractMethod
 
     /**
      * Return payment method code
-     *
      * @return string
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function getCode()
     {
@@ -373,10 +385,7 @@ class Payment extends AbstractMethod
 
     /**
      * Return ComproPago publickey
-     *
      * @return string
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gnail.com>
      */
     public function getPublicKey()
     {
@@ -385,10 +394,7 @@ class Payment extends AbstractMethod
 
     /**
      * Return ComproPago privatekey
-     *
      * @return string
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function getPrivateKey()
     {
@@ -397,10 +403,7 @@ class Payment extends AbstractMethod
 
     /**
      * Return ComproPago mode
-     *
      * @return bool
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function getLiveMode()
     {
@@ -409,10 +412,7 @@ class Payment extends AbstractMethod
 
     /**
      * Return if stores logos will be show
-     *
      * @return mixed
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function getShowLogos()
     {
@@ -421,11 +421,8 @@ class Payment extends AbstractMethod
 
     /**
      * Validate if store currency is supported by ComproPago
-     *
      * @param string $currencyCode
      * @return bool
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function canUseForCurrency($currencyCode)
     {
@@ -437,12 +434,9 @@ class Payment extends AbstractMethod
    
     /**
      * Warnins for config
-     *
      * @param Client $client
      * @param bool $enabled
      * @return array
-     *
-     * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
      */
     public function hookRetro(Client $client, $enabled = true)
     {

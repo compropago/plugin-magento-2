@@ -28,38 +28,45 @@
 
 namespace Compropago\Magento2\Block\Payment;
 
+use Magento\Backend\App\Area\FrontNameResolver;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Payment\Model\Config;
+
+
 class Info extends \Magento\Payment\Block\Info
 {
-    protected  $_disallowedFiledNames = array(
+    protected $_disallowedFiledNames = array(
         'offline_info',
         'type'
     );
+
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Payment\Model\Config $paymentConfig
+     * @param Context $context
+     * @param Config $paymentConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Payment\Model\Config $paymentConfig,
+        Context $context,
+        Config $paymentConfig,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->paymentConfig = $paymentConfig;
     }
+
     /**
-     * 
-     * @param type $transport
-     * @return type
+     * @param null $transport
+     * @return $this|\Magento\Framework\DataObject
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function _prepareSpecificInformation($transport = null) 
     {
         $transport = parent::_prepareSpecificInformation($transport);
         $data = [];
         $info = $this->getInfo();
-        if ($this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE && $info->getAdditionalInformation()
+        if ($this->_appState->getAreaCode() === FrontNameResolver::AREA_CODE && $info->getAdditionalInformation()
         ) {
             foreach ($info->getAdditionalInformation() as $field => $value) {
                 $beautifiedFieldName = str_replace("_", " ", ucwords(trim(preg_replace('/(?<=\\w)(?=[A-Z])/', " $1", $field))));

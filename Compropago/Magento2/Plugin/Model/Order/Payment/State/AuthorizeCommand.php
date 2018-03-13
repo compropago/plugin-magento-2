@@ -23,37 +23,45 @@
  * © 2017 QBO DIGITAL SOLUTIONS. 
  *
  */
+
 namespace Compropago\Magento2\Plugin\Model\Order\Payment\State;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
-use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\State\CommandInterface as BaseCommandInterface;
 use Magento\Store\Model\ScopeInterface;
+
+use Compropago\Magento2\Model\Payment;
 use Compropago\Magento2\Model\Config\Source\Order\Status;
+
 
 class AuthorizeCommand
 {
     const STATUS_PENDING = "pending";
+
     /**
-     * @var Magento\Store\Model\ScopeInterface
+     * @var ScopeConfigInterface
      */
     protected $_scopeConfig;
+
     /**
      * @var array
      */
     protected $_allowedMethods = array(
-        \Compropago\Magento2\Model\Payment::CODE,
+        Payment::CODE,
     );
+
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * AuthorizeCommand constructor.
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->_scopeConfig = $scopeConfig;
     }
+
     /**
      * Set pending order status on order place
      * see https://github.com/magento/magento2/issues/5860

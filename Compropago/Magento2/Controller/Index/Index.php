@@ -17,6 +17,7 @@
  * MMDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDMMM
  *
  * @author José Castañeda <jose@qbo.tech>
+ * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  * @category Compropago
  * @package Compropago\Magento2\
  * @copyright qbo (http://www.qbo.tech)
@@ -25,15 +26,19 @@
  * © 2017 QBO DIGITAL SOLUTIONS. 
  *
  */
+
 namespace Compropago\Magento2\Controller\Index;
+
+use Compropago\Magento2\Model\Webhook;
+
+use CompropagoSdk\Factory\Factory;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\Json\DecoderInterface;
-use Compropago\Magento2\Model\Webhook;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Factory\Factory;
+
 use \Psr\Log\LoggerInterface;
 
 class Index extends Action
@@ -49,37 +54,43 @@ class Index extends Action
     const MESSAGE_KEY   = "message";
     const TEST_SHORT_ID  = "000000";
     const STREAM_BUFFER_NAME  = "php://input";
+
     /**
      * @var DecoderInterface
      */
     public $jsonDecoder;
+
     /**
      * @var \Magento\Framework\Controller\Result\JsonFactory 
      */
     protected $jsonResponse;
+
     /**
-     * @var Compropago\Magento2\Model\Webhook
+     * @var Webhook
      */
     protected $webhookProcessor;
+
     /**
-     * @var Psr\Log\LoggerInterface 
+     * @var LoggerInterface
      */
     protected $_logger;
+
     /**
-     * @var Magento\Framework\Filesystem\Io\File
+     * @var File
      */
     protected $ioFile;
-    /**
-     * @var [type]
-     */
+
+
     protected $webhook;
 
     /**
-     * Constructor Method.
-     *
+     * Index constructor.
      * @param Context $context
-     * @param PageFactory $resultPageFactory
-     *
+     * @param JsonFactory $jsonResultFactory
+     * @param File $fileData
+     * @param Webhook $webhook
+     * @param LoggerInterface $logger
+     * @param DecoderInterface $jsonDecoder
      */
     public function __construct(
         Context $context, 
@@ -101,7 +112,6 @@ class Index extends Action
 
     /**
      * Webhook Handler
-     * 
      * @return \Magento\Framework\Controller\Result\JsonFactory
      */
     public function execute()
@@ -129,10 +139,12 @@ class Index extends Action
         }
         return $this->jsonResponse; 
     }
+
     /**
      * Process Webhook result handler
-     *
-     * @return void
+     * @param $result
+     * @param $event
+     * @return \Magento\Framework\Controller\Result\Json|JsonFactory
      */
     protected function _processResult($result, $event)
     {
@@ -162,10 +174,12 @@ class Index extends Action
 
         $this->_logger->critical($result[self::MESSAGE_KEY]);
     }
+
     /**
      * Validate Request Data
-     *
-     * @return void
+     * @param $event
+     * @return bool
+     * @throws \Exception
      */
     protected function _validateRequest($event) 
     {        
@@ -201,9 +215,8 @@ class Index extends Action
 
     /**
      * Testing ?
-     *
-     * @param array $event
-     * @return void
+     * @param $event
+     * @return bool
      */
     protected function _getIsTest($event){
         // Test Case

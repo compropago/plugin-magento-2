@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 /**
- * Compropago $Library
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
  
 namespace Compropago\Magento2\Model;
 
 use Magento\Framework\Option\ArrayInterface;
-use Compropago\Magento2\Model\Api\CompropagoSdk\Client;
+
+use CompropagoSdk\Client;
+
 
 class ProvidersOption implements ArrayInterface
 {
