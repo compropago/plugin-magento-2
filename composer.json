@@ -17,13 +17,10 @@
   ],
   "require": {
     "php": "~5.5.0|~5.6.0|~7.0.0",
-    "compropago/php-sdk": "~4.0.0.1",
-    "magento/framework": "100.0.*|101.1.*"
+    "compropago/php-sdk": "~4.0.0.1"
   },
   "autoload": {
-    "files": [
-      "registration.php"
-    ],
+    "files": ["registration.php"],
     "psr-4": {
       "Compropago\\Magento2\\": ""
     }
