@@ -5,7 +5,10 @@
                name="payment[method]"
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
-        <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
+        <label data-bind="attr: {'for': getCode()}" class="label">
+            <img style="height: 25px; vertical-align: middle;" src="https://compropago.com/plugins/logo.png" alt="ComproPago">
+            - <span data-bind="text: getTitle()"></span>
+        </label>
     </div>
     <div class="payment-method-content">
         <!-- ko foreach: getRegion('messages') -->
@@ -20,10 +23,11 @@
 	        </div>
 
             <!-- ko if: getCompropagoProviders() != 0 -->
-                <p><b>Selecciona el establecimiento donde deseas pagar</b></p>
+                <p><b>Seleccione un establecimiento:</b></p>
 
                 <select  name="payment[po_number]"
                          class="select"
+                         style="max-width: 300px;"
                          data-bind="attr: {id: getCode() + '_providers',
                                 'data-validate': JSON.stringify({required:true})},
                                 options: getCompropagoProviders(),
@@ -33,10 +37,10 @@
                 </select>
 
                 <p class="active">
-                    <a href="https://s3.amazonaws.com/compropago/documents/cnvb/corresponsales_bancarios.pdf"
+                    <a href="https://compropago.com/legal/corresponsales_cnbv.pdf"
                        target="_blank">
                         <small>
-                            Establecimientos <b>autorizados por la CNBV</b> como corresponsales bancarios
+                            Listado de establecimientos <b>proporcionado por la CNBV</b> para fines informativos.
                         </small>
                     </a>
                 </p>
@@ -44,7 +48,7 @@
             <!-- /ko -->
 
             <!-- ko if: getCompropagoProviders() == 0 -->
-                <p><b>Temporalmente fuera de servicio.</b></p>
+                <p><b>Servicio temporalemnte fuera de servicio.</b></p>
             <!-- /ko -->
 
        	</form>
