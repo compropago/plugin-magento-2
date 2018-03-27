@@ -32,10 +32,6 @@ define(
                 return window.checkoutConfig.payment.compropago.compropagoProviders;
             },
 
-            /*showLogos: function () {
-                return window.checkoutConfig.payment.compropago.compropagoLogos == '1';
-            },*/
-
             compropagoSelectedProvider: function (newvalue) {
                 this.compropagoProvider(newvalue);
                 return !!newvalue;
