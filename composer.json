@@ -3,7 +3,7 @@
   "type": "magento2-module",
   "description": "ComproPago Magento2 Module",
   "homepage": "https://github.com/compropago/plugin-magento-2",
-  "version": "2.0.1.0",
+  "version": "2.0.1.1",
   "keywords": [
     "pagos internet",
     "payment gateway",
@@ -17,7 +17,7 @@
   ],
   "require": {
     "php": "~5.5.0|~5.6.0|~7",
-    "compropago/php-sdk": "~4.0.0.1"
+    "compropago/php-sdk": "^4.0"
   },
   "autoload": {
     "files": ["registration.php"],
@@ -32,7 +32,7 @@
     },
     {
       "name": "Eduardo Aguilar",
-      "email": "eduardo.aguilar@compropago.com"
+      "email": "dante.aguilar41@gmail.com"
     },
     {
       "name": "qboDigital",
