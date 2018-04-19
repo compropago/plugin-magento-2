@@ -12,7 +12,7 @@ define(
             defaults: {
                 template: 'Compropago_Magento2/payment/compropagotpl',
                 compropagoProvider: 'OXXO',
-                providerSelector: "[id^=compropago_]:checked",
+                providerSelector: "#compropago_providers",
                 provider: ""
             },
 
@@ -42,6 +42,7 @@ define(
 
                 self.compropagoProvider = $(self.providerSelector).val();
 
+                console.log(self.providerSelector);
                 console.log('==> Provider:' + self.compropagoProvider);
 
                 return {
