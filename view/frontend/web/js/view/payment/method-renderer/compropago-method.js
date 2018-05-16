@@ -10,45 +10,41 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'Compropago_Magento2/payment/compropagotpl',
-                compropagoProvider: 'OXXO',
-                providerSelector: "#compropago_providers",
+                template: 'Compropago_Payments/payment/compropagotpl',
+                providerSelector: "#compropago_cash_providers",
                 provider: ""
             },
 
             initialize: function () {
-                this._super()
-                    .observe('compropagoProvider');
+                this._super();
+                    //.observe('compropagoProvider');
                 return this;
             },
 
             getCode: function () {
-                return 'compropago';
+                return 'compropago_cash';
             },
 
             /** Returns providers json */
             getCompropagoProviders: function () {
-                console.log('providers');
-                return window.checkoutConfig.payment.compropago.compropagoProviders;
+                return window.checkoutConfig.payment.compropago_cash.providers;
             },
 
             compropagoSelectedProvider: function (newvalue) {
+                console.log('selected_provider');
                 this.compropagoProvider(newvalue);
                 return !!newvalue;
             },
 
             getData: function () {
-                var self = this;
+                var provider = $(this.providerSelector).val();
 
-                self.compropagoProvider = $(self.providerSelector).val();
-
-                console.log(self.providerSelector);
-                console.log('==> Provider:' + self.compropagoProvider);
+                console.log('==> Provider:' + provider);
 
                 return {
                     "method": this.item.method,
                     "additional_data": {
-                        "provider" : self.compropagoProvider
+                        "provider" : provider
                     }
                 };
             }

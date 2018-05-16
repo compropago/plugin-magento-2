@@ -26,7 +26,7 @@
  *
  */
 
-namespace Compropago\Magento2\Block\Payment;
+namespace Compropago\Payments\Block\Payment;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Framework\View\Element\Template\Context;

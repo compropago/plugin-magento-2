@@ -24,16 +24,15 @@
  *
  */
 
-namespace Compropago\Magento2\Plugin\Model\Order\Payment\State;
+namespace Compropago\Payments\Plugin\Model\Order\Payment\State;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 use Magento\Sales\Model\Order\Payment\State\CommandInterface as BaseCommandInterface;
 use Magento\Store\Model\ScopeInterface;
-
-use Compropago\Magento2\Model\Payment;
-use Compropago\Magento2\Model\Config\Source\Order\Status;
+use Compropago\Payments\Model\Cash;
+use Compropago\Payments\Model\Config\Source\Order\Status;
 
 
 class AuthorizeCommand
@@ -49,7 +48,7 @@ class AuthorizeCommand
      * @var array
      */
     protected $_allowedMethods = array(
-        Payment::CODE,
+        Cash::CODE,
     );
 
     /**

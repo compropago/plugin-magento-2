@@ -1,39 +1,25 @@
 <?xml version="1.0"?>
-<!--
-/*
-* Copyright 2016 Compropago.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* @author Rolando Lucio <rolando@compropago.com>
-*/
--->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <compropago>
+            <compropago_config>
+                <model>Compropago\Payments\Model\Config</model>
+                <public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <live_mode>0</live_mode>
+            </compropago_config>
+
+            <compropago_cash>
+                <model>Compropago\Payments\Model\Cash</model>
                 <active>0</active>
-                <model>Compropago\Magento2\Model\Payment</model>
                 <order_status>pending</order_status>
                 <payment_action>authorize</payment_action>
                 <title>Pago en efectivo</title>
                 <verified_payment_message>Hemos recibido su pago con éxito. Su pedido esta en camino.</verified_payment_message>
-              	<showlogos>1</showlogos>
-              	<live_mode>1</live_mode>
                 <allowspecific>0</allowspecific>
-                <min_order_total>3</min_order_total>
+                <min_order_total>5</min_order_total>
                 <active_providers>*</active_providers>
-             </compropago>
+            </compropago_cash>
         </payment>
     </default>
 </config>

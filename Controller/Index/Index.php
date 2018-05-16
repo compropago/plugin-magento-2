@@ -27,9 +27,9 @@
  *
  */
 
-namespace Compropago\Magento2\Controller\Index;
+namespace Compropago\Payments\Controller\Index;
 
-use Compropago\Magento2\Model\Webhook;
+use Compropago\Payments\Model\Webhook;
 
 use CompropagoSdk\Factory\Factory;
 

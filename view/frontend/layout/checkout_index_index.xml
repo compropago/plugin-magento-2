@@ -20,7 +20,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<head>        
-        <css src="Compropago_Magento2::css/compropago.css"/>
+        <css src="Compropago_Payments::css/compropago.css"/>
 	</head>
     <body>
         <referenceBlock name="checkout.root">
@@ -39,16 +39,12 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="compropago-magento2" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Compropago_Magento2/js/view/payment/compropago-payments</item>
+                                                                <item name="compropago-payments" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Compropago_Payments/js/view/payment/compropago-payments</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="compropago" xsi:type="array">
+                                                                        <item name="compropago_cash" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
-                                                                           
-                                                                           
-                                                                            
                                                                         </item>
-                                                                        
                                                                     </item>
                                                                 </item>
                                                             </item>

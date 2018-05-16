@@ -26,7 +26,7 @@
  *
  */
 
-namespace Compropago\Magento2\Model;
+namespace Compropago\Payments\Model;
 
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender\OrderCommentSender;
@@ -77,17 +77,23 @@ class Webhook
      * @var Escaper
      */
     protected $_escaper;
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * Webhook constructor.
-     * @param Payment $model
+     * @param Cash $model
+     * @param Config $config
      * @param Order $order
      * @param OrderCommentSender $orderCommentSender
      * @param Escaper $_escaper
      * @param array $data
      */
     public function __construct(
-        Payment $model,
+        Cash $model,
+        Config $config,
         Order $order,
         OrderCommentSender $orderCommentSender, 
         Escaper $_escaper,
@@ -98,6 +104,7 @@ class Webhook
         $this->_orderRepository = $order;        
         $this->_paymentModel = $model;
         $this->_escaper = $_escaper;
+        $this->config = $config;
     }
 
     /**
@@ -166,9 +173,9 @@ class Webhook
      */
     protected function _initClient()
     {
-        $publickey     = $this->_paymentModel->getPublicKey();
-        $privatekey    = $this->_paymentModel->getPrivateKey();
-        $live          = $this->_paymentModel->getLiveMode();
+        $publickey     = $this->config->getPublicKey();
+        $privatekey    = $this->config->getPrivateKey();
+        $live          = $this->config->getLiveMode();
 
         if (empty($publickey) || empty($privatekey)) {
             throw new \Exception(
@@ -183,6 +190,7 @@ class Webhook
 
     /**
      * Load Order by txn ID
+     * @throws \Exception
      */
     protected function _initOrder($charge)
     {

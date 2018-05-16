@@ -8,7 +8,7 @@ namespace Compropago\Magento2\Block\Checkout\Onepage\Succes;
 
 class Receipt extends \Magento\Checkout\Block\Onepage\Success
 {
-    public $_template = 'Compropago_Magento2::checkout/onepage/success/receipt.phtml';
+    public $_template = 'Compropago_Payments::checkout/onepage/success/receipt.phtml';
 
     /**
      * Get Payment TXN ID

@@ -1,5 +1,5 @@
 {
-  "name": "compropago/magento2",
+  "name": "compropago/payments",
   "type": "magento2-module",
   "description": "ComproPago Magento2 Module",
   "homepage": "https://github.com/compropago/plugin-magento-2",
@@ -22,21 +22,13 @@
   "autoload": {
     "files": ["registration.php"],
     "psr-4": {
-      "Compropago\\Magento2\\": ""
+      "Compropago\\Payments\\": ""
     }
   },
   "authors": [
     {
-      "name": "Rolando Lucio",
-      "email": "rolando@compropago.com"
-    },
-    {
       "name": "Eduardo Aguilar",
       "email": "dante.aguilar41@gmail.com"
-    },
-    {
-      "name": "qboDigital",
-      "email": "info@qbo.tech"
     }
   ]
 }
