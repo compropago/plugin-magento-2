@@ -4,6 +4,7 @@
         <arguments>
             <argument name="methodCodes" xsi:type="array">
                 <item name="compropago_cash" xsi:type="const">Compropago\Payments\Model\Cash::CODE</item>
+                <item name="compropago_spei" xsi:type="const">Compropago\Payments\Model\Spei::CODE</item>
             </argument>
         </arguments>
     </type>

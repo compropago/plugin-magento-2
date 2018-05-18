@@ -3,7 +3,7 @@
  * @author Eduardo Aguilar <eduardo.aguilar@compropago.com>
  */
 
-namespace Compropago\Magento2\Block\Checkout\Onepage\Succes;
+namespace Compropago\Payments\Block\Checkout\Onepage\Succes;
 
 
 class Receipt extends \Magento\Checkout\Block\Onepage\Success

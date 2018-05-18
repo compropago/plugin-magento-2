@@ -20,6 +20,17 @@
                 <min_order_total>5</min_order_total>
                 <active_providers>*</active_providers>
             </compropago_cash>
+
+            <compropago_spei>
+                <model>Compropago\Payments\Model\Spei</model>
+                <active>0</active>
+                <order_status>pending</order_status>
+                <title>Transferencia Bancaria</title>
+                <verified_payment_message>Hemos recibido su pago con éxito. Su pedido esta en camino.</verified_payment_message>
+                <allowspecific>0</allowspecific>
+                <min_order_total>5</min_order_total>
+                <payment_action>authorize</payment_action>
+            </compropago_spei>
         </payment>
     </default>
 </config>

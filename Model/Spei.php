@@ -17,7 +17,6 @@
  * MMDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDMMM
  *
  * @author QBO Team <info@qbo.tech>
- * @author Rolando Lucio <rolando@compropago.com>
  * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  * @category Compropago
  * @copyright qbo (http://www.qbo.tech)
@@ -29,9 +28,7 @@
 
 namespace Compropago\Payments\Model;
 
-use CompropagoSdk\Tools\Validations;
-use CompropagoSdk\Client;
-use CompropagoSdk\Factory\Factory;
+use CompropagoSdk\Tools\Request;
 
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
@@ -52,11 +49,9 @@ use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
 /**
  * Payment Object Handler
  */
-class Cash extends AbstractMethod
+class Spei extends AbstractMethod
 {
-    const CODE = 'compropago_cash';
-    const API_CLIENT_NAME = 'magento2';
-    const API_CALL_NAME = 'PlaceOrderInfo';
+    const CODE = 'compropago_spei';
     const PROVIDER_KEY_NAME = 'provider';
 
     const ERROR_CODE_STORE_NOT_FOUND = 5002;
@@ -101,17 +96,9 @@ class Cash extends AbstractMethod
     protected $_metadata;
 
     /**
-     *
-     * @var [type]
+     * @var array
      */
-    protected $_validations;
-
-    /**
-     * Api Client
-     *
-     * @var [type]
-     */
-    protected $_apiClient;
+    protected $_cpAuth;
 
     /**
      * General configuration of ComproPago
@@ -135,7 +122,6 @@ class Cash extends AbstractMethod
      * @param Logger $logger
      * @param BuilderInterface $transactionBuilder
      * @param ProductMetadataInterface $metadata
-     * @param Validations $validations
      * @param \Compropago\Payments\Model\Config $config
      * @param array $data
      */
@@ -149,12 +135,10 @@ class Cash extends AbstractMethod
         Logger $logger,
         BuilderInterface $transactionBuilder,
         ProductMetadataInterface $metadata,
-        Validations $validations,
         \Compropago\Payments\Model\Config $config,
         array $data = array()
     ) {
         $this->_metadata = $metadata;
-        $this->_validations = $validations;
         $this->transactionBuilder = $transactionBuilder;
         $this->config = $config;
 
@@ -182,7 +166,7 @@ class Cash extends AbstractMethod
     {
         parent::assignData($data);
 
-        if($data->getData(self::PROVIDER_KEY_NAME)){
+        if ($data->getData(self::PROVIDER_KEY_NAME)) {
             $this->getInfoInstance()->setAdditionalInformation(
                 self::PROVIDER_KEY_NAME,
                 $data->getData(self::PROVIDER_KEY_NAME)
@@ -204,11 +188,10 @@ class Cash extends AbstractMethod
      */
     protected function _initialize()
     {
-        $this->_apiClient = new Client(
-            $this->config->getPublicKey(),
-            $this->config->getPrivateKey(),
-            $this->config->getLiveMode()
-        );
+        $this->_cpAuth = [
+            "user" => $this->config->getPrivateKey(),
+            "pass" => $this->config->getPublicKey()
+        ];
     }
 
     /**
@@ -255,16 +238,20 @@ class Cash extends AbstractMethod
         $result = array();
 
         try {
-            $_orderRequest = Factory::getInstanceOf(
-                self::API_CALL_NAME,
-                $_orderInfo
-            );
-            $response = $this->_apiClient->api->placeOrder($_orderRequest);
+            $url = 'https://api.compropago.com/v2/orders';
 
-            if(property_exists($response, "id")) {
+            $response = Request::post($url, $_orderInfo, array(), $this->_cpAuth);
+
+            if ($response->statusCode != 200) {
+                throw new \Exception("SPEI Error #: {$response->statusCode}");
+            }
+
+            $body = json_decode($response->body);
+
+            if(isset($body->data->id)) {
                 $result = array(
                     'success' => true,
-                    'response' => $response
+                    'response' => $body->data
                 );
             }
 
@@ -279,12 +266,9 @@ class Cash extends AbstractMethod
      * Build Order Request Info
      * @param $order
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function _getRequestInfo($order)
     {
-        $provider = $this->getInfoInstance()->getAdditionalInformation(self::PROVIDER_KEY_NAME);
-
         if (!empty($order->getCustomerFirstname()) && !empty($order->getCustomerLastname())) {
             $customerName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
         } else {
@@ -292,15 +276,21 @@ class Cash extends AbstractMethod
         }
 
         return array(
-            'order_id'           => $order->getIncrementId(),
-            'order_name'         => $order->getIncrementId(),
-            'order_price'        => $order->getGrandTotal(),
-            'customer_name'      => $customerName,
-            'customer_email'     => $order->getCustomerEmail(),
-            'payment_type'       => $provider,
-            'currency'           => strtoupper($order->getStoreCurrencyCode()),
-            'app_client_name'    => self::API_CLIENT_NAME,
-            'app_client_version' => $this->_metadata->getVersion()
+            "product" => [
+                "id" => "{$order->getIncrementId()}",
+                "price" => floatval($order->getGrandTotal()),
+                "name" => "{$order->getIncrementId()}",
+                "url" => "",
+                "currency" => strtoupper($order->getStoreCurrencyCode())
+            ],
+            "customer" => [
+                "name" => $customerName,
+                "email" => $order->getCustomerEmail(),
+                "phone" => ""
+            ],
+            "payment" =>  [
+                "type" => "SPEI"
+            ]
         );
     }
 
@@ -347,18 +337,17 @@ class Cash extends AbstractMethod
      * Get Payment Info After Charge
      * @param $response
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function getOfflineInfo($response)
     {
         return array(
             "type"       => $this->_code,
-            "provider"   => $this->getInfoInstance()->getAdditionalInformation(self::PROVIDER_KEY_NAME) ? : null,
+            "provider"   => 'SPEI',
             "ID"         => $response->id,
-            "reference"  => $response->short_id,
+            "reference"  => $response->shortId,
             "expires_at" => date(
                 "Y-m-d H:i:s",
-                substr("{$response->expires_at}", 0, 10)
+                substr("{$response->expiresAt}", 0, 10)
             )
         );
     }
@@ -400,65 +389,5 @@ class Cash extends AbstractMethod
             return false;
         }
         return true;
-    }
-
-    /**
-     * Warnins for config
-     * @param Client $client
-     * @param bool $enabled
-     * @return array
-     */
-    public function hookRetro(Client $client, $enabled = true)
-    {
-        $error = [
-            false,
-            '',
-            'yes'
-        ];
-
-        if ($enabled) {
-            if ( !empty($client->publickey) && !empty($client->privatekey) ) {
-                try {
-                    $compropagoResponse = Validations::evalAuth($client);
-                    if ( !Validations::validateGateway($client) ) {
-                        $error[1] = 'Invalid Keys, The Public Key and Private Key must be valid before using this module.';
-                        $error[0] = true;
-                    } else {
-                        if ($compropagoResponse->mode_key != $compropagoResponse->livemode) {
-                            $error[1] = 'Your Keys and Your ComproPago account are set to different Modes.';
-                            $error[0] = true;
-                        } else {
-                            if ($client->live != $compropagoResponse->livemode) {
-                                $error[1] = 'Your Store and Your ComproPago account are set to different Modes.';
-                                $error[0] = true;
-                            } else {
-                                if ($client->live != $compropagoResponse->mode_key) {
-                                    $error[1] = 'Your keys are for a different Mode.';
-                                    $error[0] = true;
-                                } else {
-                                    if (!$compropagoResponse->mode_key && !$compropagoResponse->livemode) {
-                                        $error[1] = 'Account is running in TEST mode, NO REAL OPERATIONS';
-                                        $error[0] = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (\Exception $e) {
-                    $error[2] = 'no';
-                    $error[1] = $e->getMessage();
-                    $error[0] = true;
-                }
-            } else {
-                $error[1] = 'The Public Key and Private Key must be set before using';
-                $error[2] = 'no';
-                $error[0] = true;
-            }
-        } else {
-            $error[1] = 'The module is not enable';
-            $error[2] = 'no';
-            $error[0] = true;
-        }
-        return $error;
     }
 }

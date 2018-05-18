@@ -12,12 +12,13 @@ define(
             defaults: {
                 template: 'Compropago_Payments/payment/compropagotpl',
                 providerSelector: "#compropago_cash_providers",
+                compropagoProvider: 'SEVEN_ELEVEN',
                 provider: ""
             },
 
             initialize: function () {
-                this._super();
-                    //.observe('compropagoProvider');
+                this._super()
+                    .observe('compropagoProvider');
                 return this;
             },
 
@@ -37,14 +38,14 @@ define(
             },
 
             getData: function () {
-                var provider = $(this.providerSelector).val();
+                this.compropagoProvider = $(this.providerSelector).val();
 
-                console.log('==> Provider:' + provider);
+                console.log('==> Provider:' + this.compropagoProvider);
 
                 return {
                     "method": this.item.method,
                     "additional_data": {
-                        "provider" : provider
+                        "provider" : this.compropagoProvider
                     }
                 };
             }
