@@ -3,7 +3,7 @@
  * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  */
 
-namespace Compropago\Payments\Model;
+namespace Compropago\Magento2\Model;
 
 use Magento\Framework\Option\ArrayInterface;
 use CompropagoSdk\Client;

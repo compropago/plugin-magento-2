@@ -14,11 +14,11 @@ define(
         rendererList.push(
             {
                 type: 'compropago_cash',
-                component: 'Compropago_Payments/js/view/payment/method-renderer/compropago-method'
+                component: 'Compropago_Magento2/js/view/payment/method-renderer/compropago-method'
             },
             {
                 type: 'compropago_spei',
-                component: 'Compropago_Payments/js/view/payment/method-renderer/compropago-spei'
+                component: 'Compropago_Magento2/js/view/payment/method-renderer/compropago-spei'
             }
         );
         /** Add view logic here if needed */

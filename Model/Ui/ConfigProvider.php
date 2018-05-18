@@ -4,9 +4,9 @@
  * @author Rolando Lucio <rolando@compropago.com>
  */
 
-namespace Compropago\Payments\Model\Ui;
+namespace Compropago\Magento2\Model\Ui;
 
-use Compropago\Payments\Model\Cash;
+use Compropago\Magento2\Model\Cash;
 use CompropagoSdk\Client;
 
 use Magento\Checkout\Model\Session;
@@ -24,7 +24,7 @@ class ConfigProvider implements ConfigProviderInterface
     private $storeManager;
     private $assetRepo;
     /**
-     * @var \Compropago\Payments\Model\Config
+     * @var \Compropago\Magento2\Model\Config
      */
     private $config;
 
@@ -33,7 +33,7 @@ class ConfigProvider implements ConfigProviderInterface
      * @param Escaper $escaper
      * @param Session $checSession
      * @param Cash $instance
-     * @param \Compropago\Payments\Model\Config $config
+     * @param \Compropago\Magento2\Model\Config $config
      * @param StoreManagerInterface $storeManager
      * @param AssetsRepository $assetRepo
      */
@@ -41,7 +41,7 @@ class ConfigProvider implements ConfigProviderInterface
         Escaper $escaper,
         Session $checSession,
         Cash $instance,
-        \Compropago\Payments\Model\Config $config,
+        \Compropago\Magento2\Model\Config $config,
         StoreManagerInterface $storeManager,
         AssetsRepository $assetRepo
     ) {
@@ -93,6 +93,7 @@ class ConfigProvider implements ConfigProviderInterface
         }
 
         $final = [];
+
         foreach ($compropagoProviders as $provider) {
             foreach ($available as $prov_av) {
                 if ($prov_av == $provider->internal_name) {

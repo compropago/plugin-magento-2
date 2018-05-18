@@ -10,7 +10,7 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'Compropago_Payments/payment/compropago-spei',
+                template: 'Compropago_Magento2/payment/compropago-spei',
                 provider: ""
             },
 

@@ -26,7 +26,7 @@
  *
  */
 
-namespace Compropago\Payments\Model;
+namespace Compropago\Magento2\Model;
 
 use CompropagoSdk\Tools\Request;
 
@@ -59,7 +59,7 @@ class Spei extends AbstractMethod
     /**
      * @var string
      */
-    protected $_infoBlockType  = 'Compropago\Payments\Block\Payment\Info';
+    protected $_infoBlockType  = 'Compropago\Magento2\Block\Payment\Info';
 
     /**
      * Mode
@@ -102,7 +102,7 @@ class Spei extends AbstractMethod
 
     /**
      * General configuration of ComproPago
-     * @var \Compropago\Payments\Model\Config
+     * @var \Compropago\Magento2\Model\Config
      */
     protected $config;
 
@@ -122,7 +122,7 @@ class Spei extends AbstractMethod
      * @param Logger $logger
      * @param BuilderInterface $transactionBuilder
      * @param ProductMetadataInterface $metadata
-     * @param \Compropago\Payments\Model\Config $config
+     * @param \Compropago\Magento2\Model\Config $config
      * @param array $data
      */
     public function __construct(
@@ -135,7 +135,7 @@ class Spei extends AbstractMethod
         Logger $logger,
         BuilderInterface $transactionBuilder,
         ProductMetadataInterface $metadata,
-        \Compropago\Payments\Model\Config $config,
+        \Compropago\Magento2\Model\Config $config,
         array $data = array()
     ) {
         $this->_metadata = $metadata;

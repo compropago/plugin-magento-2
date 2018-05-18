@@ -23,7 +23,7 @@
  * © 2017 QBO DIGITAL SOLUTIONS.
  *
  */
-namespace Compropago\Payments\Model\Config\Source\Order;
+namespace Compropago\Magento2\Model\Config\Source\Order;
 
 use Magento\Sales\Model\Order;
 

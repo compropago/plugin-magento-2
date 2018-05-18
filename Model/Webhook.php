@@ -17,6 +17,7 @@
  * MMDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDMMM
  *
  * @author José Castañeda <jose@qbo.tech>
+ * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  * @category Compropago
  * @package Compropago\Magento2\
  * @copyright qbo (http://www.qbo.tech)
@@ -26,13 +27,14 @@
  *
  */
 
-namespace Compropago\Payments\Model;
+namespace Compropago\Magento2\Model;
 
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender\OrderCommentSender;
 use Magento\Framework\Escaper;
 
 use CompropagoSdk\Client;
+use CompropagoSdk\Tools\Request;
 use CompropagoSdk\Tools\Validations;
 
 class Webhook
@@ -44,9 +46,19 @@ class Webhook
     const XML_PATH_VERIFIED_MESSAGE = 'verified_payment_message';
 
     /**
-     * @var \Compropago\Magento2\Model\Payment
+     * @var \Compropago\Magento2\Model\Cash
      */
-    protected $_paymentModel;
+    protected $_cashModel;
+
+    /**
+     * @var \Compropago\Magento2\Model\Spei
+     */
+    protected $_speiModel;
+
+    /**
+     * @var \Compropago\Magento2\Model\Config
+     */
+    protected $_config;
 
     /**
      * @var array
@@ -54,9 +66,14 @@ class Webhook
     protected $result = array();
 
     /**
+     * @var \CompropagoSdk\Client
+     */
+    protected $client;
+
+    /**
      * @var array
      */
-    protected $client = array();
+    protected $_cpAuth = array();
 
     /**
      * @var Order
@@ -77,14 +94,11 @@ class Webhook
      * @var Escaper
      */
     protected $_escaper;
-    /**
-     * @var Config
-     */
-    private $config;
 
     /**
      * Webhook constructor.
      * @param Cash $model
+     * @param Spei $spei
      * @param Config $config
      * @param Order $order
      * @param OrderCommentSender $orderCommentSender
@@ -93,6 +107,7 @@ class Webhook
      */
     public function __construct(
         Cash $model,
+        Spei $spei,
         Config $config,
         Order $order,
         OrderCommentSender $orderCommentSender, 
@@ -102,9 +117,10 @@ class Webhook
     {
         $this->_orderCommandSender = $orderCommentSender;        
         $this->_orderRepository = $order;        
-        $this->_paymentModel = $model;
+        $this->_cashModel = $model;
+        $this->_speiModel = $spei;
         $this->_escaper = $_escaper;
-        $this->config = $config;
+        $this->_config = $config;
     }
 
     /**
@@ -115,28 +131,18 @@ class Webhook
     {        
         try{
             $this->_initClient();
-            $this->_validate($charge);
             $order = $this->_initOrder($charge);
-            $type = $charge->type;
 
-            switch ($type) {
-                case self::CHARGE_TYPE_PENDING:
-                    //Do nothing
-                    break;
-                case self::CHARGE_TYPE_SUCCESS:
-                    if($order->getStatus() != Order::STATE_PROCESSING) 
-                    {
-                        $order->setState(Order::STATE_PROCESSING)
-                              ->setStatus(Order::STATE_PROCESSING);
-                        $this->_processOrderComments($order, true);
-                    }
-                    break;
-                case self::CHARGE_TYPE_EXPIRED:
-                    $order->setState(Order::STATE_CANCELED)
-                          ->setStatus(Order::STATE_CANCELED)
-                          ->save();
-                    break;
+            $provider = $order->getPayment()->getAdditionalInformation('provider');
+
+            if ($provider == 'SPEI') {
+                $type = $this->_speiValidate($charge->id);
+                $this->_changeStatus($order, $type);
+            } else {
+                $type = $this->_validate($charge);
+                $this->_changeStatus($order, $type);
             }
+
             $this->result = [
                 'success' => true
             ];
@@ -147,12 +153,72 @@ class Webhook
                 'message' => $e->getMessage()
             );
         }
+
         return $this->result;
+    }
+
+    /**
+     * @param string $cpId
+     * @return string
+     * @throws \Exception
+     */
+    protected function _speiValidate($cpId)
+    {
+        $url = 'https://api.compropago.com/v2/orders/' . $cpId;
+
+        $response = Request::get($url, array(), $this->_cpAuth);
+
+        if ($response->statusCode != 200) {
+            $message = "Can't verify order";
+            throw new \Exception($message, $response->statusCode);
+        }
+
+        $body = json_decode($response->body);
+
+        $status = $body->data->status;
+
+        switch ($status){
+            case 'ACCEPTED':
+                return self::CHARGE_TYPE_SUCCESS;
+            case 'EXPIRED':
+                return self::CHARGE_TYPE_EXPIRED;
+            case 'PENDING':
+                return self::CHARGE_TYPE_PENDING;
+            default:
+                $message = "Invalid status $status of the order";
+                throw new \Exception($message, 500);
+        }
+    }
+
+    /**
+     * @param $order
+     * @param $type string
+     */
+    protected function _changeStatus(&$order, $type)
+    {
+        switch ($type) {
+            case self::CHARGE_TYPE_PENDING:
+                //Do nothing
+                break;
+            case self::CHARGE_TYPE_SUCCESS:
+                if ($order->getStatus() != Order::STATE_PROCESSING) {
+                    $order->setState(Order::STATE_PROCESSING)
+                        ->setStatus(Order::STATE_PROCESSING);
+                    $this->_processOrderComments($order, true);
+                }
+                break;
+            case self::CHARGE_TYPE_EXPIRED:
+                $order->setState(Order::STATE_CANCELED)
+                    ->setStatus(Order::STATE_CANCELED)
+                    ->save();
+                break;
+        }
     }
 
     /**
      * Validate Request Info
      * @param $charge
+     * @return string
      * @throws \Exception
      */
     protected function _validate($charge)
@@ -161,10 +227,12 @@ class Webhook
         
         if ($response->type == 'error') {
             throw new \Exception(
-                sprintf(__('[Compropago Webhook] Invalid payment %s'), $charge->id),
+                sprintf(__('[ComproPago Webhook] Invalid payment %s'), $charge->id),
                 \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
+
+        return $response->type;
     }
 
     /**
@@ -173,16 +241,21 @@ class Webhook
      */
     protected function _initClient()
     {
-        $publickey     = $this->config->getPublicKey();
-        $privatekey    = $this->config->getPrivateKey();
-        $live          = $this->config->getLiveMode();
+        $publickey     = $this->_config->getPublicKey();
+        $privatekey    = $this->_config->getPrivateKey();
+        $live          = $this->_config->getLiveMode();
 
         if (empty($publickey) || empty($privatekey)) {
             throw new \Exception(
-                __("[Compropago Webhook] Module is not configured."),
+                __("[ComproPago Webhook] Module is not configured."),
                 \Magento\Framework\Webapi\Exception::HTTP_INTERNAL_ERROR
             );
         }
+
+        $this->_cpAuth = [
+            'user' => $privatekey,
+            'pass' => $publickey
+        ];
 
         $this->client = new Client($publickey, $privatekey, $live);
         Validations::validateGateway($this->client);
@@ -199,7 +272,7 @@ class Webhook
         
         if(!$order->getId()){
             throw new \Exception(
-                sprintf(__('[Compropago Webhook] Order not found for transaction ID: %s'), $orderId),
+                sprintf(__('[ComproPago Webhook] Order not found for transaction ID: %s'), $orderId),
                  \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
@@ -209,7 +282,7 @@ class Webhook
 
         if($referenceId != $charge->id) {
             throw new \Exception(
-                __("[Compropago Webhook] Reference ID does not match transaction ID"),
+                __("[ComproPago Webhook] Reference ID does not match transaction ID"),
                 \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
@@ -226,7 +299,7 @@ class Webhook
         $paymentMethod = $order->getPayment()->getMethodInstance()->getTitle();
 
         $comment = $this->_escaper->escapeHtml(
-            $this->_paymentModel->getConfigData(self::XML_PATH_VERIFIED_MESSAGE)
+            $this->_cashModel->getConfigData(self::XML_PATH_VERIFIED_MESSAGE)
         );
 
         $historyItem = $order->addStatusHistoryComment($comment, Order::STATE_PROCESSING);

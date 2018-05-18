@@ -10,7 +10,7 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'Compropago_Payments/payment/compropagotpl',
+                template: 'Compropago_Magento2/payment/compropagotpl',
                 providerSelector: "#compropago_cash_providers",
                 compropagoProvider: 'SEVEN_ELEVEN',
                 provider: ""

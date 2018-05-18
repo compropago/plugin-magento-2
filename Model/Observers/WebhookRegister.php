@@ -3,7 +3,7 @@
  * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  */
 
-namespace Compropago\Payments\Model\Observers;
+namespace Compropago\Magento2\Model\Observers;
 
 use CompropagoSdk\Tools\Validations;
 use CompropagoSdk\Client;
@@ -22,14 +22,13 @@ class WebhookRegister implements ObserverInterface
      * WebhookRegister constructor.
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Compropago\Payments\Model\Config $config
+     * @param \Compropago\Magento2\Model\Config $config
      */
     public function __construct(
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Compropago\Payments\Model\Config $config
-    )
-    {
+        \Compropago\Magento2\Model\Config $config
+    ) {
         $this->messageManager = $messageManager;
         $this->storeManager = $storeManager;
         $this->config = $config;

@@ -27,7 +27,7 @@
  *
  */
 
-namespace Compropago\Payments\Model;
+namespace Compropago\Magento2\Model;
 
 use CompropagoSdk\Tools\Validations;
 use CompropagoSdk\Client;
@@ -64,7 +64,7 @@ class Cash extends AbstractMethod
     /**
      * @var string
      */
-    protected $_infoBlockType  = 'Compropago\Payments\Block\Payment\Info';
+    protected $_infoBlockType  = 'Compropago\Magento2\Block\Payment\Info';
 
     /**
      * Mode
@@ -115,7 +115,7 @@ class Cash extends AbstractMethod
 
     /**
      * General configuration of ComproPago
-     * @var \Compropago\Payments\Model\Config
+     * @var \Compropago\Magento2\Model\Config
      */
     protected $config;
 
@@ -136,7 +136,7 @@ class Cash extends AbstractMethod
      * @param BuilderInterface $transactionBuilder
      * @param ProductMetadataInterface $metadata
      * @param Validations $validations
-     * @param \Compropago\Payments\Model\Config $config
+     * @param \Compropago\Magento2\Model\Config $config
      * @param array $data
      */
     public function __construct(
@@ -150,7 +150,7 @@ class Cash extends AbstractMethod
         BuilderInterface $transactionBuilder,
         ProductMetadataInterface $metadata,
         Validations $validations,
-        \Compropago\Payments\Model\Config $config,
+        \Compropago\Magento2\Model\Config $config,
         array $data = array()
     ) {
         $this->_metadata = $metadata;

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Compropago\Payments\Model\Ui\ConfigProvider">
+    <type name="Compropago\Magento2\Model\Ui\ConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="compropago_cash" xsi:type="const">Compropago\Payments\Model\Cash::CODE</item>
-                <item name="compropago_spei" xsi:type="const">Compropago\Payments\Model\Spei::CODE</item>
+                <item name="compropago_cash" xsi:type="const">Compropago\Magento2\Model\Cash::CODE</item>
+                <item name="compropago_spei" xsi:type="const">Compropago\Magento2\Model\Spei::CODE</item>
             </argument>
         </arguments>
     </type>
@@ -12,7 +12,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="comprpago_cash_config_provider" xsi:type="object">Compropago\Payments\Model\Ui\ConfigProvider</item>
+                <item name="comprpago_cash_config_provider" xsi:type="object">Compropago\Magento2\Model\Ui\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

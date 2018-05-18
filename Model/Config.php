@@ -6,7 +6,7 @@
  * Time: 2:25 PM
  */
 
-namespace Compropago\Payments\Model;
+namespace Compropago\Magento2\Model;
 
 
 use Magento\Payment\Model\Method\AbstractMethod;
