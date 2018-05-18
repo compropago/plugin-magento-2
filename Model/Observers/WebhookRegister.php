@@ -31,8 +31,8 @@ class WebhookRegister implements ObserverInterface
     )
     {
         $this->messageManager = $messageManager;
-        $this->config = $config;
         $this->storeManager = $storeManager;
+        $this->config = $config;
     }
 
     /**
