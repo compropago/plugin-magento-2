@@ -1,5 +1,7 @@
 # Plugin para Magento 2 (>= 2.0.5.x)
 
+![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
+
 ## Descripción
 
 Este módulo permite la integración del servicio de ComproPago en tu eCommerce de Magento.
