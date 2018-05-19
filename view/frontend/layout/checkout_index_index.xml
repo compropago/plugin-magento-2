@@ -42,13 +42,12 @@
                                                                 <item name="compropago-magento2" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Compropago_Magento2/js/view/payment/compropago-payments</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="compropago" xsi:type="array">
+                                                                        <item name="compropago_cash" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
-                                                                           
-                                                                           
-                                                                            
                                                                         </item>
-                                                                        
+                                                                        <item name="compropago_spei" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
                                                                     </item>
                                                                 </item>
                                                             </item>

@@ -120,12 +120,15 @@ class Index extends Action
             $event = $this->jsonDecoder->decode(
                 $this->ioFile->read(self::STREAM_BUFFER_NAME)
             );
+
             if(!$this->_validateRequest($event)) {
                 return $this->jsonResponse;
             }
+
             if($this->_getIsTest($event)) {
                 return $this->jsonResponse;
             }
+
             $result = $this->webhookProcessor->processRequest($this->webhook);
 
             $this->_processResult($result, $event);
@@ -135,8 +138,16 @@ class Index extends Action
             $this->jsonResponse->setHttpResponseCode(
                 \Magento\Framework\Webapi\Exception::HTTP_INTERNAL_ERROR
             );
+
+            $this->jsonResponse->setData([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'short_id' =>  null,
+                'reference' =>  $e->getCode()
+            ]);
             $this->_logger->critical($e->getMessage());
         }
+
         return $this->jsonResponse; 
     }
 
@@ -148,17 +159,18 @@ class Index extends Action
      */
     protected function _processResult($result, $event)
     {
-        if (isset($result[self::SUCESS_STATUS]) && $result[self::SUCESS_STATUS])
-        {
+        if (isset($result[self::SUCESS_STATUS]) && $result[self::SUCESS_STATUS]) {
             $this->jsonResponse->setHttpResponseCode(
                 \Magento\Framework\App\Response\Http::STATUS_CODE_200
             );
+
             $this->jsonResponse->setData([
                 'status' => self::SUCESS_STATUS,
                 'message' => self::SUCESS_MESSAGE,
                 'short_id' =>  $event["short_id"],
                 'reference' =>  $event["id"]
             ]);
+
             return $this->jsonResponse;
         }
        
@@ -183,17 +195,16 @@ class Index extends Action
      */
     protected function _validateRequest($event) 
     {        
-        if( !is_array($event) ||
-            !isset($event["short_id"]) ||
-            empty($event)
-        ) {
+        if(!is_array($event) || !isset($event["short_id"]) || empty($event)) {
             $this->jsonResponse->setHttpResponseCode(
                 \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
             );
+
             $this->jsonResponse->setData([
                 'status' => self::ERROR_STATUS,
                 'message' => __(self::INVALID_REQUEST_MESSAGE)        
             ]);
+
             return false;
         }
 
@@ -230,8 +241,10 @@ class Index extends Action
                 'short_id' => $event["short_id"],
                 'reference' => $event["id"]
             ]);
+
             return true;
         }
+
         return false;
     }
 

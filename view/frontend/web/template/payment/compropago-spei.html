@@ -1,0 +1,52 @@
+
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+        <label data-bind="attr: {'for': getCode()}" class="label">
+            <img style="height: 25px; vertical-align: middle;" src="https://compropago.com/plugins/compropago-spei-v2.svg" alt="ComproPago">
+            - <span data-bind="text: getTitle()"></span>
+        </label>
+    </div>
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <form id="compropago-form">
+
+            <div class="payment-method-billing-address">
+                <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!--/ko-->
+            </div>
+
+            Realiza tu pago a través de SPEI para cualquier banco, es muy rapido y sencillo.<br>
+            Crea la orden y recibiras las instrucciones a tu email para dar de alta la cuenta y realizar la
+            transferencia desde tu banca en linea.
+
+        </form>
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('Place Order')},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked())
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        

@@ -17,21 +17,18 @@
  * MMDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDMMM
  *
  * @author QBO Team <info@qbo.tech>
- * @author Rolando Lucio <rolando@compropago.com>
  * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  * @category Compropago
  * @copyright qbo (http://www.qbo.tech)
  * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * 
- * © 2017 QBO DIGITAL SOLUTIONS. 
+ *
+ * © 2017 QBO DIGITAL SOLUTIONS.
  *
  */
 
 namespace Compropago\Magento2\Model;
 
-use CompropagoSdk\Tools\Validations;
-use CompropagoSdk\Client;
-use CompropagoSdk\Factory\Factory;
+use CompropagoSdk\Tools\Request;
 
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
@@ -52,11 +49,9 @@ use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
 /**
  * Payment Object Handler
  */
-class Payment extends AbstractMethod
+class Spei extends AbstractMethod
 {
-    const CODE = 'compropago';
-    const API_CLIENT_NAME = 'magento2';
-    const API_CALL_NAME = 'PlaceOrderInfo';
+    const CODE = 'compropago_spei';
     const PROVIDER_KEY_NAME = 'provider';
 
     const ERROR_CODE_STORE_NOT_FOUND = 5002;
@@ -101,17 +96,15 @@ class Payment extends AbstractMethod
     protected $_metadata;
 
     /**
-     *
-     * @var [type]
+     * @var array
      */
-    protected $_validations;
+    protected $_cpAuth;
 
     /**
-     * Api Client
-     *
-     * @var [type]
+     * General configuration of ComproPago
+     * @var \Compropago\Magento2\Model\Config
      */
-    protected $_apiClient;
+    protected $config;
 
     /**
      * @var array
@@ -129,7 +122,7 @@ class Payment extends AbstractMethod
      * @param Logger $logger
      * @param BuilderInterface $transactionBuilder
      * @param ProductMetadataInterface $metadata
-     * @param Validations $validations
+     * @param \Compropago\Magento2\Model\Config $config
      * @param array $data
      */
     public function __construct(
@@ -142,12 +135,12 @@ class Payment extends AbstractMethod
         Logger $logger,
         BuilderInterface $transactionBuilder,
         ProductMetadataInterface $metadata,
-        Validations $validations,
+        \Compropago\Magento2\Model\Config $config,
         array $data = array()
     ) {
         $this->_metadata = $metadata;
-        $this->_validations = $validations;
         $this->transactionBuilder = $transactionBuilder;
+        $this->config = $config;
 
         parent::__construct(
             $context,
@@ -172,8 +165,8 @@ class Payment extends AbstractMethod
     public function assignData(DataObject $data)
     {
         parent::assignData($data);
-        
-        if($data->getData(self::PROVIDER_KEY_NAME)){
+
+        if ($data->getData(self::PROVIDER_KEY_NAME)) {
             $this->getInfoInstance()->setAdditionalInformation(
                 self::PROVIDER_KEY_NAME,
                 $data->getData(self::PROVIDER_KEY_NAME)
@@ -193,13 +186,12 @@ class Payment extends AbstractMethod
      * Initialize Compropago API Client
      * @return void
      */
-    protected function _initialize() 
+    protected function _initialize()
     {
-        $this->_apiClient = new Client(
-            $this->getPublicKey(),
-            $this->getPrivateKey(),
-            $this->getLiveMode()
-        );
+        $this->_cpAuth = [
+            "user" => $this->config->getPrivateKey(),
+            "pass" => $this->config->getPublicKey()
+        ];
     }
 
     /**
@@ -222,11 +214,11 @@ class Payment extends AbstractMethod
 
             if (isset($result['success'])) {
                 $this->_addTransactionInfo(
-                    $payment, 
+                    $payment,
                     $result
                 );
-            } 
-             
+            }
+
         } catch(\Exception $e) {
             $this->_processErrors($e);
         }
@@ -244,18 +236,22 @@ class Payment extends AbstractMethod
     protected function _executePayment($_orderInfo)
     {
         $result = array();
- 
-        try {
-            $_orderRequest = Factory::getInstanceOf(
-                self::API_CALL_NAME, 
-                $_orderInfo
-            );
-            $response = $this->_apiClient->api->placeOrder($_orderRequest);
 
-            if(property_exists($response, "id")) {
+        try {
+            $url = 'https://api.compropago.com/v2/orders';
+
+            $response = Request::post($url, $_orderInfo, array(), $this->_cpAuth);
+
+            if ($response->statusCode != 200) {
+                throw new \Exception("SPEI Error #: {$response->statusCode}");
+            }
+
+            $body = json_decode($response->body);
+
+            if(isset($body->data->id)) {
                 $result = array(
                     'success' => true,
-                    'response' => $response
+                    'response' => $body->data
                 );
             }
 
@@ -266,35 +262,35 @@ class Payment extends AbstractMethod
         return $result;
     }
 
-
     /**
      * Build Order Request Info
      * @param $order
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    protected function _getRequestInfo($order) 
+    protected function _getRequestInfo($order)
     {
-        $provider = $this->getInfoInstance()->getAdditionalInformation('provider');
-
-        if (!empty($order->getCustomerFirstname()) && 
-            !empty($order->getCustomerLastname())) 
-        {
+        if (!empty($order->getCustomerFirstname()) && !empty($order->getCustomerLastname())) {
             $customerName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
         } else {
             $customerName = $order->getShippingAddress()->getName();
-        }        
+        }
 
         return array(
-            'order_id'           => $order->getIncrementId(),
-            'order_name'         => $order->getIncrementId(),
-            'order_price'        => $order->getGrandTotal(),
-            'customer_name'      => $customerName,
-            'customer_email'     => $order->getCustomerEmail(),
-            'payment_type'       => $provider,
-            'currency'           => strtoupper($order->getStoreCurrencyCode()),
-            'app_client_name'    => self::API_CLIENT_NAME,
-            'app_client_version' => $this->_metadata->getVersion()
+            "product" => [
+                "id" => "{$order->getIncrementId()}",
+                "price" => floatval($order->getGrandTotal()),
+                "name" => "{$order->getIncrementId()}",
+                "url" => "",
+                "currency" => strtoupper($order->getStoreCurrencyCode())
+            ],
+            "customer" => [
+                "name" => $customerName,
+                "email" => $order->getCustomerEmail(),
+                "phone" => ""
+            ],
+            "payment" =>  [
+                "type" => "SPEI"
+            ]
         );
     }
 
@@ -341,18 +337,17 @@ class Payment extends AbstractMethod
      * Get Payment Info After Charge
      * @param $response
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    protected function getOfflineInfo($response) 
+    protected function getOfflineInfo($response)
     {
         return array(
             "type"       => $this->_code,
-            "provider"   => $this->getInfoInstance()->getAdditionalInformation("provider") ? : null,
+            "provider"   => 'SPEI',
             "ID"         => $response->id,
-            "reference"  => $response->short_id,
+            "reference"  => $response->shortId,
             "expires_at" => date(
                 "Y-m-d H:i:s",
-                substr("{$response->expires_at}", 0, 10)
+                substr("{$response->expiresAt}", 0, 10)
             )
         );
     }
@@ -365,14 +360,14 @@ class Payment extends AbstractMethod
      */
     protected function _processErrors($e)
     {
-        $this->_logger->error(__('[Compropago]: ' . $e->getMessage()));
-        
+        $this->_logger->error(__('[ComproPago]: ' . $e->getMessage()));
+
         if($e->getCode() === self::ERROR_CODE_STORE_NOT_FOUND){
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
-        } 
+        }
         throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.'));
     }
-    
+
 
     /**
      * Return payment method code
@@ -381,42 +376,6 @@ class Payment extends AbstractMethod
     public function getCode()
     {
         return self::CODE;
-    }
-
-    /**
-     * Return ComproPago publickey
-     * @return string
-     */
-    public function getPublicKey()
-    {
-        return $this->getConfigData('public_key');
-    }
-
-    /**
-     * Return ComproPago privatekey
-     * @return string
-     */
-    public function getPrivateKey()
-    {
-        return $this->getConfigData('private_key');
-    }
-
-    /**
-     * Return ComproPago mode
-     * @return bool
-     */
-    public function getLiveMode()
-    {
-        return ($this->getConfigData('live_mode') == '1')? true : false;
-    }
-
-    /**
-     * Return if stores logos will be show
-     * @return mixed
-     */
-    public function getShowLogos()
-    {
-        return $this->getConfigData('showlogos');
     }
 
     /**
@@ -430,65 +389,5 @@ class Payment extends AbstractMethod
             return false;
         }
         return true;
-    }
-   
-    /**
-     * Warnins for config
-     * @param Client $client
-     * @param bool $enabled
-     * @return array
-     */
-    public function hookRetro(Client $client, $enabled = true)
-    {
-        $error = [
-            false,
-            '',
-            'yes'
-        ];
-
-        if ($enabled) {
-            if ( !empty($client->publickey) && !empty($client->privatekey) ) {
-                try {
-                    $compropagoResponse = Validations::evalAuth($client);
-                    if ( !Validations::validateGateway($client) ) {
-                        $error[1] = 'Invalid Keys, The Public Key and Private Key must be valid before using this module.';
-                        $error[0] = true;
-                    } else {
-                        if ($compropagoResponse->mode_key != $compropagoResponse->livemode) {
-                            $error[1] = 'Your Keys and Your ComproPago account are set to different Modes.';
-                            $error[0] = true;
-                        } else {
-                            if ($client->live != $compropagoResponse->livemode) {
-                                $error[1] = 'Your Store and Your ComproPago account are set to different Modes.';
-                                $error[0] = true;
-                            } else {
-                                if ($client->live != $compropagoResponse->mode_key) {
-                                    $error[1] = 'Your keys are for a different Mode.';
-                                    $error[0] = true;
-                                } else {
-                                    if (!$compropagoResponse->mode_key && !$compropagoResponse->livemode) {
-                                        $error[1] = 'Account is running in TEST mode, NO REAL OPERATIONS';
-                                        $error[0] = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (\Exception $e) {
-                    $error[2] = 'no';
-                    $error[1] = $e->getMessage();
-                    $error[0] = true;
-                }
-            } else {
-                $error[1] = 'The Public Key and Private Key must be set before using';
-                $error[2] = 'no';
-                $error[0] = true;
-            }
-        } else {
-            $error[1] = 'The module is not enable';
-            $error[2] = 'no';
-            $error[0] = true;
-        }
-        return $error;
     }
 }

@@ -1,5 +1,7 @@
 # Plugin para Magento 2 (>= 2.0.5.x)
 
+![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
+
 ## Descripción
 
 Este módulo permite la integración del servicio de ComproPago en tu eCommerce de Magento.
@@ -64,21 +66,6 @@ Debe tener accessos a su consola de sistema para ejecutar los siguientes comando
 
   ```bash
   php bin/magento setup:upgrade
-  ```
-
-- Ejecutar la compilación de modulos:
-
-  ```bash
-  php bin/magento setup:di:compile
-  ```
-
-  Si al ejecutar este comando llegara a presentarse el siguiente error de
-  composer:
-  **Check https://getcomposer.org/doc/articles/troubleshooting.md#memory-limit-errors for more info on how to handle out of memory errors.**
-  ejecutar de la siguiente forma:
-
-  ```bash
-  php -d memory_limit=-1 bin/magento setup:di:compile
   ```
 
 - Ejecutar la limpieza de cache del sistema:

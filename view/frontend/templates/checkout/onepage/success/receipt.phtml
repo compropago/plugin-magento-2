@@ -1,9 +1,3 @@
-<?php
-/**
- * @var \Compropago\Magento2\Block\Checkout\Onepage\Succes\Receipt $block
- */
-?>
-
 <div id="compropagoWrapper">
     <?php
         $compropago_id = $block->getVars();
@@ -26,7 +20,7 @@
                     var ratio=585/811;
                     var width=container.offsetWidth;
                     var height=(width/ratio);
-                    if(height>937){ height=937; }
+                    if(height>760){ height=760; }
                     iframe.style.width=width + 'px';
                     iframe.style.height=height + 'px';
                 }

@@ -1,42 +1,37 @@
 <?php
 /**
- * @author Eduardo Aguilar <dante.aguiar41@gmail.com>
+ * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
  */
 
 namespace Compropago\Magento2\Model\Observers;
-
-use Compropago\Magento2\Model\Payment;
 
 use CompropagoSdk\Tools\Validations;
 use CompropagoSdk\Client;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Message\ManagerInterface;
-use Magento\Store\Model\StoreManagerInterface;
 
 
 class WebhookRegister implements ObserverInterface
 {
     private $messageManager;
-    private $model;
     private $storeManager;
+    private $config;
 
     /**
      * WebhookRegister constructor.
-     * @param ManagerInterface $messageManager
-     * @param StoreManagerInterface $storeManager
-     * @param Payment $model
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Compropago\Magento2\Model\Config $config
      */
     public function __construct(
-        ManagerInterface $messageManager,
-        StoreManagerInterface $storeManager,
-        Payment $model
-    )
-    {
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Compropago\Magento2\Model\Config $config
+    ) {
         $this->messageManager = $messageManager;
-        $this->model = $model;
         $this->storeManager = $storeManager;
+        $this->config = $config;
     }
 
     /**
@@ -48,27 +43,25 @@ class WebhookRegister implements ObserverInterface
         $webhook = $this->storeManager->getStore()->getBaseUrl() . "cpwebhook/";
 
         $client = new Client(
-            $this->model->getPublicKey(),
-            $this->model->getPrivateKey(),
-            $this->model->getLiveMode()
+            $this->config->getPublicKey(),
+            $this->config->getPrivateKey(),
+            $this->config->getLiveMode()
         );
+
+        $errors = [
+            'Request error: 409',
+            'Error: conflict.urls.create'
+        ];
 
         try {
             Validations::validateGateway($client);
             $client->api->createWebhook($webhook);
+
+            $this->messageManager->addSuccessMessage('Webhook ComproPago was updated.');
         } catch(\Exception $e) {
-            if ($e->getMessage() != 'Error: conflict.urls.create') {
+            if (!in_array($e->getMessage(), $errors)) {
                 $this->messageManager->addError("ComproPago: {$e->getMessage()}");
-            } 
-        }
-
-        $response = $this->model->hookRetro(
-            $client,
-            $this->model->getConfigData('active') == 1
-        );
-
-        if ($response[0]) {
-            $this->messageManager->addNotice("ComproPago: {$response[1]}");
+            }
         }
     }
 }

@@ -32,7 +32,8 @@ use Magento\Sales\Api\Data\OrderPaymentInterface;
 use Magento\Sales\Model\Order\Payment\State\CommandInterface as BaseCommandInterface;
 use Magento\Store\Model\ScopeInterface;
 
-use Compropago\Magento2\Model\Payment;
+use Compropago\Magento2\Model\Cash;
+use Compropago\Magento2\Model\Spei;
 use Compropago\Magento2\Model\Config\Source\Order\Status;
 
 
@@ -49,7 +50,8 @@ class AuthorizeCommand
      * @var array
      */
     protected $_allowedMethods = array(
-        Payment::CODE,
+        Cash::CODE,
+        Spei::CODE,
     );
 
     /**

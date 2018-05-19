@@ -4,8 +4,9 @@
  * @author Rolando Lucio <rolando@compropago.com>
  */
 
-namespace Compropago\Magento2\Model;
+namespace Compropago\Magento2\Model\Ui;
 
+use Compropago\Magento2\Model\Cash;
 use CompropagoSdk\Client;
 
 use Magento\Checkout\Model\Session;
@@ -15,25 +16,32 @@ use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\View\Asset\Repository as AssetsRepository;
 
 
-class CompropagoConfigProvider implements ConfigProviderInterface
+class ConfigProvider implements ConfigProviderInterface
 {
     private $method;
     private $escaper;
     private $checSession;
     private $storeManager;
     private $assetRepo;
+    /**
+     * @var \Compropago\Magento2\Model\Config
+     */
+    private $config;
 
     /**
      * CompropagoConfigProvider constructor.
      * @param Escaper $escaper
      * @param Session $checSession
-     * @param Payment $instance
+     * @param Cash $instance
+     * @param \Compropago\Magento2\Model\Config $config
      * @param StoreManagerInterface $storeManager
+     * @param AssetsRepository $assetRepo
      */
     public function __construct(
         Escaper $escaper,
         Session $checSession,
-        Payment $instance,
+        Cash $instance,
+        \Compropago\Magento2\Model\Config $config,
         StoreManagerInterface $storeManager,
         AssetsRepository $assetRepo
     ) {
@@ -42,6 +50,7 @@ class CompropagoConfigProvider implements ConfigProviderInterface
         $this->checSession = $checSession;
         $this->storeManager = $storeManager;
         $this->assetRepo = $assetRepo;
+        $this->config = $config;
     }
 
     /**
@@ -52,20 +61,11 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     {
         return $this->method->isAvailable() ? [
             'payment' => [
-                Payment::CODE => [
-                    'compropagoProviders' => $this->getProviders()
+                Cash::CODE => [
+                    'providers' => $this->getProviders()
                 ],
             ],
         ] : [];
-    }
-
-    /**
-     * Verify if store logos will be show
-     * @return mixed
-     */
-    protected function getShowLogos()
-    {
-        return $this->method->getShowLogos();
     }
 
     /**
@@ -75,20 +75,25 @@ class CompropagoConfigProvider implements ConfigProviderInterface
     protected function getProviders()
     {
         $client = new Client(
-            $this->method->getPublicKey(),
-            $this->method->getPrivateKey(),
-            $this->method->getLiveMode()
+            $this->config->getPublicKey(),
+            $this->config->getPrivateKey(),
+            $this->config->getLiveMode()
         );
 
         $available = $this->method->getConfigData('active_providers');
         $available = explode(',', $available);
 
-        $compropagoProviders = $client->api->listProviders(
-            $this->getGrandTotal(),
-            $this->storeManager->getStore()->getCurrentCurrencyCode()
-        );
+        try {
+            $compropagoProviders = $client->api->listProviders(
+                $this->getGrandTotal(),
+                $this->storeManager->getStore()->getCurrentCurrencyCode()
+            );
+        } catch (\Exception $e) {
+            $compropagoProviders = [];
+        }
 
         $final = [];
+
         foreach ($compropagoProviders as $provider) {
             foreach ($available as $prov_av) {
                 if ($prov_av == $provider->internal_name) {

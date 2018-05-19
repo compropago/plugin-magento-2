@@ -13,8 +13,12 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'compropago',
+                type: 'compropago_cash',
                 component: 'Compropago_Magento2/js/view/payment/method-renderer/compropago-method'
+            },
+            {
+                type: 'compropago_spei',
+                component: 'Compropago_Magento2/js/view/payment/method-renderer/compropago-spei'
             }
         );
         /** Add view logic here if needed */

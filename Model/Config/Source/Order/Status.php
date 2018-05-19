@@ -19,8 +19,8 @@
  * @author QBO Team <info@qbo.tech>
  * @copyright qbo (http://www.qbo.tech)
  * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * 
- * © 2017 QBO DIGITAL SOLUTIONS. 
+ *
+ * © 2017 QBO DIGITAL SOLUTIONS.
  *
  */
 namespace Compropago\Magento2\Model\Config\Source\Order;
@@ -47,7 +47,7 @@ class Status {
      */
     protected $_orderConfig;
 
-     /**
+    /**
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      */
     public function __construct(\Magento\Sales\Model\Order\Config $orderConfig)
@@ -70,5 +70,5 @@ class Status {
         }
         return $options;
     }
-    
+
 }
