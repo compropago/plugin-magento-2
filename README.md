@@ -66,21 +66,6 @@ Debe tener accessos a su consola de sistema para ejecutar los siguientes comando
   php bin/magento setup:upgrade
   ```
 
-- Ejecutar la compilación de modulos:
-
-  ```bash
-  php bin/magento setup:di:compile
-  ```
-
-  Si al ejecutar este comando llegara a presentarse el siguiente error de
-  composer:
-  **Check https://getcomposer.org/doc/articles/troubleshooting.md#memory-limit-errors for more info on how to handle out of memory errors.**
-  ejecutar de la siguiente forma:
-
-  ```bash
-  php -d memory_limit=-1 bin/magento setup:di:compile
-  ```
-
 - Ejecutar la limpieza de cache del sistema:
 
   ```bash
