@@ -48,13 +48,18 @@ class WebhookRegister implements ObserverInterface
             $this->config->getLiveMode()
         );
 
+        $errors = [
+            'Request error: 409',
+            'Error: conflict.urls.create'
+        ];
+
         try {
             Validations::validateGateway($client);
             $client->api->createWebhook($webhook);
 
             $this->messageManager->addSuccessMessage('Webhook ComproPago was updated.');
         } catch(\Exception $e) {
-            if ($e->getMessage() != 'Error: conflict.urls.create') {
+            if (!in_array($e->getMessage(), $errors)) {
                 $this->messageManager->addError("ComproPago: {$e->getMessage()}");
             }
         }
