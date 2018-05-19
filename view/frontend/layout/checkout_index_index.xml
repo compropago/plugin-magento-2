@@ -39,7 +39,7 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="compropago-magetno2" xsi:type="array">
+                                                                <item name="compropago-magento2" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Compropago_Magento2/js/view/payment/compropago-payments</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="compropago_cash" xsi:type="array">
