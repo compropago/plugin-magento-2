@@ -89,7 +89,10 @@ class ConfigProvider implements ConfigProviderInterface
                 $this->storeManager->getStore()->getCurrentCurrencyCode()
             );
         } catch (\Exception $e) {
-            $compropagoProviders = [];
+            $compropagoProviders = [
+                ['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
+                ['name' => 'Oxxo', 'internal_name' => 'OXXO']
+            ];
         }
 
         $final = [];
