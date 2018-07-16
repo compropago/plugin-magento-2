@@ -23,7 +23,10 @@ class ProvidersOption implements ArrayInterface
         try {
             $allProviders = $client->api->listDefaultProviders();
         } catch (\Exception $e) {
-            $allProviders = [];
+            $allProviders = [
+                ['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
+                ['name' => 'Oxxo', 'internal_name' => 'OXXO']
+            ];
         }
 
         foreach ($allProviders as $provider){
