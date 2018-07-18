@@ -11,6 +11,7 @@ use CompropagoSdk\Client;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Escaper;
+use Magento\Setup\Exception;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\View\Asset\Repository as AssetsRepository;
@@ -90,8 +91,8 @@ class ConfigProvider implements ConfigProviderInterface
             );
         } catch (\Exception $e) {
             $compropagoProviders = [
-                ['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
-                ['name' => 'Oxxo', 'internal_name' => 'OXXO']
+                (Object)['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
+                (Object)['name' => 'Oxxo', 'internal_name' => 'OXXO']
             ];
         }
 

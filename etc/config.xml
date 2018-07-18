@@ -4,8 +4,6 @@
         <payment>
             <compropago_config>
                 <model>Compropago\Magento2\Model\Config</model>
-                <public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <live_mode>0</live_mode>
             </compropago_config>
 
