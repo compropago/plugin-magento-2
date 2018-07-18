@@ -3,7 +3,7 @@
   "type": "magento2-module",
   "description": "ComproPago Magento2 Module",
   "homepage": "https://github.com/compropago/plugin-magento-2",
-  "version": "3.0.0.1",
+  "version": "3.1.0.0",
   "keywords": [
     "pagos internet",
     "payment gateway",

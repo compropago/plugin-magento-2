@@ -11,7 +11,6 @@ use CompropagoSdk\Client;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Escaper;
-use Magento\Setup\Exception;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\View\Asset\Repository as AssetsRepository;
