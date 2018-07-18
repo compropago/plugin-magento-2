@@ -90,8 +90,8 @@ class ConfigProvider implements ConfigProviderInterface
             );
         } catch (\Exception $e) {
             $compropagoProviders = [
-                ['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
-                ['name' => 'Oxxo', 'internal_name' => 'OXXO']
+                (Object)['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
+                (Object)['name' => 'Oxxo', 'internal_name' => 'OXXO']
             ];
         }
 
