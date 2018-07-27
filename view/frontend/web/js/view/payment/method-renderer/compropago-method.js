@@ -17,8 +17,8 @@ define(
             },
 
             initialize: function () {
-                this._super()
-                    .observe('compropagoProvider');
+                this._super();
+                this.observe('compropagoProvider');
                 return this;
             },
 
