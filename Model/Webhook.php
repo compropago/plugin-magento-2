@@ -18,6 +18,8 @@
  *
  * @author José Castañeda <jose@qbo.tech>
  * @author Eduardo Aguilar <dante.aguilar41@gmail.com>
+ * @contributor Rus0 <andonid88@gmail.com>
+ *
  * @category Compropago
  * @package Compropago\Magento2\
  * @copyright qbo (http://www.qbo.tech)
@@ -32,6 +34,10 @@ namespace Compropago\Magento2\Model;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender\OrderCommentSender;
 use Magento\Framework\Escaper;
+use Magento\Sales\Model\Service\InvoiceService;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\DB\Transaction;
+use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 
 use CompropagoSdk\Client;
 use CompropagoSdk\Tools\Request;
@@ -96,6 +102,28 @@ class Webhook
     protected $_escaper;
 
     /**
+     *  @var InvoiceService $invoiceService
+     */
+    protected $_invoiceService;
+
+    /**
+     * Core store config
+     *
+     * @var ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
+     * @var Transaction $_transaction
+     */
+    protected $_transaction;
+
+    /**
+     * @var InvoiceSender $_invoiceSender
+     */
+    protected $_invoiceSender;
+
+    /**
      * Webhook constructor.
      * @param Cash $model
      * @param Spei $spei
@@ -103,6 +131,10 @@ class Webhook
      * @param Order $order
      * @param OrderCommentSender $orderCommentSender
      * @param Escaper $_escaper
+     * @param InvoiceService $_escaper
+     * @param ScopeConfigInterface $scopeConfig
+     * @param Transaction $transaction
+     * @param InvoiceSender $invoiceSender
      * @param array $data
      */
     public function __construct(
@@ -112,6 +144,10 @@ class Webhook
         Order $order,
         OrderCommentSender $orderCommentSender, 
         Escaper $_escaper,
+        InvoiceService $invoiceService,
+        ScopeConfigInterface $scopeConfig,
+        Transaction $transaction,
+        InvoiceSender $invoiceSender,
         array $data = []
     )
     {
@@ -121,6 +157,10 @@ class Webhook
         $this->_speiModel = $spei;
         $this->_escaper = $_escaper;
         $this->_config = $config;
+        $this->_invoiceService = $invoiceService;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_transaction = $transaction;
+        $this->_invoiceSender = $invoiceSender;
     }
 
     /**
@@ -268,6 +308,7 @@ class Webhook
     protected function _initOrder($charge)
     {
         $orderId = $charge->order_info->order_id;
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $this->_orderRepository->loadByIncrementId($orderId);        
         
         if(!$order->getId()){
@@ -292,7 +333,7 @@ class Webhook
 
     /**
      * Process Order History comments and notify customer via email
-     * @param $order
+     * @param \Magento\Sales\Model\Order $order
      */
     protected function _processOrderComments($order)
     {
@@ -302,11 +343,39 @@ class Webhook
             $this->_cashModel->getConfigData(self::XML_PATH_VERIFIED_MESSAGE)
         );
 
-        $historyItem = $order->addStatusHistoryComment($comment, Order::STATE_PROCESSING);
-        $historyItem->setIsCustomerNotified(true);
+        // Validate if the order needs invoice
+        if (
+            $this->_scopeConfig->getValue("payment/compropago_config/invoice_items",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $order->getStoreId() )
+                && $order->canInvoice()
+        ) {
 
-        $historyItem->save();
-        $order->save();
+            try {
+                $invoice = $this->_invoiceService->prepareInvoice($order);
+                $invoice->register();
+                $invoice->save();
+                $transactionSave = $this->_transaction->addObject(
+                    $invoice
+                )->addObject(
+                    $invoice->getOrder()
+                );
+                $transactionSave->save();
+                $this->_invoiceSender->send($invoice);
+
+                $historyItem = $order->addStatusHistoryComment($comment, Order::STATE_PROCESSING);
+                $historyItem->setIsCustomerNotified(true)
+                $historyItem->save();
+                $order->save();
+            } catch (\Exception $e) {
+            }
+        } else {
+            $historyItem = $order->addStatusHistoryComment($comment, Order::STATE_PROCESSING);
+            $historyItem->setIsCustomerNotified(true);
+
+            $historyItem->save();
+            $order->save();
+        }
         
         try{
             $this->_orderCommandSender->send($order, true, $comment);
