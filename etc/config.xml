@@ -5,6 +5,7 @@
             <compropago_config>
                 <model>Compropago\Magento2\Model\Config</model>
                 <live_mode>0</live_mode>
+                <invoice_items>0</invoice_items>
             </compropago_config>
 
             <compropago_cash>
