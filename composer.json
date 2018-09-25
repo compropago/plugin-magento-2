@@ -3,7 +3,7 @@
   "type": "magento2-module",
   "description": "ComproPago Magento2 Module",
   "homepage": "https://github.com/compropago/plugin-magento-2",
-  "version": "3.1.0.0",
+  "version": "3.1.0.3",
   "keywords": [
     "pagos internet",
     "payment gateway",
@@ -37,6 +37,10 @@
     {
       "name": "qboDigital",
       "email": "info@qbo.tech"
+    },
+    {
+      "name": "Rus0",
+      "email": "andoni88@gmail.com"
     }
   ]
 }
