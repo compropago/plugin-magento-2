@@ -364,7 +364,7 @@ class Webhook
                 $this->_invoiceSender->send($invoice);
 
                 $historyItem = $order->addStatusHistoryComment($comment, Order::STATE_PROCESSING);
-                $historyItem->setIsCustomerNotified(true)
+                $historyItem->setIsCustomerNotified(true);
                 $historyItem->save();
                 $order->save();
             } catch (\Exception $e) {
