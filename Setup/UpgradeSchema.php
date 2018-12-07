@@ -13,7 +13,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
         // Get compropago_orders table
         $tableName = $installer->getTable('compropago_orders');
         // Check if the table already exists
-        if ($installer->getConnection()->isTableExists($tableName) != true) {
+        if ($installer->getConnection()->isTableExists($tableName) != true)
+        {
             // Create compropago_orders table
             $table = $installer->getConnection()
                 ->newTable($tableName)
@@ -99,7 +100,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
         // Get compropago_transactions table
         $tableName = $installer->getTable('compropago_transactions');
         // Check if the table already exists
-        if ($installer->getConnection()->isTableExists($tableName) != true) {
+        if ($installer->getConnection()->isTableExists($tableName) != true)
+        {
             // Create compropago_transactions table
             $table = $installer->getConnection()
                 ->newTable($tableName)

@@ -7,7 +7,7 @@
 namespace Compropago\Magento2\Model\Ui;
 
 use Compropago\Magento2\Model\Cash;
-use CompropagoSdk\Client;
+use CompropagoSdk\Resources\Payments\Cash as sdkCash;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Escaper;
@@ -74,42 +74,42 @@ class ConfigProvider implements ConfigProviderInterface
      */
     protected function getProviders()
     {
-        $client = new Client(
-            $this->config->getPublicKey(),
-            $this->config->getPrivateKey(),
-            $this->config->getLiveMode()
-        );
-
-        $available = $this->method->getConfigData('active_providers');
-        $available = explode(',', $available);
-
         try {
-            $compropagoProviders = $client->api->listProviders(
-                $this->getGrandTotal(),
-                $this->storeManager->getStore()->getCurrentCurrencyCode()
+            $client = (new sdkCash)->withKeys(
+                $this->config->getPublicKey(),
+                $this->config->getPrivateKey()
             );
-        } catch (\Exception $e) {
+            $compropagoProviders = $client->getProviders();
+        }
+        catch (\Exception $e)
+        {
             $compropagoProviders = [
-                (Object)['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
-                (Object)['name' => 'Oxxo', 'internal_name' => 'OXXO']
+                ['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
+                ['name' => 'Oxxo', 'internal_name' => 'OXXO']
             ];
         }
 
-        $final = [];
+        # Available providers
+        $available = explode(',', $this->method->getConfigData('active_providers'));
+        if ( empty($available[0]) )
+        {
+            foreach ($compropagoProviders as $provider)
+            {
+                array_push($available, $provider);
+            }
+        }
 
-        foreach ($compropagoProviders as $provider) {
+        $final = [];
+        foreach ($compropagoProviders as $provider)
+        {
             foreach ($available as $prov_av) {
-                if ($prov_av == $provider->internal_name) {
+                if ($prov_av == $provider['internal_name']) {
                     $final[] = $provider;
                 }
             }
         }
-
-        if (empty($final)) {
-            return 0;
-        } else {
-            return $final;
-        }
+        
+        return empty($final) ? 0 : $final;
     }
 
     /**

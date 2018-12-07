@@ -8,8 +8,8 @@
 
 namespace Compropago\Magento2\Model;
 
-
 use Magento\Payment\Model\Method\AbstractMethod;
+
 
 class Config extends AbstractMethod
 {

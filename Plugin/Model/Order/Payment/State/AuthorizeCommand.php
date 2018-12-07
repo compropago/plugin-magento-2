@@ -39,61 +39,68 @@ use Compropago\Magento2\Model\Config\Source\Order\Status;
 
 class AuthorizeCommand
 {
-    const STATUS_PENDING = "pending";
+	const STATUS_PENDING = "pending";
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $_scopeConfig;
+	/**
+	 * @var ScopeConfigInterface
+	 */
+	protected $_scopeConfig;
 
-    /**
-     * @var array
-     */
-    protected $_allowedMethods = array(
-        Cash::CODE,
-        Spei::CODE,
-    );
+	/**
+	 * @var array
+	 */
+	protected $_allowedMethods = array(
+		Cash::CODE,
+		Spei::CODE,
+	);
 
-    /**
-     * AuthorizeCommand constructor.
-     * @param ScopeConfigInterface $scopeConfig
-     */
-    public function __construct(
-        ScopeConfigInterface $scopeConfig
-    ) {
-        $this->_scopeConfig = $scopeConfig;
-    }
+	/**
+	 * AuthorizeCommand constructor.
+	 * @param ScopeConfigInterface $scopeConfig
+	 */
+	public function __construct(ScopeConfigInterface $scopeConfig)
+	{
+		$this->_scopeConfig = $scopeConfig;
+	}
 
-    /**
-     * Set pending order status on order place
-     * see https://github.com/magento/magento2/issues/5860
-     *
-     * @todo Refactor this when another option becomes available
-     *
-     * @param BaseCommandInterface $subject
-     * @param \Closure $proceed
-     * @param OrderPaymentInterface $payment
-     * @param $amount
-     * @param OrderInterface $order
-     * @return mixed
-     */
-    public function aroundExecute(BaseCommandInterface $subject, \Closure $proceed, OrderPaymentInterface $payment, $amount, OrderInterface $order)
-    {
-        $result = $proceed($payment, $amount, $order);
-        if (in_array($payment->getMethod(), $this->_allowedMethods))
-        {
-            $xpath = "payment/{$payment->getMethod()}/order_status";
-            $orderStatus = $this->_scopeConfig->getValue($xpath, ScopeInterface::SCOPE_STORE);
+	/**
+	 * Set pending order status on order place
+	 * see https://github.com/magento/magento2/issues/5860
+	 *
+	 * @todo Refactor this when another option becomes available
+	 *
+	 * @param BaseCommandInterface $subject
+	 * @param \Closure $proceed
+	 * @param OrderPaymentInterface $payment
+	 * @param $amount
+	 * @param OrderInterface $order
+	 * @return mixed
+	 */
+	public function aroundExecute(
+		BaseCommandInterface $subject,
+		\Closure $proceed,
+		OrderPaymentInterface $payment,
+		$amount,
+		OrderInterface $order)
+	{
+		$result = $proceed($payment, $amount, $order);
+		if (in_array($payment->getMethod(), $this->_allowedMethods))
+		{
+			$orderStatus = $this->_scopeConfig->getValue(
+				"payment/{$payment->getMethod()}/order_status",
+				ScopeInterface::SCOPE_STORE
+			);
 
-            if ($orderStatus) {
-                $order->setStatus($orderStatus);
-                if($orderStatus == self::STATUS_PENDING) {
-                    $order->setState(Status::STATE_PENDING);
-                } else {
-                    $order->setState($order->getConfig()->getStateDefaultStatus($orderStatus));
-                }
-            }
-        }
-        return $result;
-    }
+			if ($orderStatus)
+			{
+				$order->setStatus($orderStatus);
+				$order->setState( ($orderStatus == self::STATUS_PENDING)
+					? (Status::STATE_PENDING)
+					: ($order->getConfig()->getStateDefaultStatus($orderStatus))
+				);
+			}
+		}
+
+		return $result;
+	}
 }

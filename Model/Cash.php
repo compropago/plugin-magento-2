@@ -29,10 +29,6 @@
 
 namespace Compropago\Magento2\Model;
 
-use CompropagoSdk\Tools\Validations;
-use CompropagoSdk\Client;
-use CompropagoSdk\Factory\Factory;
-
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -48,6 +44,8 @@ use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
 use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
 
+use CompropagoSdk\Resources\Payments\Cash as sdkCash;
+
 
 /**
  * Payment Object Handler
@@ -60,6 +58,7 @@ class Cash extends AbstractMethod
     const PROVIDER_KEY_NAME = 'provider';
 
     const ERROR_CODE_STORE_NOT_FOUND = 5002;
+    const ERROR_CODE_API_OLD_VERSION = 5003;
 
     /**
      * @var string
@@ -107,9 +106,8 @@ class Cash extends AbstractMethod
     protected $_validations;
 
     /**
-     * Api Client
-     *
-     * @var [type]
+     * API Client for cash gateway
+     * @var [sdkCash]
      */
     protected $_apiClient;
 
@@ -151,8 +149,8 @@ class Cash extends AbstractMethod
         ProductMetadataInterface $metadata,
         Validations $validations,
         \Compropago\Magento2\Model\Config $config,
-        array $data = array()
-    ) {
+        array $data = array())
+    {
         $this->_metadata = $metadata;
         $this->_validations = $validations;
         $this->transactionBuilder = $transactionBuilder;
@@ -182,19 +180,25 @@ class Cash extends AbstractMethod
     {
         parent::assignData($data);
 
-        if($data->getData(self::PROVIDER_KEY_NAME)){
+        if ($data->getData(self::PROVIDER_KEY_NAME))
+        {
             $this->getInfoInstance()->setAdditionalInformation(
                 self::PROVIDER_KEY_NAME,
                 $data->getData(self::PROVIDER_KEY_NAME)
             );
-        } else {
+        }
+        else
+        {
             $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-            foreach ($additionalData as $key => $value) {
-                if(!is_object($value)){
+            foreach ($additionalData as $key => $value)
+            {
+                if(!is_object($value))
+                {
                     $this->getInfoInstance()->setAdditionalInformation($key, $value);
                 }
             }
         }
+
         return $this;
     }
 
@@ -204,10 +208,9 @@ class Cash extends AbstractMethod
      */
     protected function _initialize()
     {
-        $this->_apiClient = new Client(
+        $this->_apiClient = (new sdkCash)->withKeys(
             $this->config->getPublicKey(),
-            $this->config->getPrivateKey(),
-            $this->config->getLiveMode()
+            $this->config->getPrivateKey()
         );
     }
 
@@ -222,21 +225,22 @@ class Cash extends AbstractMethod
     public function authorize(InfoInterface $payment, $amount)
     {
         $this->_initialize();
-        $order = $payment->getOrder();
 
         try{
             $result = $this->_executePayment(
-                $this->_getRequestInfo($order)
+                $this->_getRequestInfo( $payment->getOrder() )
             );
 
-            if (isset($result['success'])) {
+            if (isset($result['success']))
+            {
                 $this->_addTransactionInfo(
                     $payment,
                     $result
                 );
             }
 
-        } catch(\Exception $e) {
+        } catch(\Exception $e)
+        {
             $this->_processErrors($e);
         }
 
@@ -252,23 +256,26 @@ class Cash extends AbstractMethod
      */
     protected function _executePayment($_orderInfo)
     {
-        $result = array();
+        $result = [];
 
-        try {
-            $_orderRequest = Factory::getInstanceOf(
-                self::API_CALL_NAME,
-                $_orderInfo
-            );
-            $response = $this->_apiClient->api->placeOrder($_orderRequest);
-
-            if(property_exists($response, "id")) {
-                $result = array(
+        try
+        {
+            $response = $this->_apiClient->createOrder($_orderInfo);
+            if (isset($response['id']))
+            {
+                $result = [
                     'success' => true,
                     'response' => $response
-                );
+                ];
             }
-
-        } catch(\Exception $e){
+            else
+            {
+                # Error old API version
+                
+            }
+        }
+        catch(\Exception $e)
+        {
             $this->_processErrors($e);
         }
 
@@ -283,15 +290,12 @@ class Cash extends AbstractMethod
      */
     protected function _getRequestInfo($order)
     {
+        $customerName = ( !empty($order->getCustomerFirstname()) && !empty($order->getCustomerLastname()) )
+            ? ( $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname() )
+            : ( $order->getShippingAddress()->getName() );
         $provider = $this->getInfoInstance()->getAdditionalInformation(self::PROVIDER_KEY_NAME);
 
-        if (!empty($order->getCustomerFirstname()) && !empty($order->getCustomerLastname())) {
-            $customerName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
-        } else {
-            $customerName = $order->getShippingAddress()->getName();
-        }
-
-        return array(
+        return [
             'order_id'           => $order->getIncrementId(),
             'order_name'         => $order->getIncrementId(),
             'order_price'        => $order->getGrandTotal(),
@@ -301,7 +305,7 @@ class Cash extends AbstractMethod
             'currency'           => strtoupper($order->getStoreCurrencyCode()),
             'app_client_name'    => self::API_CLIENT_NAME,
             'app_client_version' => $this->_metadata->getVersion()
-        );
+        ];
     }
 
     /**
@@ -333,7 +337,7 @@ class Cash extends AbstractMethod
         /**
          * Set TXN ID
          */
-        $payment->setTransactionId($response->id)
+        $payment->setTransactionId($response['id'])
             ->setIsTransactionClosed(0)
             ->setSkipOrderProcessing(true);
 
@@ -354,11 +358,9 @@ class Cash extends AbstractMethod
         return array(
             "type"       => $this->_code,
             "provider"   => $this->getInfoInstance()->getAdditionalInformation(self::PROVIDER_KEY_NAME) ? : null,
-            "ID"         => $response->id,
-            "reference"  => $response->short_id,
-            "expires_at" => date(
-                "Y-m-d H:i:s",
-                substr("{$response->expires_at}", 0, 10)
+            "ID"         => $response['id'],
+            "reference"  => $response['short_id'],
+            "expires_at" => date("Y-m-d H:i:s", substr("{$response['expires_at']}", 0, 10)
             )
         );
     }
@@ -371,14 +373,16 @@ class Cash extends AbstractMethod
      */
     protected function _processErrors($e)
     {
-        $this->_logger->error(__('[ComproPago]: ' . $e->getMessage()));
+        $message = $e->getMessage();
+        $this->_logger->error(__('[ComproPago]: ' . $message));
 
-        if($e->getCode() === self::ERROR_CODE_STORE_NOT_FOUND){
-            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
+        if($e->getCode() === self::ERROR_CODE_STORE_NOT_FOUND)
+        {
+            throw new \Magento\Framework\Exception\LocalizedException(__($message));
         }
+
         throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.'));
     }
-
 
     /**
      * Return payment method code
@@ -400,65 +404,5 @@ class Cash extends AbstractMethod
             return false;
         }
         return true;
-    }
-
-    /**
-     * Warnins for config
-     * @param Client $client
-     * @param bool $enabled
-     * @return array
-     */
-    public function hookRetro(Client $client, $enabled = true)
-    {
-        $error = [
-            false,
-            '',
-            'yes'
-        ];
-
-        if ($enabled) {
-            if ( !empty($client->publickey) && !empty($client->privatekey) ) {
-                try {
-                    $compropagoResponse = Validations::evalAuth($client);
-                    if ( !Validations::validateGateway($client) ) {
-                        $error[1] = 'Invalid Keys, The Public Key and Private Key must be valid before using this module.';
-                        $error[0] = true;
-                    } else {
-                        if ($compropagoResponse->mode_key != $compropagoResponse->livemode) {
-                            $error[1] = 'Your Keys and Your ComproPago account are set to different Modes.';
-                            $error[0] = true;
-                        } else {
-                            if ($client->live != $compropagoResponse->livemode) {
-                                $error[1] = 'Your Store and Your ComproPago account are set to different Modes.';
-                                $error[0] = true;
-                            } else {
-                                if ($client->live != $compropagoResponse->mode_key) {
-                                    $error[1] = 'Your keys are for a different Mode.';
-                                    $error[0] = true;
-                                } else {
-                                    if (!$compropagoResponse->mode_key && !$compropagoResponse->livemode) {
-                                        $error[1] = 'Account is running in TEST mode, NO REAL OPERATIONS';
-                                        $error[0] = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (\Exception $e) {
-                    $error[2] = 'no';
-                    $error[1] = $e->getMessage();
-                    $error[0] = true;
-                }
-            } else {
-                $error[1] = 'The Public Key and Private Key must be set before using';
-                $error[2] = 'no';
-                $error[0] = true;
-            }
-        } else {
-            $error[1] = 'The module is not enable';
-            $error[2] = 'no';
-            $error[0] = true;
-        }
-        return $error;
     }
 }

@@ -27,10 +27,12 @@ namespace Compropago\Magento2\Model\Config\Source\Order;
 
 use Magento\Sales\Model\Order;
 
+
 /**
  * Order Status source model
  */
-class Status {
+class Status
+{
 
     const UNDEFINED_OPTION_LABEL = '-- Please Select --';
     const STATE_PENDING = 'new';
@@ -64,10 +66,20 @@ class Status {
             ? $this->_orderConfig->getStateStatuses($this->_stateStatuses)
             : $this->_orderConfig->getStatuses();
 
-        $options = [['value' => '', 'label' => __(self::UNDEFINED_OPTION_LABEL)]];
-        foreach ($statuses as $code => $label) {
-            $options[] = ['value' => $code, 'label' => $label];
+        $options = [
+            [
+                'value' => '',
+                'label' => __(self::UNDEFINED_OPTION_LABEL)
+            ]
+        ];
+        foreach ($statuses as $code => $label)
+        {
+            $options[] = [
+                'value' => $code,
+                'label' => $label
+            ];
         }
+
         return $options;
     }
 

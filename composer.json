@@ -3,7 +3,7 @@
   "type": "magento2-module",
   "description": "ComproPago Magento2 Module",
   "homepage": "https://github.com/compropago/plugin-magento-2",
-  "version": "3.1.0.3",
+  "version": "4.0.0.0",
   "keywords": [
     "pagos internet",
     "payment gateway",
@@ -17,7 +17,8 @@
   ],
   "require": {
     "php": "~5.5.0|~5.6.0|~7",
-    "compropago/php-sdk": "^4.0.1.1"
+    "compropago/php-sdk": "^5.0.0.0",
+    "rmccue/requests": ">=1.0"
   },
   "autoload": {
     "files": ["registration.php"],
