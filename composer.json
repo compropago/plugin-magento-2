@@ -2,7 +2,7 @@
 	"name": "compropago/magento2",
 	"description": "A Magento 2 module for ComproPago, cash and SPEI payments",
 	"type": "magento2-module",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"homepage": "https://github.com/compropago/plugin-magento-2",
 	"keywords": [
 		"pagos internet",

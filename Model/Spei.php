@@ -51,8 +51,8 @@ use CompropagoSdk\Resources\Payments\Spei as sdkSpei;
  */
 class Spei extends AbstractMethod
 {
-	const CODE = 'compropago_spei';
-	const PROVIDER_KEY_NAME = 'provider';
+	const CODE				= 'compropago_spei';
+	const PROVIDER_KEY_NAME	= 'provider';
 
 	const ERROR_CODE_STORE_NOT_FOUND = 5002;
 
@@ -96,10 +96,10 @@ class Spei extends AbstractMethod
 	protected $_metadata;
 
 	/**
-     * API Client for cash gateway
-     * @var [sdkCash]
-     */
-    protected $_apiClient;
+	 * API Client for cash gateway
+	 * @var [sdkCash]
+	 */
+	protected $_apiClient;
 
 	/**
 	 * General configuration of ComproPago
@@ -189,16 +189,16 @@ class Spei extends AbstractMethod
 	}
 
 	/**
-     * Initialize Compropago API Client
-     * @return void
-     */
-    protected function _initialize()
-    {
-        $this->_apiClient = (new sdkSpei)->withKeys(
-            $this->config->getPublicKey(),
-            $this->config->getPrivateKey()
-        );
-    }
+	 * Initialize Compropago API Client
+	 * @return void
+	 */
+	protected function _initialize()
+	{
+		$this->_apiClient = (new sdkSpei)->withKeys(
+			$this->config->getPublicKey(),
+			$this->config->getPrivateKey()
+		);
+	}
 
 	/**
 	 * Payment Authorization Processing
@@ -249,8 +249,8 @@ class Spei extends AbstractMethod
 			if (isset($response['data']['id']))
 			{
 				$result = [
-					'success' => true,
-					'response' => $response['data']
+					'success'	=> true,
+					'response'	=> $response['data']
 				];
 			}
 			else
@@ -275,9 +275,14 @@ class Spei extends AbstractMethod
 	{
 		if (!empty($order->getCustomerFirstname()) && !empty($order->getCustomerLastname())) {
 			$customerName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
-		} else {
+		}
+		else
+		{
 			$customerName = $order->getShippingAddress()->getName();
 		}
+
+		$customerTelephone = $order->getShippingAddress()->getTelephone();
+		if (!$customerTelephone) $customerTelephone = "";
 
 		return [
 			"product"		=> [
@@ -290,7 +295,7 @@ class Spei extends AbstractMethod
 			"customer"		=> [
 				"name"		=> $customerName,
 				"email"		=> $order->getCustomerEmail(),
-				"phone"		=> ""
+				"phone"		=> $customerTelephone,
 			],
 			"payment"		=>  [
 				"type"		=> "SPEI"
