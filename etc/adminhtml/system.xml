@@ -5,7 +5,7 @@
             <group id="compropago_config" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>ComproPago Config</label>
                 <comment>
-                    <![CDATA[<a href="https://compropago.com/" target="_blank">Sign up for ComproPago account</a>]]>
+                    <![CDATA[<a href="https://panel.compropago.com/panel/configuracion" target="_blank">Sign up for ComproPago account</a>]]>
                 </comment>
                 <field id="public_key" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Public Key</label>
@@ -20,6 +20,12 @@
                 <field id="invoice_items" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Automatically Invoice All Items</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="webhook_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Webhook URL:</label>
+                    <comment>
+                        <![CDATA[Check Webhook in <a href="https://panel.compropago.com/panel/webhooks_list" target="_blank">ComproPago Panel</a>]]>
+                    </comment>
                 </field>
             </group>
 
@@ -53,6 +59,7 @@
                 </field>
                 <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
+                    <comment>ComproPago minimum order is $ 5.00</comment>
                 </field>
                 <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Maximum Order Total</label>
@@ -61,7 +68,7 @@
             </group>
 
             <group id="compropago_spei" translate="label" type="text" sortOrder="102" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>ComproPago Spei</label>
+                <label>ComproPago SPEI</label>
 
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -86,6 +93,7 @@
                 </field>
                 <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
+                    <comment>ComproPago minimum order is $ 5.00</comment>
                 </field>
                 <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Maximum Order Total</label>

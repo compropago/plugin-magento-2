@@ -6,7 +6,7 @@
 namespace Compropago\Magento2\Model;
 
 use Magento\Framework\Option\ArrayInterface;
-use CompropagoSdk\Client;
+use CompropagoSdk\Resources\Payments\Cash as sdkCash;
 
 
 class ProvidersOption implements ArrayInterface
@@ -17,22 +17,21 @@ class ProvidersOption implements ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array();
-        $client = new Client('', '', false);
-
         try {
-            $allProviders = $client->api->listDefaultProviders();
+            $allProviders = (new sdkCash)->getDefaultProviders();
         } catch (\Exception $e) {
             $allProviders = [
-                (Object)['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
-                (Object)['name' => 'Oxxo', 'internal_name' => 'OXXO']
+                ['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
+                ['name' => 'Oxxo', 'internal_name' => 'OXXO']
             ];
         }
 
-        foreach ($allProviders as $provider){
+        $options = array();
+        foreach ($allProviders as $provider)
+        {
             $options[] = array(
-                'value' => $provider->internal_name,
-                'label' => $provider->name
+                'value' => $provider['internal_name'],
+                'label' => $provider['name']
             );
         }
 
