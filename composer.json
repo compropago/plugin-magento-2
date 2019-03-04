@@ -2,7 +2,7 @@
     "name": "compropago/magento2",
     "description": "A Magento 2 module for ComproPago, cash and SPEI payments",
     "type": "magento2-module",
-    "version": "5.0.0",
+    "version": "5.0.1",
     "homepage": "https://www.compropago.com",
     "keywords": [
         "pagos internet",
@@ -19,8 +19,7 @@
     "require": {
         "php": "~5.5.0|~5.6.0|~7",
         "magento/framework": "~100.0.4",
-        "compropago/php-sdk": "^5.0.0.0",
-        "rmccue/requests": ">=1.0"
+        "compropago/php-sdk": "^5.0.0.0"
     },
     "autoload": {
         "files": ["registration.php"],
