@@ -41,8 +41,7 @@ class WebhookRegister implements ObserverInterface
 	{
 		$webhook = $this->storeManager->getStore()->getBaseUrl() . "cpwebhook/";
 
-		try
-		{
+		try {
 			$objWebhook = (new sdkWebhook)->withKeys(
 				$this->config->getPublicKey(),
 				$this->config->getPrivateKey()
@@ -51,17 +50,14 @@ class WebhookRegister implements ObserverInterface
 			# Create webhook on ComproPago Panel
 			$objWebhook->create( $webhook );
 			$this->messageManager->addSuccessMessage('Webhook ComproPago was updated.');
-		}
-		catch(\Exception $e)
-		{
+		} catch(\Exception $e) {
 			$errors = [
 				'ComproPago: Request Error [409]: ',
 			];
 			$message = json_encode(str_replace($errors, '', $e->getMessage()));
 
 			# Ignore Webhook registered
-			if ( isset($message['code']) && $message['code']==409 )
-			{
+			if ( isset($message['code']) && $message['code']==409 ) {
 				$this->messageManager->addError("ComproPago: {$message}");
 			}
 		}

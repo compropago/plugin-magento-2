@@ -30,7 +30,6 @@
 namespace Compropago\Magento2\Controller\Index;
 
 use Compropago\Magento2\Model\Webhook;
-//use CompropagoSdk\Factory\Factory;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -87,6 +86,7 @@ class Index extends Action
 
 	/**
 	 * Index constructor.
+     * 
 	 * @param Context $context
 	 * @param JsonFactory $jsonResultFactory
 	 * @param File $fileData
@@ -141,10 +141,10 @@ class Index extends Action
 			);
 
 			$this->jsonResponse->setData([
-				'status' => 'error',
-				'message' => $e->getMessage(),
-				'short_id' =>  null,
-				'reference' =>  $e->getCode()
+				'status'    => 'error',
+				'message'   => $e->getMessage(),
+				'short_id'  => null,
+				'reference' => $e->getCode()
 			]);
 			$this->_logger->critical($e->getMessage());
 		}
@@ -167,10 +167,10 @@ class Index extends Action
 			);
 
 			$this->jsonResponse->setData([
-				'status' => self::SUCESS_STATUS,
-				'message' => self::SUCESS_MESSAGE,
-				'short_id' =>  $event["short_id"],
-				'reference' =>  $event["id"]
+				'status'    => self::SUCESS_STATUS,
+				'message'   => self::SUCESS_MESSAGE,
+				'short_id'  => $event["short_id"],
+				'reference' => $event["id"]
 			]);
 
 			return $this->jsonResponse;
@@ -183,7 +183,7 @@ class Index extends Action
 		);
 
 		$this->jsonResponse->setData([
-			'status' => self::ERROR_STATUS,
+			'status'    => self::ERROR_STATUS,
 			'message'   => $result[self::MESSAGE_KEY]
 		]);
 
@@ -205,8 +205,8 @@ class Index extends Action
 			);
 
 			$this->jsonResponse->setData([
-				'status' => self::ERROR_STATUS,
-				'message' => __(self::INVALID_REQUEST_MESSAGE)        
+				'status'    => self::ERROR_STATUS,
+				'message'   => __(self::INVALID_REQUEST_MESSAGE)        
 			]);
 
 			return false;
@@ -217,14 +217,11 @@ class Index extends Action
 				\Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
 			);
 			$this->jsonResponse->setData([
-				'status' => self::ERROR_STATUS,
-				'message' => __(self::BAD_REQUEST_MESSAGE)        
+				'status'    => self::ERROR_STATUS,
+				'message'   => __(self::BAD_REQUEST_MESSAGE)        
 			]);
 			return false;
 		}
-
-		//$this->webhook = Factory::getInstanceOf('CpOrderInfo', $event);
-		//$this->webhook = false;
 		
 		return true;
 	}
@@ -243,9 +240,9 @@ class Index extends Action
 				\Magento\Framework\App\Response\Http::STATUS_CODE_200
 			);
 			$this->jsonResponse->setData([
-				'status' => self::SUCESS_STATUS,
-				'message' => self::SUCCESSFUL_TEST_MESSAGE,
-				'short_id' => $event["short_id"],
+				'status'    => self::SUCESS_STATUS,
+				'message'   => self::SUCCESSFUL_TEST_MESSAGE,
+				'short_id'  => $event["short_id"],
 				'reference' => $event["id"]
 			]);
 

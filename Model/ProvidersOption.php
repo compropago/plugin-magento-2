@@ -13,6 +13,7 @@ class ProvidersOption implements ArrayInterface
 {
     /**
      * Return array of options as value-label pairs
+     * 
      * @return array Format: array(array('value' => '<value>', 'label' => '<label>'), ...)
      */
     public function toOptionArray()
@@ -26,13 +27,12 @@ class ProvidersOption implements ArrayInterface
             ];
         }
 
-        $options = array();
-        foreach ($allProviders as $provider)
-        {
-            $options[] = array(
+        $options = [];
+        foreach ($allProviders as $provider) {
+            $options[] = [
                 'value' => $provider['internal_name'],
                 'label' => $provider['name']
-            );
+            ];
         }
 
         return $options;

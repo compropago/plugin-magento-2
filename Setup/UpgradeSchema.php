@@ -13,8 +13,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
         // Get compropago_orders table
         $tableName = $installer->getTable('compropago_orders');
         // Check if the table already exists
-        if ($installer->getConnection()->isTableExists($tableName) != true)
-        {
+        if ($installer->getConnection()->isTableExists($tableName) != true) {
+            
             // Create compropago_orders table
             $table = $installer->getConnection()
                 ->newTable($tableName)
@@ -95,13 +95,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 )
                 ->setComment('ComproPago Orders Table')
                 ->setOption('charset', 'utf8');
+            
             $installer->getConnection()->createTable($table);
         }
         // Get compropago_transactions table
         $tableName = $installer->getTable('compropago_transactions');
+
         // Check if the table already exists
-        if ($installer->getConnection()->isTableExists($tableName) != true)
-        {
+        if ($installer->getConnection()->isTableExists($tableName) != true) {
             // Create compropago_transactions table
             $table = $installer->getConnection()
                 ->newTable($tableName)
@@ -160,10 +161,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'store extra or Compropago flags'
                 )
                 ->setComment('ComproPago Orders Table');
+            
             $installer->getConnection()->createTable($table);
         }
 
-        // end setup
+        // End setup
         $installer->endSetup();
     }
 }
