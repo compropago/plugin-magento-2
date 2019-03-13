@@ -42,17 +42,17 @@ use \Psr\Log\LoggerInterface;
 
 class Index extends Action
 {
-	const SUCESS_MESSAGE = "OK";
-	const INVALID_REQUEST_MESSAGE = "Invalid Request. Please verify request order info";
-	const SERVER_ERROR_MESSAGE = "Ups. An error occurred during server request processing.";
-	const SUCCESSFUL_TEST_MESSAGE = "OK";
-	const BAD_REQUEST_MESSAGE = '[Compropago Webhook] Please specify an Order ID or Payment Type.';
-	const SUCESS_STATUS  = "success";
-	const ERROR_STATUS   = "error";
-	const ERROR_CODE_KEY = "error_code";
-	const MESSAGE_KEY   = "message";
-	const TEST_SHORT_ID  = "000000";
-	const STREAM_BUFFER_NAME  = "php://input";
+	const SUCESS_MESSAGE            = "OK";
+	const INVALID_REQUEST_MESSAGE   = "Invalid Request. Please verify request order info";
+	const SERVER_ERROR_MESSAGE      = "Ups. An error occurred during server request processing.";
+	const SUCCESSFUL_TEST_MESSAGE   = "OK";
+	const BAD_REQUEST_MESSAGE       = '[Compropago Webhook] Please specify an Order ID or Payment Type.';
+	const SUCESS_STATUS             = "success";
+	const ERROR_STATUS              = "error";
+	const ERROR_CODE_KEY            = "error_code";
+	const MESSAGE_KEY               = "message";
+	const TEST_SHORT_ID             = "000000";
+	const STREAM_BUFFER_NAME        = "php://input";
 
 	/**
 	 * @var DecoderInterface
@@ -178,7 +178,7 @@ class Index extends Action
 	   
 		$this->jsonResponse->setHttpResponseCode(
 			$result[self::ERROR_CODE_KEY]
-				?
+				? null
 				: \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
 		);
 
@@ -234,8 +234,7 @@ class Index extends Action
 	protected function _getIsTest($event)
 	{
 		// Test Case
-		if ($event["short_id"] == self::TEST_SHORT_ID)
-		{
+		if ($event["short_id"] == self::TEST_SHORT_ID) {
 			$this->jsonResponse->setHttpResponseCode(
 				\Magento\Framework\App\Response\Http::STATUS_CODE_200
 			);

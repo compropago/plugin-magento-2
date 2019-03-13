@@ -66,16 +66,12 @@ class Info extends \Magento\Payment\Block\Info
 
 		if (
 			$this->_appState->getAreaCode() === FrontNameResolver::AREA_CODE
-			&& $info->getAdditionalInformation() )
-		{
-			foreach ($info->getAdditionalInformation() as $field => $value)
-			{
+			&& $info->getAdditionalInformation() ) {
+			foreach ($info->getAdditionalInformation() as $field => $value) {
 				$beautifiedFieldName = str_replace("_", " ", ucwords(trim(preg_replace('/(?<=\\w)(?=[A-Z])/', " $1", $field))));
-				if($field == "ID")
-				{
+				if($field == "ID") {
 					$data["ID"] = $value;
-				}
-				else if (!in_array($field, $this->_disallowedFiledNames))
+				} else if (!in_array($field, $this->_disallowedFiledNames))
 				{
 					$data[__($beautifiedFieldName)->getText()] = $value;
 				}
