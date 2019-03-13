@@ -91,8 +91,7 @@ class AuthorizeCommand
 				ScopeInterface::SCOPE_STORE
 			);
 
-			if ($orderStatus)
-			{
+			if ($orderStatus) {
 				$order->setStatus($orderStatus);
 				$order->setState( ($orderStatus == self::STATUS_PENDING)
 					? (Status::STATE_PENDING)

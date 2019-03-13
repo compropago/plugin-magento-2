@@ -19,7 +19,7 @@
  * @author José Castañeda <jose@qbo.tech>
  * @category Compropago
  * @package Compropago\Magento2
- * @copyright   qbo (http://www.qbo.tech)
+ * @copyright qbo (http://www.qbo.tech)
  * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * 
  * © 2017 QBO DIGITAL SOLUTIONS. 
@@ -66,16 +66,12 @@ class Info extends \Magento\Payment\Block\Info
 
 		if (
 			$this->_appState->getAreaCode() === FrontNameResolver::AREA_CODE
-			&& $info->getAdditionalInformation() )
-		{
-			foreach ($info->getAdditionalInformation() as $field => $value)
-			{
+			&& $info->getAdditionalInformation() ) {
+			foreach ($info->getAdditionalInformation() as $field => $value) {
 				$beautifiedFieldName = str_replace("_", " ", ucwords(trim(preg_replace('/(?<=\\w)(?=[A-Z])/', " $1", $field))));
-				if($field == "ID")
-				{
+				if($field == "ID") {
 					$data["ID"] = $value;
-				}
-				else if (!in_array($field, $this->_disallowedFiledNames))
+				} else if (!in_array($field, $this->_disallowedFiledNames))
 				{
 					$data[__($beautifiedFieldName)->getText()] = $value;
 				}

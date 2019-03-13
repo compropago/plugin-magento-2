@@ -45,12 +45,12 @@ class ConfigProvider implements ConfigProviderInterface
         StoreManagerInterface $storeManager,
         AssetsRepository $assetRepo
     ) {
-        $this->escaper = $escaper;
-        $this->method = $instance;
-        $this->checSession = $checSession;
+        $this->escaper      = $escaper;
+        $this->method       = $instance;
+        $this->checSession  = $checSession;
         $this->storeManager = $storeManager;
-        $this->assetRepo = $assetRepo;
-        $this->config = $config;
+        $this->assetRepo    = $assetRepo;
+        $this->config       = $config;
     }
 
     /**
@@ -80,9 +80,7 @@ class ConfigProvider implements ConfigProviderInterface
                 $this->config->getPrivateKey()
             );
             $compropagoProviders = $client->getProviders();
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $compropagoProviders = [
                 ['name' => '7Eleven', 'internal_name' => 'SEVEN_ELEVEN'],
                 ['name' => 'Oxxo', 'internal_name' => 'OXXO']
@@ -91,10 +89,8 @@ class ConfigProvider implements ConfigProviderInterface
 
         # Available providers
         $available = explode(',', $this->method->getConfigData('active_providers'));
-        if ( empty($available[0]) )
-        {
-            foreach ($compropagoProviders as $provider)
-            {
+        if ( empty($available[0]) ) {
+            foreach ($compropagoProviders as $provider) {
                 array_push($available, $provider);
             }
         }

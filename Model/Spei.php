@@ -110,7 +110,7 @@ class Spei extends AbstractMethod
 	/**
 	 * @var array
 	 */
-	public $_supportedCurrencyCodes = ['USD','MXN','GBP','EUR'];
+	public $_supportedCurrencyCodes = ['EUR', 'GBP', 'MXN', 'USD'];
 
 	/**
 	 * Payment constructor.
@@ -167,24 +167,20 @@ class Spei extends AbstractMethod
 	{
 		parent::assignData($data);
 
-		if ($data->getData(self::PROVIDER_KEY_NAME))
-		{
+		if ($data->getData(self::PROVIDER_KEY_NAME)) {
 			$this->getInfoInstance()->setAdditionalInformation(
 				self::PROVIDER_KEY_NAME,
 				$data->getData(self::PROVIDER_KEY_NAME)
 			);
-		}
-		else
-		{
+		} else {
 			$additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-			foreach ($additionalData as $key => $value)
-			{
-				if(!is_object($value))
-				{
+			foreach ($additionalData as $key => $value) {
+				if (!is_object($value)) {
 					$this->getInfoInstance()->setAdditionalInformation($key, $value);
 				}
 			}
-		}
+        }
+        
 		return $this;
 	}
 
@@ -242,24 +238,18 @@ class Spei extends AbstractMethod
 	{
 		$result = [];
 
-		try
-		{
+		try {
 			$response = $this->_apiClient->createOrder($_orderInfo);
 			
-			if (isset($response['data']['id']))
-			{
+			if (isset($response['data']['id'])) {
 				$result = [
 					'success'	=> true,
 					'response'	=> $response['data']
 				];
+			} else {
+                throw new \Magento\Framework\Validator\Exception(__('Old API version, Send mail to soporte@compropago.com'));
 			}
-			else
-			{
-				# Error old API version
-			}
-		}
-		catch(\Exception $e)
-		{
+		} catch(\Exception $e) {
 			$this->_processErrors($e);
 		}
 
@@ -275,9 +265,7 @@ class Spei extends AbstractMethod
 	{
 		if (!empty($order->getCustomerFirstname()) && !empty($order->getCustomerLastname())) {
 			$customerName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
-		}
-		else
-		{
+		} else {
 			$customerName = $order->getShippingAddress()->getName();
 		}
 
@@ -312,7 +300,7 @@ class Spei extends AbstractMethod
 	 */
 	public function _addTransactionInfo(&$payment, $result)
 	{
-		if(!isset($result['response'])){
+		if (!isset($result['response'])) {
 			throw new \Magento\Framework\Validator\Exception(__('An error occurred.'));
 		}
 
@@ -323,8 +311,7 @@ class Spei extends AbstractMethod
 			"offline_info" => $offlineInfo
 		]);
 
-		foreach($offlineInfo as $key => $value)
-		{
+		foreach($offlineInfo as $key => $value) {
 			$this->getInfoInstance()->setAdditionalInformation(
 				$key, $value
 			);
@@ -370,8 +357,7 @@ class Spei extends AbstractMethod
 		$message = $e->getMessage();
 		$this->_logger->error(__('[ComproPago]: ' . $message));
 
-		if($e->getCode() === self::ERROR_CODE_STORE_NOT_FOUND)
-		{
+		if($e->getCode() === self::ERROR_CODE_STORE_NOT_FOUND) {
 			throw new \Magento\Framework\Exception\LocalizedException(__($message));
 		}
 

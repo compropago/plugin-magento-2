@@ -16,18 +16,16 @@ class Receipt extends \Magento\Checkout\Block\Onepage\Success
      */
     public function getVars()
     {
-        $_txnId = "";
-
         $info = $this->getOrder()
             ->getPayment()
             ->getMethodInstance()
             ->getInfoInstance();
 
         $info = $info->getAdditionalInformation("offline_info")
-            ?
+            ? null
             : $info->getAdditionalInformation();
-
-        if (isset($info["ID"])) $_txnId = $info["ID"];
+        
+        $_txnId = isset($info["ID"]) ? $info["ID"] : '';
 
         return $_txnId;
     }

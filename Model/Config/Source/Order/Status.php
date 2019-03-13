@@ -72,8 +72,8 @@ class Status
                 'label' => __(self::UNDEFINED_OPTION_LABEL)
             ]
         ];
-        foreach ($statuses as $code => $label)
-        {
+
+        foreach ($statuses as $code => $label) {
             $options[] = [
                 'value' => $code,
                 'label' => $label

@@ -30,7 +30,6 @@
 namespace Compropago\Magento2\Controller\Index;
 
 use Compropago\Magento2\Model\Webhook;
-//use CompropagoSdk\Factory\Factory;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -43,17 +42,17 @@ use \Psr\Log\LoggerInterface;
 
 class Index extends Action
 {
-	const SUCESS_MESSAGE = "OK";
-	const INVALID_REQUEST_MESSAGE = "Invalid Request. Please verify request order info";
-	const SERVER_ERROR_MESSAGE = "Ups. An error occurred during server request processing.";
-	const SUCCESSFUL_TEST_MESSAGE = "OK";
-	const BAD_REQUEST_MESSAGE = '[Compropago Webhook] Please specify an Order ID or Payment Type.';
-	const SUCESS_STATUS  = "success";
-	const ERROR_STATUS   = "error";
-	const ERROR_CODE_KEY = "error_code";
-	const MESSAGE_KEY   = "message";
-	const TEST_SHORT_ID  = "000000";
-	const STREAM_BUFFER_NAME  = "php://input";
+	const SUCESS_MESSAGE            = "OK";
+	const INVALID_REQUEST_MESSAGE   = "Invalid Request. Please verify request order info";
+	const SERVER_ERROR_MESSAGE      = "Ups. An error occurred during server request processing.";
+	const SUCCESSFUL_TEST_MESSAGE   = "OK";
+	const BAD_REQUEST_MESSAGE       = '[Compropago Webhook] Please specify an Order ID or Payment Type.';
+	const SUCESS_STATUS             = "success";
+	const ERROR_STATUS              = "error";
+	const ERROR_CODE_KEY            = "error_code";
+	const MESSAGE_KEY               = "message";
+	const TEST_SHORT_ID             = "000000";
+	const STREAM_BUFFER_NAME        = "php://input";
 
 	/**
 	 * @var DecoderInterface
@@ -87,6 +86,7 @@ class Index extends Action
 
 	/**
 	 * Index constructor.
+     * 
 	 * @param Context $context
 	 * @param JsonFactory $jsonResultFactory
 	 * @param File $fileData
@@ -141,10 +141,10 @@ class Index extends Action
 			);
 
 			$this->jsonResponse->setData([
-				'status' => 'error',
-				'message' => $e->getMessage(),
-				'short_id' =>  null,
-				'reference' =>  $e->getCode()
+				'status'    => 'error',
+				'message'   => $e->getMessage(),
+				'short_id'  => null,
+				'reference' => $e->getCode()
 			]);
 			$this->_logger->critical($e->getMessage());
 		}
@@ -167,10 +167,10 @@ class Index extends Action
 			);
 
 			$this->jsonResponse->setData([
-				'status' => self::SUCESS_STATUS,
-				'message' => self::SUCESS_MESSAGE,
-				'short_id' =>  $event["short_id"],
-				'reference' =>  $event["id"]
+				'status'    => self::SUCESS_STATUS,
+				'message'   => self::SUCESS_MESSAGE,
+				'short_id'  => $event["short_id"],
+				'reference' => $event["id"]
 			]);
 
 			return $this->jsonResponse;
@@ -178,12 +178,12 @@ class Index extends Action
 	   
 		$this->jsonResponse->setHttpResponseCode(
 			$result[self::ERROR_CODE_KEY]
-				?
+				? null
 				: \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
 		);
 
 		$this->jsonResponse->setData([
-			'status' => self::ERROR_STATUS,
+			'status'    => self::ERROR_STATUS,
 			'message'   => $result[self::MESSAGE_KEY]
 		]);
 
@@ -205,8 +205,8 @@ class Index extends Action
 			);
 
 			$this->jsonResponse->setData([
-				'status' => self::ERROR_STATUS,
-				'message' => __(self::INVALID_REQUEST_MESSAGE)        
+				'status'    => self::ERROR_STATUS,
+				'message'   => __(self::INVALID_REQUEST_MESSAGE)        
 			]);
 
 			return false;
@@ -217,14 +217,11 @@ class Index extends Action
 				\Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
 			);
 			$this->jsonResponse->setData([
-				'status' => self::ERROR_STATUS,
-				'message' => __(self::BAD_REQUEST_MESSAGE)        
+				'status'    => self::ERROR_STATUS,
+				'message'   => __(self::BAD_REQUEST_MESSAGE)        
 			]);
 			return false;
 		}
-
-		//$this->webhook = Factory::getInstanceOf('CpOrderInfo', $event);
-		//$this->webhook = false;
 		
 		return true;
 	}
@@ -237,15 +234,14 @@ class Index extends Action
 	protected function _getIsTest($event)
 	{
 		// Test Case
-		if ($event["short_id"] == self::TEST_SHORT_ID)
-		{
+		if ($event["short_id"] == self::TEST_SHORT_ID) {
 			$this->jsonResponse->setHttpResponseCode(
 				\Magento\Framework\App\Response\Http::STATUS_CODE_200
 			);
 			$this->jsonResponse->setData([
-				'status' => self::SUCESS_STATUS,
-				'message' => self::SUCCESSFUL_TEST_MESSAGE,
-				'short_id' => $event["short_id"],
+				'status'    => self::SUCESS_STATUS,
+				'message'   => self::SUCCESSFUL_TEST_MESSAGE,
+				'short_id'  => $event["short_id"],
 				'reference' => $event["id"]
 			]);
 

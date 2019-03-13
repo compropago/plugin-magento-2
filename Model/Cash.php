@@ -120,7 +120,7 @@ class Cash extends AbstractMethod
 	/**
 	 * @var array
 	 */
-	public $_supportedCurrencyCodes = ['USD','MXN','GBP','EUR'];
+	public $_supportedCurrencyCodes = ['EUR', 'GBP', 'MXN', 'USD'];
 
 	/**
 	 * Payment constructor.
@@ -180,20 +180,15 @@ class Cash extends AbstractMethod
 	{
 		parent::assignData($data);
 
-		if ($data->getData(self::PROVIDER_KEY_NAME))
-		{
+		if ($data->getData(self::PROVIDER_KEY_NAME)) {
 			$this->getInfoInstance()->setAdditionalInformation(
 				self::PROVIDER_KEY_NAME,
 				$data->getData(self::PROVIDER_KEY_NAME)
 			);
-		}
-		else
-		{
+		} else {
 			$additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-			foreach ($additionalData as $key => $value)
-			{
-				if(!is_object($value))
-				{
+			foreach ($additionalData as $key => $value) {
+				if(!is_object($value)) {
 					$this->getInfoInstance()->setAdditionalInformation($key, $value);
 				}
 			}
@@ -226,23 +221,19 @@ class Cash extends AbstractMethod
 	{
 		$this->_initialize();
 
-		try
-		{
+		try {
 			$result = $this->_executePayment(
 				$this->_getRequestInfo( $payment->getOrder() )
 			);
 
-			if (isset($result['success']))
-			{
+			if (isset($result['success'])) {
 				$this->_addTransactionInfo(
 					$payment,
 					$result
 				);
 			}
 
-		}
-		catch(\Exception $e)
-		{
+		} catch(\Exception $e) {
 			$this->_processErrors($e);
 		}
 
@@ -260,24 +251,17 @@ class Cash extends AbstractMethod
 	{
 		$result = [];
 
-		try
-		{
+		try {
 			$response = $this->_apiClient->createOrder($_orderInfo);
-			if (isset($response['id']))
-			{
+			if (isset($response['id'])) {
 				$result = [
-					'success' => true,
-					'response' => $response
+					'success'   => true,
+					'response'  => $response
 				];
+			} else {
+                throw new \Magento\Framework\Validator\Exception(__('Old API version, Send mail to soporte@compropago.com'));
 			}
-			else
-			{
-				# Error old API version
-				
-			}
-		}
-		catch(\Exception $e)
-		{
+		} catch(\Exception $e) {
 			$this->_processErrors($e);
 		}
 
@@ -385,9 +369,9 @@ class Cash extends AbstractMethod
 		if($e->getCode() === self::ERROR_CODE_STORE_NOT_FOUND)
 		{
 			throw new \Magento\Framework\Exception\LocalizedException(__($message));
-		}
-
-		throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.'));
+        }
+        
+        throw new \Magento\Framework\Validator\Exception(__($message));
 	}
 
 	/**
@@ -406,8 +390,7 @@ class Cash extends AbstractMethod
 	 */
 	public function canUseForCurrency($currencyCode)
 	{
-		if (!in_array($currencyCode, $this->_supportedCurrencyCodes))
-		{
+		if (!in_array($currencyCode, $this->_supportedCurrencyCodes)) {
 			return false;
 		}
 

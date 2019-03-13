@@ -214,15 +214,13 @@ class Webhook
 	{
 		$response = $this->client->verifyOrder($cpId);
 
-		if ($response['code']!= 200)
-		{
+		if ($response['code']!= 200) {
 			$message = "Can't verify order";
 			throw new \Exception($message, $response['code']);
 		}
 		$status = $response['data']['status'];
 
-		switch ($status)
-		{
+		switch ($status) {
 			case 'ACCEPTED':
 				return self::CHARGE_TYPE_SUCCESS;
 			case 'EXPIRED':
@@ -246,14 +244,15 @@ class Webhook
 			case self::CHARGE_TYPE_PENDING:
 				//Do nothing
 				break;
+			
 			case self::CHARGE_TYPE_SUCCESS:
-				if ($order->getStatus() != Order::STATE_PROCESSING)
-				{
+				if ($order->getStatus() != Order::STATE_PROCESSING) {
 					$order->setState(Order::STATE_PROCESSING)
 						->setStatus(Order::STATE_PROCESSING);
 					$this->_processOrderComments($order, true);
 				}
 				break;
+			
 			case self::CHARGE_TYPE_EXPIRED:
 				$order->setState(Order::STATE_CANCELED)
 					->setStatus(Order::STATE_CANCELED)
@@ -273,8 +272,7 @@ class Webhook
 		//$response = $this->client->verifyOrder($charge->id);
 		$response = $this->client->verifyOrder($charge['id']);
 
-		if ($response['type'] == 'error')
-		{
+		if ($response['type'] == 'error') {
 			throw new \Exception(
 				sprintf(__('[ComproPago Webhook] Invalid payment %s'), $charge['id']),
 				\Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
@@ -290,12 +288,11 @@ class Webhook
 	 */
 	protected function _initClient()
 	{
-		$publickey     = $this->_config->getPublicKey();
-		$privatekey    = $this->_config->getPrivateKey();
-		$live          = $this->_config->getLiveMode();
+		$publickey  = $this->_config->getPublicKey();
+		$privatekey = $this->_config->getPrivateKey();
+		$live       = $this->_config->getLiveMode();
 
-		if (empty($publickey) || empty($privatekey))
-		{
+		if (empty($publickey) || empty($privatekey)) {
 			throw new \Exception(
 				__("[ComproPago Webhook] Module is not configured."),
 				\Magento\Framework\Webapi\Exception::HTTP_INTERNAL_ERROR
@@ -314,8 +311,7 @@ class Webhook
 		/** @var \Magento\Sales\Model\Order $order */
 		$order = $this->_orderRepository->loadByIncrementId($orderId);        
 		
-		if(!$order->getId())
-		{
+		if(!$order->getId()) {
 			throw new \Exception(
 				sprintf(__('[ComproPago Webhook] Order not found for transaction ID: %s'), $orderId),
 				 \Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
@@ -324,12 +320,10 @@ class Webhook
 
 		//Avoid fraud by matching request ID with order original transaction ID
 		$referenceId = $order->getPayment()->getAdditionalInformation("ID")
-			?
-			: $order->getPayment()->getAdditionalInformation("id");
-
-		//if($referenceId != $charge->id)
-		if($referenceId != $charge['id'])
-		{
+			? null
+            : $order->getPayment()->getAdditionalInformation("id");
+        
+		if($referenceId != $charge['id']) {
 			throw new \Exception(
 				__("[ComproPago Webhook] Reference ID does not match transaction ID"),
 				\Magento\Framework\Webapi\Exception::HTTP_BAD_REQUEST
@@ -379,9 +373,7 @@ class Webhook
 				$historyItem->setIsCustomerNotified(true);
 				$historyItem->save();
 				$order->save();
-			}
-			catch (\Exception $e)
-			{
+			} catch (\Exception $e) {
 
 			}
 		}
@@ -398,9 +390,8 @@ class Webhook
 		
 		try {
 			$this->_orderCommandSender->send($order, true, $comment);
-		}
-		catch (\Exception $e)
-		{
+		} catch (\Exception $e) {
+
 		}       
 	}
 }
