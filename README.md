@@ -1,6 +1,9 @@
 # Plugin para Magento 2 (>= 2.0.5.x)
 
 ![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/compropago/magento2.svg?style=flat)](https://packagist.org/packages/compropago/magento2)
+[![Software License](https://img.shields.io/badge/license-APACHE-brightgreen.svg?style=flat)](LICENSE)
+[![Total Downloads](https://img.shields.io/packagist/dt/compropago/magento2.svg?style=flat)](https://packagist.org/packages/compropago/magento2)
 
 ## Descripción
 
@@ -26,6 +29,8 @@ Con ComproPago puede recibir pagos vía SPEI y en efectivo.
 - [Composer](https://getcomposer.org)
 
 ## Instalación
+
+Por favor revisar la siguiente [documentación](http://demo.compropago.com/plugins/magento2).
 
 Debe tener accessos a su consola de sistema para ejecutar los siguientes comandos:
 
@@ -76,3 +81,31 @@ Debe tener accessos a su consola de sistema para ejecutar los siguientes comando
 
 - Configurar el modulo dentro del panel de administración de magento en la
   sección **Stores > Configuration > Sales > Payment Methods > Other Payments**.
+  
+  ## Documentación
+
+**[API de ComproPago](https://compropago.com/documentacion/api)**
+
+ComproPago te ofrece un API REST para integrar pagos en efectivo en tu comercio electrónico o aplicaciones.
+
+**[General](https://compropago.com/documentacion)**
+
+Información de comisiones y horarios, como transferir tu dinero y la seguridad que proporciona ComproPago.
+
+**[Otras formas de integración](https://compropago.com/soluciones/)**
+
+- [Botón de pago](https://compropago.com/documentacion/boton-pago)
+- [Librerías > sección SDK](http://demo.compropago.com/)
+- [Plugins > sección Plugins](http://demo.compropago.com/)
+
+## Soporte
+
+En caso de tener alguna pregunta o requerir el apoyo técnico, por favor contactar al correo: **soporte@compropago.com**, proporcionando la siguiente información:
+
+- Nombre completo (Propietario de la cuenta).
+- Url del sitio web de la tienda.
+- Teléfono local y celular.
+- Correo electrónico del propietario de la cuenta.
+- Texto detallado de la duda o requerimiento.
+- En caso de presentar algún problema técnico, por favor enviar capturas de pantalla o evidencia para una respuesta más rápida.
+
