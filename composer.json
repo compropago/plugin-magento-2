@@ -2,7 +2,7 @@
     "name": "compropago/magento2",
     "description": "A Magento 2 module for ComproPago, cash and SPEI payments",
     "type": "magento2-module",
-    "version": "5.0.1",
+    "version": "5.0.2",
     "homepage": "https://www.compropago.com",
     "readme": "README.md",
     "keywords": [
